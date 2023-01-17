@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
 // import mongoose from "mongoose";
+import authRoutes from "./routes/auth";
 
 const app = express();
 
@@ -39,7 +40,9 @@ mongoose.connect(mongo_URI, {
 .then(() => console.log("DB Connected."))
 .catch(err => console.log(err));
 
+// router 등록
 app.get("/", (_, res) => res.send("Server is running."));
+app.use("/api/auth", authRoutes);
 
 let port = 4000;
 
