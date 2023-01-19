@@ -30,3 +30,5 @@ const user = createSlice({
 })
 
 export const userActions = { ...user.actions };
+
+export default user;

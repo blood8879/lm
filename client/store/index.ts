@@ -2,8 +2,13 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { HYDRATE, createWrapper, MakeStore } from "next-redux-wrapper";
 import { TypedUseSelectorHook, useSelector as useReduxSelector } from "react-redux";
 import auth from "./auth";
+import common from "./common";
+import user from "./user";
+
 const rootReducer = combineReducers({
     auth: auth.reducer,
+    user: user.reducer,
+    common: common.reducer,
 });
 
 // 스토어 타입 설정
