@@ -1,3 +1,4 @@
+import React from "react";
 import { useDispatch } from "react-redux";
 import useModal from "../hooks/useModal"
 import { authActions } from "../store/auth";

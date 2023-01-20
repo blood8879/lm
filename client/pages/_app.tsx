@@ -18,7 +18,7 @@ const app = ({ Component, pageProps}: AppProps) => {
     <>
       <Header />
       <Component {...pageProps} />
-      <div id="root-modal" />
+      <div id="root-modal" className="w-30 border-solid"/>
     </>
   )
 }

@@ -1,30 +1,33 @@
 import React from "react";
-
-type InputContainerProps = {
-    iconExist: boolean;
-    isValid: boolean;
-    useValidation: boolean;
-};
+import useValidateMode from "../../hooks/useValidateMode";
 
 interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
     icon?: JSX.Element;
     label?: string;
     isValid?: boolean;
     useValidation?: boolean;
+    errorMessage?: string;
 }
 
-const Input: React.FC<IProps> = ({ icon, label, isValid= false, useValidation = true, ...props}) => {
+const Input: React.FC<IProps> = ({ icon, label, isValid= false, useValidation = true, errorMessage, ...props}) => {
+    const { validateMode } = useValidateMode();
     return (
         <div>
             {label && (
                 <label>
-                    <span>{label}</span>
-                    <input {...props} />
+                    <span className="block mb-2">{label}</span>
+                    <input className="rounded border-solid border h-12 text-base relative w-full focus:outline-none focus:border-indigo-500" {...props} />
                 </label>
             )}
-            {!label && <input {...props} />}
+            {!label && <input className="rounded border-solid border h-12 text-base relative w-full focus:outline-none focus:border-indigo-500" {...props} />}
+            {icon}
+            {useValidation && validateMode && !isValid && errorMessage && (
+                <p className="font-semibold text-sm mt-2">{errorMessage}</p>
+            )}
         </div>
     );
 };
 
 export default React.memo(Input);
+
+// focus:outline-none focus:border-sky-500 focus:ring-sky-500
