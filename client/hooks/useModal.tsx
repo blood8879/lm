@@ -39,13 +39,13 @@ const useModal = () => {
 
         if(ref.current && mounted && modalOpened) {
             return createPortal(
-                <div className="flex items-center justify-center h-full fixed top-0 left-0 w-30 z-11">
+                <div className="flex items-center justify-center h-full fixed top-0 left-0 w-full z-20">
                     <div 
-                        className="absolute w-full h-full bg-gray-100 z-10"
+                        className="absolute w-full h-full z-10 bg-tr-gray"
                         role="presentation"
                         onClick={closeModal}
                     />
-                    <div className="w-96 z-11">
+                    <div className="w-[568px] min-h-[614px] z-30 bg-white">
                         {children}
                     </div>
                 </div>,

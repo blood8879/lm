@@ -11,9 +11,9 @@ const HeaderAuths: React.FC = () => {
 
     return (
         <>
-            <div className="">
+            <div className="z-10">
                 <button
-                    className="py-2 px-4 mr-2 bg-white rounded-2xl rounded-full border-solid text-xs hover:shadow-xl cursor:pointer outline-0"
+                    className="py-2 px-4 mr-2 bg-white rounded-2xl rounded-full border-solid text-xs hover:bg-gray-100 cursor:pointer outline-0"
                     type="button"
                     onClick={() => {
                         dispatch(authActions.setAuthMode("signup"));
@@ -23,7 +23,7 @@ const HeaderAuths: React.FC = () => {
                     회원가입
                 </button>
                 <button
-                    className="py-2 px-4 bg-white rounded-2xl rounded-full border-solid text-xs hover:shadow-xl cursor:pointer outline-0"
+                    className="py-2 px-4 bg-white rounded-2xl rounded-full border-solid text-xs shadow-xl cursor:pointer outline-0"
                     type="button"
                     onClick={() => {
                         dispatch(authActions.setAuthMode("login"));

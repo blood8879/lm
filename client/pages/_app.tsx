@@ -18,10 +18,10 @@ const app = ({ Component, pageProps}: AppProps) => {
     <>
       <Header />
       <Component {...pageProps} />
-      <div id="root-modal" className="w-30 border-solid"/>
+      <div id="root-modal" />
     </>
-  )
-}
+  );
+};
 
 
 export default wrapper.withRedux(app);

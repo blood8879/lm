@@ -18,9 +18,15 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
     }, []);
 
     return (
-        <form className="w-50">
+        <form className="">
             <div className="relative mb-4 w-30">
-                <Input placeholder="이메일 주소" type="email" name="email" label="이메일 주소"/>
+                <Input placeholder="이메일 주소" type="email" name="email" />
+            </div>
+            <div className="relative mb-4 w-30">
+                <Input placeholder="이메일 주소" type="email" name="email" />
+            </div>
+            <div className="relative mb-4 w-30">
+                <Input placeholder="이메일 주소" type="email" name="email" />
             </div>
         </form>
     )
