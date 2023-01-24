@@ -19,7 +19,7 @@ const Input: React.FC<IProps> = ({ icon, label, isValid= false, useValidation = 
                     <input className="rounded border-solid border h-12 text-base relative w-full focus:outline-none focus:border-indigo-500" {...props} />
                 </label>
             )}
-            {!label && <input className="rounded border-solid border h-12 text-base relative w-full focus:outline-none focus:border-indigo-500" {...props} />}
+            {!label && <input className="rounded border-solid border h-12 text-base relative w-full focus:outline-none focus:border-indigo-500 p-2.5 text-sm" {...props} />}
             {icon}
             {useValidation && validateMode && !isValid && errorMessage && (
                 <p className="font-semibold text-sm mt-2">{errorMessage}</p>
@@ -29,5 +29,3 @@ const Input: React.FC<IProps> = ({ icon, label, isValid= false, useValidation = 
 };
 
 export default React.memo(Input);
-
-// focus:outline-none focus:border-sky-500 focus:ring-sky-500
