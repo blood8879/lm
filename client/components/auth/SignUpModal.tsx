@@ -23,6 +23,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
     const [birthDay, setbirthDay] = useState<string | undefined>();
     const [birthMonth, setbirthMonth] = useState<string | undefined>();
     const [passwordFocused, setPasswordFocused] = useState(false);
+    const [confirmPasswordFocused, setConfirmPasswordFocused] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -50,6 +51,10 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
 
     const onFocusPassword = () => {
         setPasswordFocused(true);
+    }
+
+    const onFocusConfirmPassword = () => {
+        setConfirmPasswordFocused(true);
     }
 
     // 비밀번호 이름 or 비밀번호 포함 여부 체크
@@ -82,6 +87,10 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
         }
 
         if(!password || isPasswordHasNameOrEmail || !isPasswordOverMinLength || !isPasswordHasNumberOrSymbol) {
+            return false;
+        }
+
+        if(password !== confirmPassword) {
             return false;
         }
 
@@ -123,26 +132,46 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
             </div>
             <form onSubmit={onSubmitSignUp}>
                 <div className="relative mb-4 mt-4 w-full px-5">
-                    <Input placeholder="이메일 주소를 입력해 주세요." type="email" name="email" value={email} onChange={onChangeEmail} isValid={!!email} useValidation={validateMode} errorMessage="이메일을 입력해 주세요." />
+                    <Input placeholder="이메일 주소를 입력해 주세요." type="email" name="email" value={email} onChange={onChangeEmail} isValid={!!email} useValidation={validateMode} />
                 </div>
                 <div className="relative mb-4 w-full px-5">
-                    <Input placeholder="이름을 입력해 주세요." type="text" name="name" />
+                    <Input placeholder="이름을 입력해 주세요." type="text" name="name" value={name} onChange={onChangeName} isValid={!!name} useValidation={validateMode} />
                 </div>
                 <div className="relative mb-4 w-full px-5">
-                    <Input placeholder="비밀번호를 입력해 주세요." type="password" name="password" />
+                    <Input placeholder="비밀번호를 입력해 주세요." type="password" name="password" value={password} onChange={onChangePassword} onFocus={onFocusPassword} isValid={!!password} useValidation={validateMode} />
                 </div>
+                {passwordFocused && isPasswordHasNameOrEmail && (
+                    <div className="relative px-5">
+                        <p className="flex text-red-500 text-bold mb-4">에러메시지1</p>
+                    </div>
+                )}
+                {passwordFocused && !isPasswordOverMinLength && (
+                    <div className="relative px-5">
+                        <p className="flex text-red-500 text-bold mb-4">에러메시지2</p>
+                    </div>
+                )}
+                {passwordFocused && !isPasswordHasNumberOrSymbol && (
+                    <div className="relative px-5">
+                        <p className="flex text-red-500 text-bold mb-4">에러메시지3</p>
+                    </div>
+                )}
                 <div className="relative mb-4 w-full px-5">
-                    <Input placeholder="비밀번호를 다시 한번 입력해주세요." type="password" name="confirmPassword" />
+                    <Input placeholder="비밀번호를 다시 한번 입력해주세요." type="password" name="confirmPassword" value={confirmPassword} onChange={onChangeConfirmPassword} onFocus={onFocusConfirmPassword} isValid={!!confirmPassword} useValidation={validateMode} />
                 </div>
+                {confirmPasswordFocused && (password !== confirmPassword) && (
+                    <div className="relative px-5">
+                        <p className="flex text-red-500 text-bold mb-4">비밀번호가 일치하지 않습니다.</p>
+                    </div>
+                )}
                 <div className="flex px-5 space-x-2">
                     <Button type="submit" size="medium" color="bg-pink-700" width="100" className="cursor-pointer">가입하기</Button>
                     {/* <Button type="submit" size="medium" color="bg-pink-700" width="50" className="cursor:pointer">뒤로가기</Button> */}
                 </div>
                 <div className="border mt-2 border-b-gray-100"/>
-                <p className="mt-4 px-5 text-pink-600">
+                <p className="mt-4 px-5 text-gray-400">
                     이미 계정이 있으신가요?
                     <span
-                        className="cursor-pointer ml-2 text-blue-500"
+                        className="cursor-pointer ml-2 text-blue-400"
                         role="presentation"
                         onClick={() => dispatch(authActions.setAuthMode("login"))}
                     >
