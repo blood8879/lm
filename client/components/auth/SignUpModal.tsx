@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import useValidateMode from "../../hooks/useValidateMode";
@@ -26,6 +27,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
     const [confirmPasswordFocused, setConfirmPasswordFocused] = useState(false);
 
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const { validateMode, setValidateMode } = useValidateMode();
 
@@ -112,6 +114,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                 const { data } = await signupAPI(signUpBody);
                 dispatch(userActions.setLoggedUser(data));
                 closeModal();
+                router.push("/");
             } catch (e) {
                 console.log(e);
             }
@@ -164,7 +167,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                     </div>
                 )}
                 <div className="flex px-5 space-x-2">
-                    <Button type="submit" size="medium" color="bg-pink-700" width="100" className="cursor-pointer">가입하기</Button>
+                    <Button type="submit" size="medium" color="bg-pink-700" width="100" className="cursor-pointer disabled:bg-blue-500" disabled={!validateSignUpForm()}>가입하기</Button>
                     {/* <Button type="submit" size="medium" color="bg-pink-700" width="50" className="cursor:pointer">뒤로가기</Button> */}
                 </div>
                 <div className="border mt-2 border-b-gray-100"/>
