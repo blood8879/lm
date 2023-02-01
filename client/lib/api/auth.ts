@@ -7,5 +7,13 @@ interface signUpAPIBody {
     password: string;
 }
 
+interface LoginAPIBody {
+    email: string;
+    password: string;
+}
+
 export const signupAPI = (body: signUpAPIBody) =>
     axios.post<UserType>("/api/auth/signup", body);
+
+export const loginAPI = (body: LoginAPIBody) =>
+    axios.post<UserType>("/api/auth/login", body);

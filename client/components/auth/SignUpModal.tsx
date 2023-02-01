@@ -113,8 +113,8 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                 };
                 const { data } = await signupAPI(signUpBody);
                 dispatch(userActions.setLoggedUser(data));
-                closeModal();
                 router.push("/");
+                closeModal();
             } catch (e) {
                 console.log(e);
             }
@@ -145,17 +145,17 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                 </div>
                 {passwordFocused && isPasswordHasNameOrEmail && (
                     <div className="relative px-5">
-                        <p className="flex text-red-500 text-bold mb-4">에러메시지1</p>
+                        <p className="flex text-red-500 text-bold mb-4">비밀번호는 이름이나 이메일 주소를 포함할 수 없습니다.</p>
                     </div>
                 )}
                 {passwordFocused && !isPasswordOverMinLength && (
                     <div className="relative px-5">
-                        <p className="flex text-red-500 text-bold mb-4">에러메시지2</p>
+                        <p className="flex text-red-500 text-bold mb-4">비밀번호는 최소 8자 이상이어야 합니다.</p>
                     </div>
                 )}
                 {passwordFocused && !isPasswordHasNumberOrSymbol && (
                     <div className="relative px-5">
-                        <p className="flex text-red-500 text-bold mb-4">에러메시지3</p>
+                        <p className="flex text-red-500 text-bold mb-4">비밀번호는 숫자나 특수문자를 포함해야 합니다.</p>
                     </div>
                 )}
                 <div className="relative mb-4 w-full px-5">
@@ -167,7 +167,11 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                     </div>
                 )}
                 <div className="flex px-5 space-x-2">
-                    <Button type="submit" size="medium" color="bg-pink-700" width="100" className="cursor-pointer disabled:bg-blue-500" disabled={!validateSignUpForm()}>가입하기</Button>
+                    {validateSignUpForm() ? (
+                        <Button type="submit" size="medium" color="bg-pink-700" width="100" className="cursor-pointer">가입하기</Button>
+                    ) : (
+                        <Button type="submit" size="medium" color="bg-pink-700" width="100" disabled={true}>가입하기</Button>
+                    )}
                     {/* <Button type="submit" size="medium" color="bg-pink-700" width="50" className="cursor:pointer">뒤로가기</Button> */}
                 </div>
                 <div className="border mt-2 border-b-gray-100"/>

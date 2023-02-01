@@ -1,22 +1,15 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import App, { AppContext, AppProps } from 'next/app'
 import Header from '../components/Header'
-import { wrapper } from '../store'
+import { useSelector, wrapper } from '../store'
 import axios from 'axios';
-
-// export default function App({ Component, pageProps }: AppProps) {
-//   return (
-//     <>
-//       <Header />
-//       <Component {...pageProps} />
-//       <div id="root-modal" />
-//     </>
-//   )
-// }
+import { cookieStringToObject } from '../lib/utils';
 
 const app = ({ Component, pageProps}: AppProps) => {
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
   axios.defaults.withCredentials = true;
+
+  const user = useSelector((state) => state.user);
 
   return (
     <>
@@ -27,5 +20,15 @@ const app = ({ Component, pageProps}: AppProps) => {
   );
 };
 
+app.getInitialProps = async(context: AppContext) => {
+  const appInitialProps = await App.getInitialProps(context);
+  const cookieObject = cookieStringToObject(context.ctx.req?.headers.cookie);
+  console.log("store==", context.ctx);
+  const { store } = context.ctx;
+  // const { isLogged } = store.getState().user;
+
+
+  return { ...appInitialProps };
+}
 
 export default wrapper.withRedux(app);

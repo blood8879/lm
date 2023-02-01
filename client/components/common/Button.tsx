@@ -30,9 +30,13 @@ const colorConfig = {
     }
 }
 
-const Button: React.FC<IProps> = ({ children, width = '100', size = 'medium', color = 'bg-cyan-700', ...props }) => {
+const disabledConfig = {
+    true: 'opacity-50 cursor-not-allowed'
+}
+
+const Button: React.FC<IProps> = ({ children, width = '100', size = 'medium', color = 'bg-cyan-700', disabled , ...props }) => {
     return (
-        <button {...props} className={`rounded border-solid border p-1 center ${sizeConfig[size]} ${widthConfig[width]} ${colorConfig[color].bgColor} ${colorConfig[color].color}`}>
+        <button {...props} className={`rounded border-solid border p-1 center ${disabledConfig[disabled]} ${sizeConfig[size]} ${widthConfig[width]} ${colorConfig[color].bgColor} ${colorConfig[color].color}`}>
             {children}
         </button>
     )
