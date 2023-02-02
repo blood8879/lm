@@ -31,7 +31,8 @@ const colorConfig = {
 }
 
 const disabledConfig = {
-    true: 'opacity-50 cursor-not-allowed'
+    true: 'opacity-50 cursor-auto',
+    false: 'cursor-pointer'
 }
 
 const Button: React.FC<IProps> = ({ children, width = '100', size = 'medium', color = 'bg-cyan-700', disabled , ...props }) => {

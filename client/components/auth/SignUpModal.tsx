@@ -168,7 +168,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                 )}
                 <div className="flex px-5 space-x-2">
                     {validateSignUpForm() ? (
-                        <Button type="submit" size="medium" color="bg-pink-700" width="100" className="cursor-pointer">가입하기</Button>
+                        <Button type="submit" size="medium" color="bg-pink-700" width="100" disabled={false}>가입하기</Button>
                     ) : (
                         <Button type="submit" size="medium" color="bg-pink-700" width="100" disabled={true}>가입하기</Button>
                     )}
