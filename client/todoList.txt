@@ -1,2 +1,9 @@
 - SignUpModal.tsx
 1. 유효성검사시 Input 컴포넌트 안(우측 끝)에 "O" , "X" 구분 가능한 이미지 파일 넣어주기
+
+- LoginModal.tsx
+1. 비밀번호가 틀렸을 경우 "비밀번호가 일치하지 않습니다." 에러 메시지 띄워줄 것.
+
+- _app.tsx
+1. api/auth/me 관련 최초 서버 렌더링 시 invalid_url 에러 뜨는 것 없애야 함.
+

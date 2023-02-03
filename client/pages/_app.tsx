@@ -22,17 +22,6 @@ const app = ({ Component, pageProps}: AppProps) => {
   );
 };
 
-// app.getInitialProps = async(context: AppContext) => {
-//   const appInitialProps = await App.getInitialProps(context);
-//   const cookieObject = cookieStringToObject(context.ctx.req?.headers.cookie);
-//   console.log("store==", context.ctx);
-//   const { store } = context.ctx;
-//   // const { isLogged } = store.getState().user;
-
-
-//   return { ...appInitialProps };
-// }
-
 app.getInitialProps = wrapper.getInitialAppProps(store => async context => {
   const appInitialProps = await App.getInitialProps(context);
   const cookieObject = cookieStringToObject(context.ctx.req?.headers.cookie);
@@ -43,32 +32,31 @@ app.getInitialProps = wrapper.getInitialAppProps(store => async context => {
       axios.defaults.headers.common['cookie'] = cookieObject.token;
 
       const { data } = await meAPI();
-      console.log(data);
+      // console.log(data);
       store.dispatch(userActions.setLoggedUser(data));
     }
   } catch(e) {
-    console.log(e);
+    // 최초 서버 기동 시 invalidURL 에러가 올라오는 issue로 일단 주석 처리.
+    // TypeError [ERR_INVALID_URL]: Invalid URL
+    // at new NodeError (node:internal/errors:387:5)
+    // at URL.onParseError (node:internal/url:564:9)
+    // at new URL (node:internal/url:640:5)
+    // at dispatchHttpRequest (file:///C:/side/lm/client/node_modules/axios/lib/adapters/http.js:181:20)
+    // at new Promise (<anonymous>)
+    // at http (file:///C:/side/lm/client/node_modules/axios/lib/adapters/http.js:117:10)
+    // at Axios.dispatchRequest (file:///C:/side/lm/client/node_modules/axios/lib/core/dispatchRequest.js:51:10)
+    // at Axios.request (file:///C:/side/lm/client/node_modules/axios/lib/core/Axios.js:142:33)
+    // at Axios.<computed> [as get] (file:///C:/side/lm/client/node_modules/axios/lib/core/Axios.js:168:17)
+    // at Function.wrap [as get] (file:///C:/side/lm/client/node_modules/axios/lib/helpers/bind.js:5:15)
+    // at meAPI (webpack-internal:///./lib/api/auth.ts:16:65)
+    // at eval (webpack-internal:///./pages/_app.tsx:64:93) {
+    // input: '/api/auth/me',
+    // code: 'ERR_INVALID_URL'
+    // }
+    // console.log(e);
   }
 
   return { ...appInitialProps };
 })
 
 export default wrapper.withRedux(app);
-
-// app.getInitialProps = wrapper.getInitialAppProps(store => async context => {
-//   const appInitalProps = await App.getInitialProps(context);
-//   const cookieObject = cookieStringToObject(context.ctx.req?.headers.cookie);
-//   console.log(store);
-//   try{
-//       if(cookieObject.access_token){
-//           axios.defaults.headers.common['cookie'] = cookieObject.access_token;
-//           const {data} = await meAPI();
-//           console.log(data);
-//           store.dispatch(userActions.setLoggedUser(data));
-//       }
-//   }
-//   catch(e){
-//        console.log(e);
-//   }
-//   return {...appInitalProps};
-// })

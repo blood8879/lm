@@ -5,6 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 // import mongoose from "mongoose";
 import authRoutes from "./routes/auth";
+import teamRoutes from "./routes/team";
 
 const app = express();
 
@@ -43,6 +44,7 @@ mongoose.connect(mongo_URI, {
 // router 등록
 app.get("/", (_, res) => res.send("Server is running."));
 app.use("/api/auth", authRoutes);
+app.use("/api/team", teamRoutes);
 
 let port = 4000;
 
