@@ -1,6 +1,7 @@
 import { addHours } from "date-fns";
 import ko from "date-fns/locale/ko";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css";
 
 const DatePicker: React.FC<ReactDatePickerProps> = ({ onChange, ...props }) => {
     return (

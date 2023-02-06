@@ -6,6 +6,17 @@
     @apply bg-white w-full rounded border-solid border h-12 text-base relative w-full focus:outline-none focus:border-indigo-500 p-2.5 text-sm
 }
 
+.react-datepicker__current-month {
+    @apply text-base font-semibold font-centuryGothic
+}
+
+.react-datepicker__navigation--previous {
+    @apply top-10 left-14 border-none
+}
+
+.react-datepicker__triangle {
+    @apply border-b-white !important
+}
 
 /* .react-datepicker__input-container input {
     @apply block w-full text-base md:text-sm bg-white border border-gray-300 rounded shadow-sm

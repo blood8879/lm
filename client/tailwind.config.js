@@ -9,7 +9,11 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Graphik", "sans-serif"],
-        serif: ["Merriweather", "serif"]
+        serif: ["Merriweather", "serif"],
+        poppins: ["Poppins", "sans-serif"],
+        roman: ["Impact", "Charcoal", "sans-serif"],
+        arial: ["Arial", "sans-serif"],
+        centuryGothic: ["Century Gothic", "sans-serif"],
       },
       colors: {
         'tr-gray': '#000000bf'
