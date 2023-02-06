@@ -4,11 +4,13 @@ import { TypedUseSelectorHook, useSelector as useReduxSelector } from "react-red
 import auth from "./auth";
 import common from "./common";
 import user from "./user";
+import registerTeam from "./team/registerTeam";
 
 const rootReducer = combineReducers({
     auth: auth.reducer,
     user: user.reducer,
     common: common.reducer,
+    registerTeam: registerTeam.reducer,
 });
 
 // 스토어 타입 설정

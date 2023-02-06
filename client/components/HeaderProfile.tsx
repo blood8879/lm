@@ -50,8 +50,10 @@ const HeaderProfile: React.FC = () => {
             </button>
             {isUsermenuOpened && (
                 <ul>
-                    <li>정보 수정</li>
                     <Link href="/">
+                        <li>정보 수정</li>
+                    </Link>
+                    <Link href="/team/registerTeam">
                         <li>팀 등록</li>
                     </Link>
                 </ul>
