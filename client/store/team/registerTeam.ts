@@ -34,6 +34,11 @@ const registerTeam = createSlice({
         // 팀 창단일
         setTeamPublished(state, action: PayloadAction<string | null>) {
             state.publishedAt = action.payload;
+        },
+        // 상태 초기화
+        setInitState(state) {
+            state = initialState;
+            return state;
         }
     }
 });

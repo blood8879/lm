@@ -4,7 +4,7 @@ import { UserType } from "../types/user";
 
 // 초기 상태
 const initialState: UserState = {
-    id: "",
+    _id: "",
     user: "",
     email: "",
     name: "",

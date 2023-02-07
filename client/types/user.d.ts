@@ -1,6 +1,6 @@
 // 저장된 유저 타입
 export type StoredUserType = {
-    id: string;
+    _id: string;
     email: string;
     password: string;
     name: string;
@@ -11,7 +11,7 @@ export type StoredUserType = {
 // 유저 타입
 export type UserType = {
     user: any;
-    id: string;
+    _id: string;
     email: string;
     name: string;
     role: number;

@@ -1,6 +1,8 @@
+import axios from "axios";
 import { useRouter } from "next/router"
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { registerTeamAPI } from "../../lib/api/team";
 import { useSelector } from "../../store";
 import { registerTeamActions } from "../../store/team/registerTeam";
 import Button from "../common/Button";
@@ -11,28 +13,30 @@ const RegisterTeam: React.FC = () => {
     const router = useRouter();
 
     const published = useSelector((state) => state.registerTeam.publishedAt);
+    const owner = useSelector((state) => state.user._id);
 
     const [name, setName] = useState("");
     const [emblem, setEmblem] = useState("");
     const [description, setDescription] = useState("");
+    const [preview, setPreview] = useState<string>();
     
     const datePublished = published ? new Date(published) : null;
 
     const dispatch = useDispatch();
 
-    const onChangeName = (value: any) => {
-        setName(value);
-        dispatch(registerTeamActions.setTeamName(value));
+    const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
+        dispatch(registerTeamActions.setTeamName(event.target.value));
     }
 
-    const onChangeEmblem = (value: any) => {
-        setEmblem(value);
-        dispatch(registerTeamActions.setTeamEmblem(value));
+    const onChangeEmblem = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmblem(event.target.value);
+        dispatch(registerTeamActions.setTeamEmblem(event.target.value));
     }
 
-    const onChangeDescription = (value: any) => {
-        setDescription(value);
-        dispatch(registerTeamActions.setTeamDescription(value));
+    const onChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDescription(event.target.value);
+        dispatch(registerTeamActions.setTeamDescription(event.target.value));
     }
 
     const onChangePublishedDate = (date: Date | null) => {
@@ -41,13 +45,50 @@ const RegisterTeam: React.FC = () => {
 
     const uploadEmblem = async(event: React.ChangeEvent<HTMLInputElement>) => {
         if(event.target.files === null) return;
+
+        const file = event.target.files[0];
+
+        const readAndPreview = (file: any) => {
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = () => setPreview(reader.result as string);
+                reader.readAsDataURL(file);
+            }
+        }
+
+        if(file) {
+            readAndPreview(file);
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+        setEmblem(`${Date.now()}_${file.name}`);
+
+        try {
+            await axios.post(`/api/team/registerTeam/emblemUpload`, formData, {
+                headers: { "Context-Type": "multipart/form-data" }
+            });
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     const onSubmitRegisterTeam = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
-            
+            const publishedAt = String(datePublished);
+            const registerTeamBody = {
+                name,
+                emblem,
+                description,
+                publishedAt,
+                owner
+            }
+            console.log("registerTeamBody==", registerTeamBody);
+            const { data } = await registerTeamAPI(registerTeamBody);
+            dispatch(registerTeamActions.setInitState());
+            router.push("/");
         } catch(e) {
             console.log(e);
         }
@@ -74,6 +115,7 @@ const RegisterTeam: React.FC = () => {
                         </div>
                     ) : (
                         <div>
+                            <img src={preview} alt="preview-img" />
                             <input type="file" accept="image/*" onChange={uploadEmblem} />
                             <Button>
                                 엠블럼 변경
@@ -87,6 +129,9 @@ const RegisterTeam: React.FC = () => {
                         selected={datePublished}
                         onChange={onChangePublishedDate}
                     />
+                </div>
+                <div>
+                    <Button type="submit">가입하기</Button>
                 </div>
             </form>
         </div>

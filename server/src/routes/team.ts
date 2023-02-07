@@ -60,5 +60,6 @@ const emblemUpload = multer({
 const router = Router();
 router.get("/", getTeamLists);
 router.post("/registerTeam", user, auth, registerTeam);
+router.post("/registerTeam/emblemUpload", user, auth, emblemUpload.single('file'));
 
 export default router;
