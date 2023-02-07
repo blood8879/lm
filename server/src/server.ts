@@ -46,6 +46,9 @@ app.get("/", (_, res) => res.send("Server is running."));
 app.use("/api/auth", authRoutes);
 app.use("/api/team", teamRoutes);
 
+// frontend에서 이미지 파일을 불러오기 위해서 static 설정을 해주어야 함
+app.use(express.static("public"))
+
 let port = 4000;
 
 app.listen(port, async() => {

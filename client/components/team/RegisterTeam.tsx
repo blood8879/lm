@@ -131,7 +131,7 @@ const RegisterTeam: React.FC = () => {
                     />
                 </div>
                 <div>
-                    <Button type="submit">가입하기</Button>
+                    <Button type="submit">팀 등록</Button>
                 </div>
             </form>
         </div>

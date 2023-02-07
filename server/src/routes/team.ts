@@ -15,7 +15,7 @@ const getTeamLists = async(req: Request, res: Response) => {
     Team.find()
         .exec((err, teams) => {
             if(err) res.status(400).send(err);
-            res.status(200).json({ success: true, teams });
+            res.status(200).json({ teams });
         })
 }
 

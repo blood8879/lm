@@ -1,24 +1,10 @@
-export default function Home() {
-  return (
-    // <h1 className="text-3xl font-bold underline">
-    //   Hello world!
-    // </h1>
-    // <div></div>
-    <>
-    </>
-  )
+import { NextPage } from "next";
+import Home from "../components/home/Home";
+import { getTeamListAPI } from "../lib/api/team";
+import { teamActions } from "../store/team/teams";
+
+const index: NextPage = () => {
+  return <Home />
 }
 
-// import { NextPage } from "next";
-
-// const Home: NextPage = () => {
-//   return (
-//     <>
-//       <div>
-//         Hello, World!
-//       </div>
-//     </>
-//   )
-// }
-
-// export default Home;
+export default index;

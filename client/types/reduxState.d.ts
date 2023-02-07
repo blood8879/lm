@@ -1,3 +1,4 @@
+import { TeamType } from "./team";
 import { UserType } from "./user";
 
 // 유저 redux state
@@ -8,4 +9,10 @@ export type UserState = UserType & {
 // 공통 redux state
 export type CommonState = {
     validateMode: boolean;
+}
+
+// 팀목록 redux state
+export type TeamState = {
+    teams: TeamType[];
+    // detail: TeamType | null;
 }

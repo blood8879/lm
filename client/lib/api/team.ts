@@ -8,5 +8,8 @@ interface registerTeamAPIBody {
     owner: string;
 }
 
+export const getTeamListAPI = () => 
+    axios.get("/api/team/")
+
 export const registerTeamAPI = (body: registerTeamAPIBody) =>
     axios.post("/api/team/registerTeam", body);

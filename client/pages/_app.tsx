@@ -6,6 +6,8 @@ import axios from 'axios';
 import { cookieStringToObject } from '../lib/utils';
 import { meAPI } from '../lib/api/auth';
 import { userActions } from '../store/user';
+import { teamActions } from '../store/team/teams';
+import { getTeamListAPI } from '../lib/api/team';
 
 const app = ({ Component, pageProps}: AppProps) => {
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
@@ -32,6 +34,7 @@ app.getInitialProps = wrapper.getInitialAppProps(store => async context => {
       axios.defaults.headers.common['cookie'] = cookieObject.token;
 
       const { data } = await meAPI();
+      
       // console.log(data);
       store.dispatch(userActions.setLoggedUser(data));
     }
