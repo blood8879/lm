@@ -3,7 +3,8 @@ import { TeamState } from "../../types/reduxState";
 import { TeamType } from "../../types/team";
 
 const initialState: TeamState = {
-    teams: []
+    teams: [],
+    detail: null,
 }
 
 const team = createSlice({
@@ -13,6 +14,9 @@ const team = createSlice({
         setTeams(state, action: PayloadAction<TeamType[]>) {
             state.teams = action.payload;
         },
+        setTeamDetail(state, action: PayloadAction<TeamType>) {
+            state.detail = action.payload;
+        }
     },
 });
 

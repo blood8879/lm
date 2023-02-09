@@ -14,5 +14,5 @@ export type CommonState = {
 // 팀목록 redux state
 export type TeamState = {
     teams: TeamType[];
-    // detail: TeamType | null;
+    detail: TeamType | null;
 }

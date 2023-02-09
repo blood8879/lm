@@ -12,11 +12,29 @@ const getTeamLists = async(req: Request, res: Response) => {
     let limit = req.body.limit ? parseInt(req.body.limit) : 100;
     let skip = req.body.skip ? parseInt(req.body.skip) : 0;
 
-    Team.find()
+    await Team.find()
         .exec((err, teams) => {
             if(err) res.status(400).send(err);
             res.status(200).json({ teams });
         })
+}
+
+const getTeambyId = async(req: Request, res: Response) => {
+    const teamId = req.params;
+    // const _id = "_"+teamId;
+    // console.log("_ID", _id);
+    console.log("teamId==", teamId);
+    
+    await Team.findOne({ id: teamId })
+        .exec((err, team) => {
+            if(err) res.status(400).send(err);
+            res.status(200).send(team);
+        })
+
+    // await Team.findById(teamId).exec((err, team) => {
+    //     if(err) res.status(400).send(err);
+    //     res.status(200).json({ team });
+    // });
 }
 
 const registerTeam = async (req: Request, res: Response) => {
@@ -59,6 +77,7 @@ const emblemUpload = multer({
 
 const router = Router();
 router.get("/", getTeamLists);
+router.get("/:id", getTeambyId);
 router.post("/registerTeam", user, auth, registerTeam);
 router.post("/registerTeam/emblemUpload", user, auth, emblemUpload.single('file'));
 
