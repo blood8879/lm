@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useSelector } from "../../store"
 import Button from "../common/Button";
 
-const TeamDetailHeader: React.FC = () => {
+const TeamDetailHeader = () => {
+    const user = useSelector((state) => state.user._id);
     const team = useSelector((state) => state.team.detail);
 
     const requestPermission = () => {
