@@ -28,12 +28,14 @@ const getTeambyId = async(req: Request, res: Response) => {
     await Team.findOne({ id: teamId })
         .exec((err, team) => {
             if(err) res.status(400).send(err);
+            console.log("team===", team);
             res.status(200).send(team);
         })
 
     // await Team.findById(teamId).exec((err, team) => {
     //     if(err) res.status(400).send(err);
-    //     res.status(200).json({ team });
+    //     console.log("team===", team);
+    //     res.status(200).send(team);
     // });
 }
 
