@@ -56,6 +56,9 @@ const HeaderProfile: React.FC = () => {
                     <Link href="/team/registerTeam">
                         <li>팀 등록</li>
                     </Link>
+                    <Link href="/player/registerPlayer">
+                        <li>선수 프로필 등록</li>
+                    </Link>
                 </ul>
             )}
         </OutsideClickHandler>
