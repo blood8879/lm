@@ -3,6 +3,7 @@ import multer, { FileFilterCallback } from "multer";
 import { Team } from "../models/Team";
 import auth from "../middlewares/auth";
 import user from "../middlewares/user";
+import { stringify } from "querystring";
 
 // server단에서 multer를 이용한 이미지 업로드와 client 단에서 register request보낼 때 Date.now() 시간 차이가 발생하여 
 // db적재시 시간 통일을 위한 가변수 설정.
@@ -20,23 +21,25 @@ const getTeamLists = async(req: Request, res: Response) => {
 }
 
 const getTeambyId = async(req: Request, res: Response) => {
-    const teamId = req.params;
+    const teamId = stringify(req.params).split("=")[1];
+
     // const _id = "_"+teamId;
     // console.log("_ID", _id);
-    console.log("teamId==", teamId);
+    // console.log("teamId==", teamId);
+    // console.log("string==", stringify(teamId).split("=")[1]);
     
-    await Team.findOne({ id: teamId })
-        .exec((err, team) => {
-            if(err) res.status(400).send(err);
-            console.log("team===", team);
-            res.status(200).send(team);
-        })
+    // await Team.findOne({ _id: teamId })
+    //     .exec((err, team) => {
+    //         if(err) res.status(400).send(err);
+    //         console.log("team===", team);
+    //         res.status(200).send(team);
+    //     })
 
-    // await Team.findById(teamId).exec((err, team) => {
-    //     if(err) res.status(400).send(err);
-    //     console.log("team===", team);
-    //     res.status(200).send(team);
-    // });
+    await Team.findById(teamId).exec((err, team) => {
+        if(err) res.status(400).send(err);
+        // console.log("team===", team);
+        res.status(200).send(team);
+    });
 }
 
 const registerTeam = async (req: Request, res: Response) => {
