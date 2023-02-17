@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import CheckboxGroup from "../common/CheckboxGroup";
 import Input from "../common/Input";
+import Selector from "../common/Selector";
 
 const preferPosition = [
     "GK",
@@ -34,7 +36,7 @@ const RegisterPlayer: React.FC = () => {
     const [weight, setWeight] = useState("");
     const [phone, setPhone] = useState("");
     const [foot, setFoot] = useState("");
-    const [position, setPosition] = useState([]);
+    const [position, setPosition] = useState<any>([]);
     const [birth, setBirth] = useState("");
 
 
@@ -45,6 +47,10 @@ const RegisterPlayer: React.FC = () => {
 
     const onChangeWeight = (event: React.ChangeEvent<HTMLInputElement>) => {
         setWeight(event.target.value);
+    }
+
+    const onChangePosition = (selected: string[]) => {
+        setPosition([...position, selected]);
     }
 
     const onSubmitPlayerProfile = async(event: React.FormEvent<HTMLFormElement>) => {
@@ -64,6 +70,20 @@ const RegisterPlayer: React.FC = () => {
                 <p>체중을 입력해 주세요.</p>
                 <div>
                     <Input type="number" name="weight" value={weight} onChange={onChangeWeight} />
+                </div>
+                <p>선호 포지션을 선택해 주세요.</p>
+                <div>
+                    <CheckboxGroup 
+                        // value={}
+                        onChange={onChangePosition}
+                        options={preferPosition}
+                    />
+                </div>
+                <p>어느 발을 사용하시나요?</p>
+                <div>
+                    <Selector 
+                        options={preferFoot}
+                    />
                 </div>
             </form>
         </div>    
