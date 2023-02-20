@@ -1,4 +1,4 @@
-import { Model, Schema, model } from "mongoose";
+import { Model, Schema, model, Types } from "mongoose";
 import bcrypt from "bcryptjs";
 
 const saltRounds = 10;
@@ -8,6 +8,7 @@ interface DBUser {
     email: string;
     password: string;
     role: number;
+    player: Types.ObjectId;
 }
 
 interface DBUserModel extends Model<DBUser> {}
@@ -17,7 +18,8 @@ const userSchema = new Schema<DBUser> ({
     email: { type: String, required: true, unique: 1 },
     password: { type: String, required: true },
     // role 0: admin, 1:member
-    role: { type: Number, default: 1 }
+    role: { type: Number, default: 1 },
+    player: { type: Schema.Types.ObjectId, ref: 'Player'},
 });
 
 userSchema.pre('save', function(next) {

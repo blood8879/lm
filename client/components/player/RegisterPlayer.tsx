@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { registerPlayerAPI } from "../../lib/api/player";
+import Button from "../common/Button";
 import CheckboxGroup from "../common/CheckboxGroup";
 import Input from "../common/Input";
 import Selector from "../common/Selector";
@@ -32,10 +34,10 @@ const preferFoot = [
 const RegisterPlayer: React.FC = () => {
     const router = useRouter();
 
-    const [height, setHeight] = useState("");
-    const [weight, setWeight] = useState("");
+    const [heightS, setHeight] = useState("");
+    const [weightS, setWeight] = useState("");
     const [phone, setPhone] = useState("");
-    const [foot, setFoot] = useState("");
+    const [foot, setFoot] = useState("Left");
     const [position, setPosition] = useState<any>([]);
     const [birth, setBirth] = useState("");
 
@@ -50,13 +52,44 @@ const RegisterPlayer: React.FC = () => {
     }
 
     const onChangePosition = (selected: string[]) => {
-        setPosition([...position, selected]);
+        // setPosition([]);
+        console.log("selected==", selected);
+        setPosition(selected);
+    }
+
+    const onChangeFoot = (event: any) => {
+        setFoot(event.target.value);
+        console.log("setFoot==", event.target.value);
     }
 
     const onSubmitPlayerProfile = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        console.log("마우스클릭 이벤트(플레이어 등록)")
+        const name="지빵";
+        const height = Number(heightS);
+        const weight = Number(weightS);
+
+        try {
+            const registerPlayerBody = {
+                name,
+                height,
+                weight,
+                phone,
+                foot,
+                position,
+                birth
+            }
+            console.log("registerPlayerBody==", registerPlayerBody);
+            const { data } = await registerPlayerAPI(registerPlayerBody);
+            router.push("/");
+            console.log("player Registered.")
+        } catch(e) {
+            console.log(e);
+        }
+
+        // console.log("마우스클릭 이벤트(플레이어 등록)");
+        // console.log("position==", position);
+        // console.log("foot==", foot);
     }
 
     return (
@@ -65,16 +98,16 @@ const RegisterPlayer: React.FC = () => {
             <form onSubmit={onSubmitPlayerProfile}>
                 <p>신장을 입력해 주세요.</p>
                 <div>
-                    <Input type="number" name="height" value={height} onChange={onChangeHeight} />
+                    <Input type="number" name="height" value={heightS} onChange={onChangeHeight} />
                 </div>
                 <p>체중을 입력해 주세요.</p>
                 <div>
-                    <Input type="number" name="weight" value={weight} onChange={onChangeWeight} />
+                    <Input type="number" name="weight" value={weightS} onChange={onChangeWeight} />
                 </div>
                 <p>선호 포지션을 선택해 주세요.</p>
                 <div>
                     <CheckboxGroup 
-                        // value={}
+                        value={position}
                         onChange={onChangePosition}
                         options={preferPosition}
                     />
@@ -83,7 +116,11 @@ const RegisterPlayer: React.FC = () => {
                 <div>
                     <Selector 
                         options={preferFoot}
+                        onChange={onChangeFoot}
                     />
+                </div>
+                <div>
+                    <Button type="submit">선수 등록</Button>
                 </div>
             </form>
         </div>    

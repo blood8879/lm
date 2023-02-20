@@ -1,7 +1,7 @@
-import mongoose, { model, Model, Schema } from "mongoose";
+import mongoose, { model, Model, Schema, Types } from "mongoose";
 
 interface DBPlayer {
-    name: Object;
+    name: Types.ObjectId;
     leagueType: string;
     height: number;
     weight: number;
@@ -14,7 +14,7 @@ interface DBPlayer {
 interface DBPlayerModel extends Model<DBPlayer> {}
 
 const playerSchema = new Schema<DBPlayer> ({
-    name: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    name: { type: Schema.Types.ObjectId, ref: 'User' },
     leagueType: { type: String },
     height: { type: Number },
     weight: { type: Number },
