@@ -12,9 +12,26 @@ interface IProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 const Selector: React.FC<IProps> = ({
     label,
     options = [],
+    isValid,
+    disabledOptions=[],
+    ...props
 }) => {
     return (
-        <div></div>
+        <label>
+            {label && <span>label</span>}
+            <select {...props}>
+                {disabledOptions.map((option, index) => (
+                    <option key={index} value={option}>
+                        {option}
+                    </option>
+                ))}
+                {options.map((option, index) => (
+                    <option key={index} value={option}>
+                        {option}
+                    </option>
+                ))}
+            </select>
+        </label>
     )
 }
 

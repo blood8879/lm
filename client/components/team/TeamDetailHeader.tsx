@@ -37,17 +37,17 @@ const TeamDetailHeader = () => {
                     </Link>
                 </div>
                 <div className="py-2 hover:cursor-pointer hover:text-red-300">
-                    <Link href={`/team/${team?._id}/squad`}>
+                    <Link href={`/team/${team?._id}/fixture`}>
                         <h2>일정</h2>
                     </Link>
                 </div>
                 <div className="py-2 hover:cursor-pointer hover:text-red-300">
-                    <Link href={`/team/${team?._id}/squad`}>
+                    <Link href={`/team/${team?._id}/result`}>
                         <h2>결과</h2>
                     </Link>
                 </div>
                 <div className="py-2 hover:cursor-pointer hover:text-red-300">
-                    <Link href={`/team/${team?._id}/squad`}>
+                    <Link href={`/team/${team?._id}/history`}>
                         <h2>시즌역사</h2>
                     </Link>
                 </div>
