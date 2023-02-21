@@ -65,7 +65,7 @@ const RegisterPlayer: React.FC = () => {
     const onSubmitPlayerProfile = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const name="지빵";
+        const name="63d9eceb0e81b213ccf90efc";
         const height = Number(heightS);
         const weight = Number(weightS);
 
