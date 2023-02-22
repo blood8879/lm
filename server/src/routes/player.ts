@@ -26,8 +26,10 @@ const getPlayerById = async(req: Request, res: Response) => {
         .populate('User')
         .exec((err, player) => {
         if(err) res.status(400).send(err);
+        console.log("player==",player);
         res.status(200).send(player);
     });
+    
 }
 
 const router = Router();
