@@ -9,16 +9,25 @@ const Header: React.FC = () => {
     const isLogged = useSelector((state) => state.user.isLogged);
 
     return (
-        <div className="mx-auto px-8 pt-4 h-16 justify-space-between item-center position:sticky">
-            <Link href="/">
-                TEAM SG
-            </Link>
-            <div className="float-right">
+        <div className="flex">
+            <div className="px-8 pt-4 h-16 w-[90%] justify-space-between item-center position:sticky flex">
+                <div className="flex">
+                    <Link href="/">
+                        TEAM SG
+                    </Link>
+                    <div className="w-11" />
+                    <Link href="/team">
+                        List
+                    </Link>
+                </div>
+            </div>
+            <div className="h-16 px-8 pt-4">
                 {!isLogged && <HeaderAuths />}
                 {isLogged && <HeaderProfile />}
             </div>
-            
         </div>
+        
+
     )
 }
 

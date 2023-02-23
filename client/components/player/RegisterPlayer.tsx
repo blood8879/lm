@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { registerPlayerAPI } from "../../lib/api/player";
+import { useSelector } from "../../store";
 import Button from "../common/Button";
 import CheckboxGroup from "../common/CheckboxGroup";
 import Input from "../common/Input";
 import Selector from "../common/Selector";
 
-const preferPosition = [
+const Position = [
     "GK",
     "DL",
     "LCD",
@@ -34,11 +35,14 @@ const preferFoot = [
 const RegisterPlayer: React.FC = () => {
     const router = useRouter();
 
+    const userId = useSelector((state) => state.user._id);
+    const name = useSelector((state) => state.user.name);
+
     const [heightS, setHeight] = useState("");
     const [weightS, setWeight] = useState("");
     const [phone, setPhone] = useState("");
     const [foot, setFoot] = useState("Left");
-    const [position, setPosition] = useState<any>([]);
+    const [preferPosition, setPreferPosition] = useState<any>([]);
     const [birth, setBirth] = useState("");
 
 
@@ -54,7 +58,7 @@ const RegisterPlayer: React.FC = () => {
     const onChangePosition = (selected: string[]) => {
         // setPosition([]);
         console.log("selected==", selected);
-        setPosition(selected);
+        setPreferPosition(selected);
     }
 
     const onChangeFoot = (event: any) => {
@@ -64,19 +68,19 @@ const RegisterPlayer: React.FC = () => {
 
     const onSubmitPlayerProfile = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        const name="63d9eceb0e81b213ccf90efc";
+        
         const height = Number(heightS);
         const weight = Number(weightS);
 
         try {
             const registerPlayerBody = {
+                userId,
                 name,
                 height,
                 weight,
                 phone,
                 foot,
-                position,
+                preferPosition,
                 birth
             }
             console.log("registerPlayerBody==", registerPlayerBody);
@@ -107,9 +111,9 @@ const RegisterPlayer: React.FC = () => {
                 <p>선호 포지션을 선택해 주세요.</p>
                 <div>
                     <CheckboxGroup 
-                        value={position}
+                        value={preferPosition}
                         onChange={onChangePosition}
-                        options={preferPosition}
+                        options={Position}
                     />
                 </div>
                 <p>어느 발을 사용하시나요?</p>

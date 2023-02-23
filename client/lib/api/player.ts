@@ -6,7 +6,7 @@ interface registerPlayerAPIBody {
     weight: number;
     phone: string;
     foot: string;
-    position: string[];
+    preferPosition: string[];
     birth: string
 }
 

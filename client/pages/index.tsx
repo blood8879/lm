@@ -7,17 +7,17 @@ const index: NextPage = () => {
   return <Home />
 }
 
-index.getInitialProps = async({ store, query }) => {
-  try {
-    const { data } = await getTeamListAPI();
+// index.getInitialProps = async({ store, query }) => {
+//   try {
+//     const { data } = await getTeamListAPI();
     
-    // console.log("data==", teams);
-    store.dispatch(teamActions.setTeams(data.teams));
-  } catch(e) {
-    console.log(e);
-  }
+//     // console.log("data==", teams);
+//     store.dispatch(teamActions.setTeams(data.teams));
+//   } catch(e) {
+//     console.log(e);
+//   }
 
-  return {};
-}
+//   return {};
+// }
 
 export default index;

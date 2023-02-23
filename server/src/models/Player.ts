@@ -1,7 +1,8 @@
 import mongoose, { model, Model, Schema, Types } from "mongoose";
 
 interface DBPlayer {
-    name: Types.ObjectId;
+    userId: Types.ObjectId;
+    name: string;
     leagueType: string;
     height: number;
     weight: number;
@@ -14,13 +15,14 @@ interface DBPlayer {
 interface DBPlayerModel extends Model<DBPlayer> {}
 
 const playerSchema = new Schema<DBPlayer> ({
-    name: { type: Schema.Types.ObjectId, ref: 'User' },
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    name: { type: String },
     leagueType: { type: String },
     height: { type: Number },
     weight: { type: Number },
     phone: { type: String, match: /^\d{3}-\d{3,4}-\d{4}$/},
     foot: { type: String },
-    preferPosition: [{ position: String }],
+    preferPosition: [String],
     birth: { type: Date }
 });
 
