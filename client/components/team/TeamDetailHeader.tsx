@@ -1,14 +1,32 @@
 import Image from "next/image";
 import Link from "next/link";
+import { joinTeamAPI } from "../../lib/api/team";
 import { useSelector } from "../../store"
 import Button from "../common/Button";
 
 const TeamDetailHeader = () => {
-    const user = useSelector((state) => state.user._id);
+    const user = useSelector((state) => state.user);
     const team = useSelector((state) => state.team.detail);
 
-    const requestPermission = () => {
-        console.log("클릭이벤트");
+    const requestPermission = async() => {
+        // console.log("클릭이벤트");
+        const playerId = user._id;
+        const teamId = team?._id;
+        const backNo = 1;
+        const position = ["GK"]
+        try {
+            const joinTeamBody = {
+                playerId,
+                teamId,
+                backNo,
+                position
+            }
+            console.log("joinTeamBody===", joinTeamBody);
+            await joinTeamAPI(teamId, joinTeamBody);
+            alert('가입되었습니다.');
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     return (

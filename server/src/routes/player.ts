@@ -3,6 +3,7 @@ import { Player } from "../models/Player";
 import auth from "../middlewares/auth";
 import user from "../middlewares/user";
 import { stringify } from "querystring";
+import { objectToString } from "../api/utils";
 
 const registerPlayer = async(req: Request, res: Response) => {
     try {
@@ -20,7 +21,8 @@ const registerPlayer = async(req: Request, res: Response) => {
 }
 
 const getPlayerById = async(req: Request, res: Response) => {
-    const playerId = stringify(req.params).split("=")[1];
+    // const playerId = stringify(req.params).split("=")[1];
+    const playerId = objectToString(req.params);
 
     await Player.findById(playerId)
         .populate('userId')

@@ -9,6 +9,13 @@ interface registerTeamAPIBody {
     owner: string;
 }
 
+interface joinTeamAPIBody {
+    teamId: string | undefined;
+    playerId: string;
+    backNo: number;
+    position: string[];
+}
+
 export const getTeamListAPI = () => 
     axios.get("/api/team/")
 
@@ -17,3 +24,6 @@ export const getTeamDetailAPI = (id: string) =>
 
 export const registerTeamAPI = (body: registerTeamAPIBody) =>
     axios.post("/api/team/registerTeam", body);
+
+export const joinTeamAPI = (id: any, body: joinTeamAPIBody) =>
+    axios.post(`/api/team/${id}/join`, body)

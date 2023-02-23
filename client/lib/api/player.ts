@@ -12,3 +12,6 @@ interface registerPlayerAPIBody {
 
 export const registerPlayerAPI = (body: registerPlayerAPIBody) =>
     axios.post("/api/player/registerPlayer", body);
+
+export const getPlayerInfoAPI = (id: string) =>
+    axios.get(`/api/player/${id}`);

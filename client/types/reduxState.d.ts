@@ -1,3 +1,4 @@
+import { PlayerType } from "./plyaer";
 import { TeamType } from "./team";
 import { UserType } from "./user";
 
@@ -15,4 +16,9 @@ export type CommonState = {
 export type TeamState = {
     teams: TeamType[];
     detail: TeamType | null;
+}
+
+// 선수목록 redux state
+export type PlayerState = {
+    profile: PlayerType | null;
 }

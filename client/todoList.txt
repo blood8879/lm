@@ -7,4 +7,3 @@
 
 - _app.tsx
 1. api/auth/me 관련 최초 서버 렌더링 시 invalid_url 에러 뜨는 것 없애야 함.
-

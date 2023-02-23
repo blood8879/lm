@@ -6,6 +6,7 @@ import common from "./common";
 import user from "./user";
 import registerTeam from "./team/registerTeam";
 import team from "./team/teams";
+import player from "./player/players";
 
 const rootReducer = combineReducers({
     auth: auth.reducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     common: common.reducer,
     registerTeam: registerTeam.reducer,
     team: team.reducer,
+    player: player.reducer,
 });
 
 // 스토어 타입 설정
