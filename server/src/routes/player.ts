@@ -23,7 +23,7 @@ const getPlayerById = async(req: Request, res: Response) => {
     const playerId = stringify(req.params).split("=")[1];
 
     await Player.findById(playerId)
-        .populate('User')
+        .populate('name')
         .exec((err, player) => {
         if(err) res.status(400).send(err);
         console.log("player==",player);
