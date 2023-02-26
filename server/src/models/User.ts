@@ -8,7 +8,7 @@ interface DBUser {
     email: string;
     password: string;
     role: number;
-    player: Types.ObjectId;
+    playerId: Types.ObjectId;
 }
 
 interface DBUserModel extends Model<DBUser> {}
@@ -19,7 +19,7 @@ const userSchema = new Schema<DBUser> ({
     password: { type: String, required: true },
     // role 0: admin, 1:member
     role: { type: Number, default: 1 },
-    player: { type: Schema.Types.ObjectId, ref: 'Player'},
+    playerId: { type: Schema.Types.ObjectId, ref: 'Player'},
 });
 
 userSchema.pre('save', function(next) {

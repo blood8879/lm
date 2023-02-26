@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PlayerType } from "../../types/plyaer";
+import { PlayerType } from "../../types/player";
 import { PlayerState } from "../../types/reduxState";
 
 const initialState : PlayerState = {

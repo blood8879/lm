@@ -14,6 +14,7 @@ const TeamDetailHeader = () => {
         const teamId = team?._id;
         const backNo = 1;
         const position = ["GK"]
+        
         try {
             const joinTeamBody = {
                 playerId,

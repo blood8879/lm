@@ -6,6 +6,7 @@ export type StoredUserType = {
     name: string;
     role: number;
     profileImage: string;
+    playerId: string | null;
 }
 
 // 유저 타입
@@ -16,4 +17,5 @@ export type UserType = {
     name: string;
     role: number;
     profileImage: string;
+    playerId: string | null;
 }

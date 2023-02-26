@@ -1,4 +1,4 @@
-import { PlayerType } from "./plyaer";
+import { PlayerType } from "./player";
 import { TeamType } from "./team";
 import { UserType } from "./user";
 

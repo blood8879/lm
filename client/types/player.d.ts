@@ -13,4 +13,5 @@ export type PlayerType = {
     playerId: string;
     backNo: number;
     position: string[];
+    confirmed: boolean;
 }

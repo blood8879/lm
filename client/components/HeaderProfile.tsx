@@ -9,6 +9,7 @@ import { useSelector } from "../store";
 const HeaderProfile: React.FC = () => {
     const [isUsermenuOpened, setIsUsermenuOpened] = useState(false);
     const userProfileImage = useSelector((state) => state.user.profileImage);
+    const playerId = useSelector((state) => state.user.playerId);
 
     const dispatch = useDispatch();
 
@@ -56,9 +57,16 @@ const HeaderProfile: React.FC = () => {
                     <Link href="/team/registerTeam">
                         <li>팀 등록</li>
                     </Link>
-                    <Link href="/player/registerPlayer">
-                        <li>선수 프로필 등록</li>
-                    </Link>
+                    {
+                        !playerId && (
+                            <Link href="/player/registerPlayer">
+                                <li>선수 프로필 등록</li>
+                            </Link>
+                        )
+                    }
+                    <li className="cursor-pointer" role="presentation" onClick={logout}>
+                        로그아웃
+                    </li>
                 </ul>
             )}
         </OutsideClickHandler>

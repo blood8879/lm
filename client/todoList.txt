@@ -7,3 +7,6 @@
 
 - _app.tsx
 1. api/auth/me 관련 최초 서버 렌더링 시 invalid_url 에러 뜨는 것 없애야 함.
+
+- registerPlayer
+1. 선수프로필 등록 직후 다시 로그인 하지 않으면 프로필창에 선수프로필등록 메뉴가 그대로 남아있음.

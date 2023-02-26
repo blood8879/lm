@@ -42,6 +42,17 @@ const getTeambyId = async(req: Request, res: Response) => {
     });
 }
 
+const getSquadbyTeam = async(req: Request, res: Response) => {
+    const teamId = objectToString(req.params);
+
+    await PlayerToTeam.find({ teamId: teamId, confirmed: true })
+        // .populate('playerId')
+        .exec((err, squad) => {
+        if(err) res.status(400).send(err);
+        res.status(200).send(squad);
+    })
+}
+
 const registerTeam = async(req: Request, res: Response) => {
     const { name, emblem, description, published } = req.body;
 
@@ -101,6 +112,7 @@ const emblemUpload = multer({
 const router = Router();
 router.get("/", getTeamLists);
 router.get("/:id", getTeambyId);
+router.get("/:id/squad", getSquadbyTeam);
 router.post("/registerTeam", user, auth, registerTeam);
 router.post("/registerTeam/emblemUpload", user, auth, emblemUpload.single('file'));
 router.post("/:id/join", joinTeam);

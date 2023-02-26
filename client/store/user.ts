@@ -10,7 +10,8 @@ const initialState: UserState = {
     name: "",
     role: 1,
     profileImage: "",
-    isLogged: false
+    isLogged: false,
+    playerId: null
 };
 
 const user = createSlice({
