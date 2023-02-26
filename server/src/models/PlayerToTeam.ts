@@ -2,7 +2,7 @@ import { model, Model, Schema, Types } from "mongoose";
 
 interface DBPlayerToTeam {
     teamId: Types.ObjectId;
-    playerId: Types.ObjectId;
+    userId: Types.ObjectId;
     backNo: number;
     position: [];
     confirmed: boolean;
@@ -12,7 +12,7 @@ interface DBPlayerToTeamModel extends Model<DBPlayerToTeam> {}
 
 const playerToTeamSchema = new Schema<DBPlayerToTeam> ({
     teamId: { type: Schema.Types.ObjectId, ref: 'Team' },
-    playerId: { type: Schema.Types.ObjectId, ref: 'Player' },
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
     backNo: { type: Number },
     position: [String],
     confirmed: { type: Boolean, default: false },

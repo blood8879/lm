@@ -46,7 +46,7 @@ const getSquadbyTeam = async(req: Request, res: Response) => {
     const teamId = objectToString(req.params);
 
     await PlayerToTeam.find({ teamId: teamId, confirmed: true })
-        // .populate('playerId')
+        .populate('userId')
         .exec((err, squad) => {
         if(err) res.status(400).send(err);
         res.status(200).send(squad);
