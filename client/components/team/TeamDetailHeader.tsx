@@ -10,14 +10,14 @@ const TeamDetailHeader = () => {
 
     const requestPermission = async() => {
         // console.log("클릭이벤트");
-        const playerId = user._id;
+        const userId = user._id;
         const teamId = team?._id;
         const backNo = 1;
         const position = ["GK"]
         
         try {
             const joinTeamBody = {
-                playerId,
+                userId,
                 teamId,
                 backNo,
                 position

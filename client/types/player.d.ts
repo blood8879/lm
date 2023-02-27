@@ -1,17 +1,8 @@
-// 팀 타입
-export type TeamType = {
-    _id: string;
-    name: string;
-    emblem: string;
-    description: string;
-    publishedAt: string;
-    owner: string;
-}
-
 export type PlayerType = {
+    _id: string;
     teamId: string;
-    playerId: string;
-    backNo: number;
+    userId: string;
+    backNo: number | null;
     position: string[];
     confirmed: boolean;
 }

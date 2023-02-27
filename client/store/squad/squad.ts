@@ -3,19 +3,19 @@ import { PlayerType } from "../../types/player";
 import { PlayerState } from "../../types/reduxState";
 
 const initialState : PlayerState = {
-    profile: null
+    squad: []
 }
 
-const player = createSlice({
-    name: "player",
+const squad = createSlice({
+    name: "squad",
     initialState,
     reducers: {
-        setProfile(state, action: PayloadAction<PlayerType>) {
-            state.profile = action.payload;
+        setSquad(state, action: PayloadAction<PlayerType[]>) {
+            state.squad = action.payload;
         }
     },
 });
 
-export const playerActions = { ...player.actions };
+export const squadActions = { ...squad.actions };
 
-export default player;
+export default squad;

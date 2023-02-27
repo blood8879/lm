@@ -112,7 +112,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                     password
                 };
                 const { data } = await signupAPI(signUpBody);
-                dispatch(userActions.setLoggedUser(data));
+                // dispatch(userActions.setLoggedUser(data));
                 router.push("/");
                 closeModal();
             } catch (e) {

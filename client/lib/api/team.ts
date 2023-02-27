@@ -11,7 +11,7 @@ interface registerTeamAPIBody {
 
 interface joinTeamAPIBody {
     teamId: string | undefined;
-    playerId: string;
+    userId: string;
     backNo: number;
     position: string[];
 }

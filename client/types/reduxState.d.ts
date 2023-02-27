@@ -20,5 +20,5 @@ export type TeamState = {
 
 // 선수목록 redux state
 export type PlayerState = {
-    profile: PlayerType | null;
+    squad: PlayerType[];
 }

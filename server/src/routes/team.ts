@@ -5,7 +5,7 @@ import auth from "../middlewares/auth";
 import user from "../middlewares/user";
 import { stringify } from "querystring";
 import { objectToString } from "../api/utils";
-import { PlayerToTeam } from "../models/PlayerToTeam";
+import { Squad } from "../models/Squad";
 
 // server단에서 multer를 이용한 이미지 업로드와 client 단에서 register request보낼 때 Date.now() 시간 차이가 발생하여 
 // db적재시 시간 통일을 위한 가변수 설정.
@@ -45,12 +45,12 @@ const getTeambyId = async(req: Request, res: Response) => {
 const getSquadbyTeam = async(req: Request, res: Response) => {
     const teamId = objectToString(req.params);
 
-    await PlayerToTeam.find({ teamId: teamId, confirmed: true })
+    await Squad.find({ teamId: teamId, confirmed: true })
         .populate('userId')
         .exec((err, squad) => {
         if(err) res.status(400).send(err);
         res.status(200).send(squad);
-    })
+    });
 }
 
 const registerTeam = async(req: Request, res: Response) => {
@@ -74,10 +74,10 @@ const registerTeam = async(req: Request, res: Response) => {
 }
 
 const joinTeam = async(req: Request, res: Response) => {
-    const playerToTeam = new PlayerToTeam(req.body);
+    const squad = new Squad(req.body);
 
     try {
-        playerToTeam.save((err, doc) => {
+        squad.save((err, doc) => {
             if(err) return res.json({ success: false, err });
             return res.status(200).json({
                 success: true, doc

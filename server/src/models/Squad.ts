@@ -1,6 +1,6 @@
 import { model, Model, Schema, Types } from "mongoose";
 
-interface DBPlayerToTeam {
+interface DBSquad {
     teamId: Types.ObjectId;
     userId: Types.ObjectId;
     backNo: number;
@@ -8,9 +8,9 @@ interface DBPlayerToTeam {
     confirmed: boolean;
 }
 
-interface DBPlayerToTeamModel extends Model<DBPlayerToTeam> {}
+interface DBSquadModel extends Model<DBSquad> {}
 
-const playerToTeamSchema = new Schema<DBPlayerToTeam> ({
+const squadSchema = new Schema<DBSquad> ({
     teamId: { type: Schema.Types.ObjectId, ref: 'Team' },
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
     backNo: { type: Number },
@@ -18,6 +18,6 @@ const playerToTeamSchema = new Schema<DBPlayerToTeam> ({
     confirmed: { type: Boolean, default: false },
 })
 
-const PlayerToTeam = model<DBPlayerToTeam, DBPlayerToTeamModel>('PlayerToTeam', playerToTeamSchema);
+const Squad = model<DBSquad, DBSquadModel>('Squad', squadSchema);
 
-export { PlayerToTeam };
+export { Squad };
