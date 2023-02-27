@@ -1,12 +1,9 @@
 import { NextPage } from "next";
 import TeamDetail from "../../../components/team/TeamDetail";
+import TeamFixture from "../../../components/team/TeamFixture";
 
 const Fixture: NextPage = () => {
-    return (
-        <TeamDetail>
-            <div>일정</div>
-        </TeamDetail>
-    )
+    return <TeamFixture />
 }
 
 export default Fixture;
