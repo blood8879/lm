@@ -1,4 +1,5 @@
 import Button from "../common/Button";
+import RegisterFixture from "./RegisterFixture";
 import TeamDetail from "./TeamDetail";
 
 
@@ -10,7 +11,7 @@ const TeamFixture: React.FC = () => {
     return (
         <TeamDetail>
             <div>
-                <Button onClick={createFixture}>일정등록</Button>
+                테스트
             </div>
         </TeamDetail>
     );

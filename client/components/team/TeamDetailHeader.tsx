@@ -70,6 +70,13 @@ const TeamDetailHeader = () => {
                         <h2>시즌역사</h2>
                     </Link>
                 </div>
+                {team?.owner === user._id && (
+                    <div className="py-2 hover:cursor-pointer hover:text-red-300">
+                        <Link href={`/team/${team?._id}/manage`}>
+                            <h2>팀관리</h2>
+                        </Link>
+                    </div>
+                )}
             </div>
         </div>
     )
