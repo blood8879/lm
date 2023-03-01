@@ -7,6 +7,7 @@ import morgan from "morgan";
 import authRoutes from "./routes/auth";
 import teamRoutes from "./routes/team";
 import playerRoutes from "./routes/player";
+import fixtureRoutes from "./routes/fixture";
 
 const app = express();
 
@@ -47,6 +48,7 @@ app.get("/", (_, res) => res.send("Server is running."));
 app.use("/api/auth", authRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/player", playerRoutes);
+app.use("/api/fixture", fixtureRoutes);
 
 // frontend에서 이미지 파일을 불러오기 위해서 static 설정을 해주어야 함
 app.use(express.static("public"))
