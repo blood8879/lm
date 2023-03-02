@@ -128,6 +128,7 @@ const RegisterTeam: React.FC = () => {
                     <DatePicker
                         selected={datePublished}
                         onChange={onChangePublishedDate}
+                        dateFormat="yyyy-MM-dd"
                     />
                 </div>
                 <div>
