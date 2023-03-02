@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express";
+import { objectToString } from "../api/utils";
 import { Fixture } from "../models/Fixture";
 
 const registerFixture = async(req: Request, res: Response) => {
@@ -22,7 +23,18 @@ const registerFixture = async(req: Request, res: Response) => {
     }
 }
 
+const getFixtureByTeamId = async(req: Request, res: Response) => {
+    const teamId = objectToString(req.params);
+
+    await Fixture.find({ $or: [{ homeTeam: teamId }, {awayTeam: teamId }]})
+        .exec((err, fixture) => {
+            if(err) res.status(400).send(err);
+            res.status(200).send(fixture);
+        })
+}
+
 const router = Router();
 router.post("/registerFixture", registerFixture);
+router.get("/:id", getFixtureByTeamId);
 
 export default router;
