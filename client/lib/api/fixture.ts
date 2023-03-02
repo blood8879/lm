@@ -11,3 +11,6 @@ interface registerFixterAPIBody {
 
 export const registerFixtureAPI = (body: registerFixterAPIBody) =>
     axios.post("/api/fixture/registerFixture", body);
+
+export const getFixtureAPI = (id: string) =>
+    axios.get(`/api/fixture/${id}`)

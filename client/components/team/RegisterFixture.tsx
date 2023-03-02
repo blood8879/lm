@@ -22,7 +22,7 @@ const RegisterFixture: React.FC = () => {
     // const [opponent, setOpponent] = useState("");
     const [homeAway, setHomeAway] = useState("Home");
     const [venue, setVenue] = useState("해누리체육공원");
-    const [homeTeam, setHomeTeam] = useState(team.detail?.name);
+    const [homeTeam, setHomeTeam] = useState(team.detail?._id);
     const [awayTeam, setAwayTeam] = useState("");
     const [competition, setCompetition] = useState(null);
     const [round, setRound] = useState(null);
@@ -39,11 +39,11 @@ const RegisterFixture: React.FC = () => {
     const onChangeHomeAway = (event: any) => {
         const selectedValue = event.target.value;
         setHomeAway(selectedValue);
-        if(selectedValue === "Home" && team.detail?.name) {
+        if(selectedValue === "Home" && team.detail?._id) {
             setAwayTeam("");
-            setHomeTeam(team.detail.name);
-        } else if(selectedValue === "Away" && team.detail?.name) {
-            setAwayTeam(team.detail.name);
+            setHomeTeam(team.detail._id);
+        } else if(selectedValue === "Away" && team.detail?._id) {
+            setAwayTeam(team.detail._id);
             setHomeTeam("");
         }
     }

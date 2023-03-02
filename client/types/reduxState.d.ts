@@ -22,3 +22,8 @@ export type TeamState = {
 export type PlayerState = {
     squad: PlayerType[];
 }
+
+// 경기일정 redux state
+export type FixtureState = {
+    fixture: any[];
+}

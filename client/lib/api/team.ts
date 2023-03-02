@@ -28,5 +28,5 @@ export const registerTeamAPI = (body: registerTeamAPIBody) =>
 export const joinTeamAPI = (id: any, body: joinTeamAPIBody) =>
     axios.post(`/api/team/${id}/join`, body)
 
-export const getTeamSquadAPI = (id: string) =>
+export const getTeamSquadAPI = (id: string) => 
     axios.get(`/api/team/${id}/squad`);

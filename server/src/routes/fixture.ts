@@ -27,6 +27,7 @@ const getFixtureByTeamId = async(req: Request, res: Response) => {
     const teamId = objectToString(req.params);
 
     await Fixture.find({ $or: [{ homeTeam: teamId }, {awayTeam: teamId }]})
+        .populate('homeTeam').populate('awayTeam')
         .exec((err, fixture) => {
             if(err) res.status(400).send(err);
             res.status(200).send(fixture);
