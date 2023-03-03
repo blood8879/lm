@@ -10,7 +10,6 @@ const teamDetail: NextPage = () => {
 teamDetail.getInitialProps = async ({ query, store }) => {
     const { id } = query;
 
-    // console.log("id====", id);
     try {
         if (id) {
             const { data } = await getTeamDetailAPI(id as string);

@@ -107,8 +107,6 @@ const emblemUpload = multer({
     }
 });
 
-
-
 const router = Router();
 router.get("/", getTeamLists);
 router.get("/:id", getTeambyId);
