@@ -15,9 +15,7 @@ const FixtureDetail: React.FC = () => {
                     homeTeamName: match.homeTeam,
                     awayTeamName: match.awayTeam,
                 }}>결과등록</Button></Link> */}
-                <Link href={{ pathname:"/team/registerResult", query: {
-                    matchId: match._id
-                } }}><Button>결과등록</Button></Link>
+                <Link href={{ pathname:"/team/registerResult", query: match }}><Button>결과등록</Button></Link>
             </div>
         
         
