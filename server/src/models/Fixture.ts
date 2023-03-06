@@ -7,6 +7,9 @@ interface DBFixture {
     competition: string;
     round: number;
     venue: string;
+    home_goals: number;
+    away_goals: number;
+    isFinish: boolean;
 }
 
 interface DBFixtureModel extends Model<DBFixture> {}
@@ -17,7 +20,10 @@ const fixtureSchema = new Schema<DBFixture> ({
     awayTeam: { type: Schema.Types.ObjectId, ref: 'Team' },
     competition: { type: String },
     round: { type: Number },
-    venue: { type: String }
+    venue: { type: String },
+    home_goals: { type: Number },
+    away_goals: { type: Number },
+    isFinish: { type: Boolean, default: false }
 });
 
 const Fixture = model<DBFixture, DBFixtureModel>('Fixture', fixtureSchema);

@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { registerFixtureAPI } from "../../lib/api/fixture";
-import { useSelector } from "../../store";
-import Button from "../common/Button";
-import DatePicker from "../common/DatePicker";
-import Input from "../common/Input";
-import Selector from "../common/Selector";
+import { registerFixtureAPI } from "../../../lib/api/fixture";
+import { useSelector } from "../../../store";
+import Button from "../../common/Button";
+import DatePicker from "../../common/DatePicker";
+import Input from "../../common/Input";
+import Selector from "../../common/Selector";
 import moment from "moment";
 
 const HomeAway = [

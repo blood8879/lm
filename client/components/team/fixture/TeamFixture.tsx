@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { useSelector } from "../../store";
-import Button from "../common/Button";
-import RegisterFixture from "./RegisterFixture";
-import TeamDetail from "./TeamDetail";
+import { useSelector } from "../../../store";
+import TeamDetail from "../TeamDetail";
 import moment from "moment";
 import 'moment/locale/ko';
 

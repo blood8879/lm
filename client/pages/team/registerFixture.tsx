@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router"
-import RegisterFixture from "../../components/team/RegisterFixture";
+import RegisterFixture from "../../components/team/fixture/RegisterFixture";
 
 
 const registerFixture: NextPage = () => {
