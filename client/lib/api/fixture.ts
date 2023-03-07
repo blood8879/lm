@@ -10,6 +10,13 @@ interface registerFixterAPIBody {
     round: number | null;
 }
 
+interface registerResultAPIBody {
+    fixtureId: string;
+    home_goals: number | null;
+    away_goals: number | null;
+    isFinish: boolean;
+}
+
 export const getFixtureAPI = (id: string) =>
     axios.get(`/api/fixture/${id}`);
 
@@ -19,3 +26,5 @@ export const registerFixtureAPI = (body: registerFixterAPIBody) =>
 export const getDetailFixtureAPI = (id: string) =>
     axios.get<FixtureType>(`/api/fixture/${id}/detail`);
 
+export const registerResultAPI = (body: registerResultAPIBody) =>
+    axios.put("/api/fixture/registerResult", body);

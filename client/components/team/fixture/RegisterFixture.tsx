@@ -67,7 +67,8 @@ const RegisterFixture: React.FC = () => {
                 awayTeam,
                 venue,
                 competition,
-                round
+                round,
+                isFinish: false
             }
             console.log("registerFixtureBody==", registerFixtureBody);
             await registerFixtureAPI(registerFixtureBody);

@@ -27,8 +27,9 @@ const registerFixture = async(req: Request, res: Response) => {
 const getFixtureByTeamId = async(req: Request, res: Response) => {
     const teamId = objectToString(req.params);
 
-    await Fixture.find({ $or: [{ homeTeam: teamId }, { awayTeam: teamId }]})
+    await Fixture.find({ $or: [{ homeTeam: teamId }, { awayTeam: teamId }], $and: [{ $or: [{ isFinish: false }, { isFinish: null }]}]})
         .populate('homeTeam').populate('awayTeam')
+        .sort({ "matchDay": 1 })
         .exec((err, fixture) => {
             if(err) res.status(400).send(err);
             res.status(200).send(fixture);
@@ -41,6 +42,7 @@ const getDetailFixtureById = async(req: Request, res: Response) => {
 
     // console.log("params==", req.params);
     await Fixture.findById(fixtureId)
+        .populate('homeTeam').populate('awayTeam')
         .exec((err, fixture) => {
             if(err) res.status(400).send(err);
             res.status(200).send(fixture);
@@ -49,8 +51,26 @@ const getDetailFixtureById = async(req: Request, res: Response) => {
 
 // 경기결과 업데이트
 const registerResult = async(req: Request, res: Response) => {
-    const fixtureId = objectToString(req.params);
-
+    const { fixtureId, isFinish, home_goals, away_goals } = req.body
+    
+    // await Fixture.findOneAndUpdate(
+    //     { _id: fixtureId },
+    //     { $set: { isFinish: isFinish, home_goals: home_goals, away_goals: away_goals }},
+    //     // { new: true },
+    // ).exec((err, fixture) => {
+    //     if(err) res.status(400).send(err);
+    //     res.status(200).send(fixture)
+    // })
+    
+    await Fixture.findByIdAndUpdate(fixtureId, {
+        isFinish: isFinish,
+        home_goals: home_goals,
+        away_goals: away_goals
+    }
+    ).exec((err, fixture) => {
+        if(err) res.status(400).send(err);
+        res.status(200).json({ success: true, fixture });
+    })
     
 }
 
@@ -58,5 +78,6 @@ const router = Router();
 router.post("/registerFixture", registerFixture);
 router.get("/:id", getFixtureByTeamId);
 router.get("/:id/detail", getDetailFixtureById);
+router.put("/registerResult", registerResult);
 
 export default router;

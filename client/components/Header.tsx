@@ -10,10 +10,10 @@ const Header: React.FC = () => {
 
     return (
         <div className="flex">
-            <div className="px-8 pt-4 h-16 w-[90%] justify-space-between item-center position:sticky flex">
+            <div className="px-8 pt-4 h-16 w-[80%] justify-space-between item-center position:sticky flex">
                 <div className="flex">
                     <Link href="/">
-                        TEAM SG
+                        Match Archive
                     </Link>
                     <div className="w-11" />
                     <Link href="/team">
