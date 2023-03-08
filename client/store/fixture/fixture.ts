@@ -6,6 +6,8 @@ import { FixtureState, PlayerState } from "../../types/reduxState";
 const initialState : FixtureState = {
     fixture: [],
     detailFixture: null,
+    result: [],
+    detailResult: null
 }
 
 const fixture = createSlice({
@@ -17,6 +19,12 @@ const fixture = createSlice({
         },
         setDetailFixture(state, action:PayloadAction<FixtureType>) {
             state.detailFixture = action.payload;
+        },
+        setResult(state, action: PayloadAction<string[]>) {
+            state.result = action.payload;
+        },
+        setDetailResult(state, action: PayloadAction<FixtureType>) {
+            state.detailResult = action.payload;
         }
     },
 });

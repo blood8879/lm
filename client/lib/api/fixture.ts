@@ -11,20 +11,26 @@ interface registerFixterAPIBody {
 }
 
 interface registerResultAPIBody {
-    fixtureId: string;
+    fixtureId: string | null;
     home_goals: number | null;
     away_goals: number | null;
     isFinish: boolean;
 }
 
-export const getFixtureAPI = (id: string) =>
-    axios.get(`/api/fixture/${id}`);
+// 일정/결과 가져오기 api
+export const getFixtureAPI = (id: string, searchType: string, limit: number | null) =>
+    axios.get(`/api/fixture/${id}`, {
+        params: { searchType, limit }
+    });
 
+// 일정등록 api
 export const registerFixtureAPI = (body: registerFixterAPIBody) =>
     axios.post("/api/fixture/registerFixture", body);
 
+// 일정상세정보 api
 export const getDetailFixtureAPI = (id: string) =>
     axios.get<FixtureType>(`/api/fixture/${id}/detail`);
 
+// 결과등록 api
 export const registerResultAPI = (body: registerResultAPIBody) =>
     axios.put("/api/fixture/registerResult", body);

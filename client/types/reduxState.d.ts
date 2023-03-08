@@ -27,4 +27,6 @@ export type PlayerState = {
 export type FixtureState = {
     fixture: any[];
     detailFixture: FixtureType | null;
+    result: any[];
+    detailResult: FixtureType | null;
 }

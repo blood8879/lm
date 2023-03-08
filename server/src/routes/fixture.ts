@@ -23,17 +23,31 @@ const registerFixture = async(req: Request, res: Response) => {
     }
 }
 
-// 팀별 전체 일정 가져오기
+// 일정/결과 가져오기
 const getFixtureByTeamId = async(req: Request, res: Response) => {
     const teamId = objectToString(req.params);
+    const { searchType, limit } = req.query;
+    // console.log("req.params===", req.query);
 
-    await Fixture.find({ $or: [{ homeTeam: teamId }, { awayTeam: teamId }], $and: [{ $or: [{ isFinish: false }, { isFinish: null }]}]})
+    if(searchType==="fixture") {
+        await Fixture.find({ $or: [{ homeTeam: teamId }, { awayTeam: teamId }], $and: [{ $or: [{ isFinish: false }, { isFinish: null }]}]})
         .populate('homeTeam').populate('awayTeam')
         .sort({ "matchDay": 1 })
         .exec((err, fixture) => {
             if(err) res.status(400).send(err);
             res.status(200).send(fixture);
         })
+    } else {
+        await Fixture.find({ $or: [{ homeTeam: teamId }, { awayTeam: teamId }], $and: [{ isFinish: true }]})
+        .populate('homeTeam').populate('awayTeam')
+        .sort({ "matchDay": 1 })
+        .exec((err, fixture) => {
+            if(err) res.status(400).send(err);
+            res.status(200).send(fixture);
+        })
+    }
+
+    
 }
 
 // 세부 경기일정 가져오기

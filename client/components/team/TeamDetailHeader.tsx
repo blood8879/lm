@@ -65,11 +65,11 @@ const TeamDetailHeader = () => {
                         <h2>결과</h2>
                     </Link>
                 </div>
-                <div className="py-2 hover:cursor-pointer hover:text-red-300">
+                {/* <div className="py-2 hover:cursor-pointer hover:text-red-300">
                     <Link href={`/team/${team?._id}/history`}>
                         <h2>시즌역사</h2>
                     </Link>
-                </div>
+                </div> */}
                 {team?.owner === user._id && (
                     <div className="py-2 hover:cursor-pointer hover:text-red-300">
                         <Link href={`/team/${team?._id}/manage`}>
