@@ -1,3 +1,4 @@
+import moment from "moment";
 import Link from "next/link";
 import React from "react";
 import { useSelector } from "../../../store";
@@ -63,6 +64,22 @@ const FixtureDetail: React.FC = () => {
             </div>
             <div>
                 <h2>Recent Meetings(최근상대전적)</h2>
+                <div>
+                    {result.map((result, key) => (
+                    <ul key={result._id}>
+                        <h2 className="text-xl bold">{moment(result.matchDay).add(-9, 'h').format('yyyy-MM-DD')}</h2>
+                        <Link href={`/team/${currentTeam?._id}/result/${result._id}`}>
+                            <li className="center space-x-2 hover:bg-gray-300">
+                                <span className="text-bold text-red-500">{result.homeTeam.name}</span> 
+                                <span className="border-2">{result.home_goals}</span>
+                                <span className="border-2">{result.away_goals}</span>
+                                <span className="text-bold text-blue-500">{result.awayTeam.name}</span>
+                                <span>{result.venue}</span>
+                            </li>
+                        </Link>
+                    </ul>
+                    ))}
+                </div>
             </div>
             <div>
                 <h2>Form Guide(최근전적)</h2>
