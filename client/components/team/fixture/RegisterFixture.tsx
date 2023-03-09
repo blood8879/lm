@@ -7,10 +7,17 @@ import DatePicker from "../../common/DatePicker";
 import Input from "../../common/Input";
 import Selector from "../../common/Selector";
 import moment from "moment";
+import SearchBar from "../../common/SearchBar";
+import { debounce } from "lodash";
 
 const HomeAway = [
     "Home",
     "Away"
+]
+
+const searchOptions = [
+    "팀명",
+    "ID"
 ]
 
 const RegisterFixture: React.FC = () => {
@@ -19,13 +26,14 @@ const RegisterFixture: React.FC = () => {
     const team = useSelector((state) => state.team);
 
     const [matchDay, setMatchDay] = useState<Date | null>(null);
-    // const [opponent, setOpponent] = useState("");
+    const [opponent, setOpponent] = useState("");
     const [homeAway, setHomeAway] = useState("Home");
     const [venue, setVenue] = useState("해누리체육공원");
     const [homeTeam, setHomeTeam] = useState(team.detail?._id);
-    const [awayTeam, setAwayTeam] = useState("");
+    const [awayTeam, setAwayTeam] = useState<string|undefined>("");
     const [competition, setCompetition] = useState(null);
     const [round, setRound] = useState(null);
+    const [searchType, setSearchType] = useState("팀명");
 
     
 
@@ -82,6 +90,22 @@ const RegisterFixture: React.FC = () => {
         router.back();
     }
 
+    const onChangeOpponentTeam = (value: string) => {
+        console.log("value===", value);
+        
+        const opponentId = team.teams.find((team) => team.name === value)?._id;
+
+        console.log("oppoId===", opponentId);
+        
+        if(homeAway === "Home") {
+            setOpponent(value);
+            setAwayTeam(opponentId);
+        } else if(homeAway === "Away") {
+            setOpponent(value);
+            setHomeTeam(opponentId)
+        }
+    };
+
     return (
         <div>
             <h2>경기 일정 등록</h2>
@@ -106,7 +130,15 @@ const RegisterFixture: React.FC = () => {
                     <>
                     <h2>상대팀을 알려주세요.</h2>
                     <div>
-                        <Input type="text" name="opponentTeam" value={awayTeam} onChange={onChangeOpponent} />
+                        <SearchBar value={opponent} onChange={onChangeOpponentTeam} />
+                        {awayTeam ? (<h2>
+                            상대할 팀은 {team.teams.find((f) => f._id === awayTeam)?.name} 입니다.
+                        </h2>) : (
+                            <h2>
+                                상대팀이 검색되지 않아요. 다시 확인해 주세요.
+                            </h2>
+                        )}
+                        {/* <Input type="text" name="opponentTeam" value={awayTeam} onChange={onChangeOpponent} /> */}
                     </div>
                     <h2>구장을 선택해 주세요.</h2>
                     <div>
@@ -121,7 +153,15 @@ const RegisterFixture: React.FC = () => {
                     <>
                     <h2>상대팀을 알려주세요.</h2>
                     <div>
-                        <Input type="text" name="opponentTeam" value={homeTeam} onChange={onChangeOpponent} />
+                        <SearchBar value={opponent} onChange={onChangeOpponentTeam} />
+                        {homeTeam ? (<h2>
+                            상대할 팀은 {team.teams.find((f) => f._id === homeTeam)?.name} 입니다.
+                        </h2>) : (
+                            <h2>
+                                상대팀이 검색되지 않아요. 다시 확인해 주세요.
+                            </h2>
+                        )}
+                        {/* <Input type="text" name="opponentTeam" value={homeTeam} onChange={onChangeOpponent} /> */}
                     </div>
                     {/* <h2>구장을 선택해 주세요.</h2>
                     <div>
