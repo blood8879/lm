@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import ResultDetail from "../../../../components/team/fixture/ResultDatail";
+import ResultDetail from "../../../../components/team/fixture/ResultDetail";
 import { getDetailFixtureAPI } from "../../../../lib/api/fixture";
 import { fixtureActions } from "../../../../store/fixture/fixture";
 
@@ -9,13 +9,13 @@ const resultDetail: NextPage = () => {
 }
 
 resultDetail.getInitialProps = async ({ query, store }) => {
-    const { fixtureid } = query;
+    const { resultid } = query;
 
     // console.log("query====", query);
     // console.log("fixtureId===", fixtureid);
     try {
-        if (fixtureid) {
-            const { data: resultData } = await getDetailFixtureAPI(fixtureid as string);
+        if (resultid) {
+            const { data: resultData } = await getDetailFixtureAPI(resultid as string);
             store.dispatch(fixtureActions.setDetailResult(resultData));
         }
     } catch(e) {

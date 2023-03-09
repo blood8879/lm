@@ -9,6 +9,7 @@ const FixtureDetail: React.FC = () => {
     const currentTeam = useSelector((state) => state.team.detail);
     const thisMatch = useSelector((state) => state.fixture.detailFixture);
     const result = useSelector((state) => state.fixture.result);
+    
     const HeadToHeadData = result.filter(match => {
         const homeTeamName = match.homeTeam.name;
         const awayTeamName = match.awayTeam.name;
@@ -16,13 +17,21 @@ const FixtureDetail: React.FC = () => {
         return (homeTeamName === thisMatch.homeTeam.name && awayTeamName === thisMatch.awayTeam.name) ||
             (homeTeamName === thisMatch.awayTeam.name && awayTeamName === thisMatch.homeTeam.name) 
     })
+
+    const HomeTeamData = result.filter(match => {
+        return match.homeTeam.name === thisMatch.homeTeam.name || match.awayTeam.name === thisMatch.homeTeam.name
+    })
+
+    const AwayTeamData = result.filter(match => {
+        return match.homeTeam.name === thisMatch.awayTeam.name || match.awayTeam.name === thisMatch.awayTeam.name
+    })
     // console.log("match===", filterData);
     const drawMatches = HeadToHeadData.filter(match => match.home_goals === match.away_goals);
     const totalPlayed = HeadToHeadData.length;
-    // const homeTeamWonAtHome = result.filter(match => (match.homeTeam._id === currentTeam!._id && match.awayTeam._id === thisMatch.awayTeam._id) && match.home_goals > match.away_goals).length;
-    // const homeTeamWonAtAway = result.filter(match => (match.awayTeam._id === currentTeam!._id && match.awayTeam._id === thisMatch.awayTeam._id) && match.away_goals > match.home_goals).length;
-    // const awayTeamWonAtHome = result.filter(match => match.homeTeam._id !== currentTeam!._id && match.home_goals > match.away_goals).length;
-    // const awayTeamWonAtAway = result.filter(match => match.awayTeam._id !== currentTeam!._id && match.away_goals > match.home_goals).length;
+    const homeTeamWonAtHome = HeadToHeadData.filter(match => (match.homeTeam._id === thisMatch.homeTeam._id) && match.home_goals > match.away_goals).length;
+    const homeTeamWonAtAway = HeadToHeadData.filter(match => (match.awayTeam._id === thisMatch.homeTeam._id) && match.away_goals > match.home_goals).length;
+    const awayTeamWonAtHome = HeadToHeadData.filter(match => (match.homeTeam._id === thisMatch.awayTeam._id) && match.home_goals > match.away_goals).length;
+    const awayTeamWonAtAway = HeadToHeadData.filter(match => (match.awayTeam._id === thisMatch.awayTeam._id) && match.away_goals > match.home_goals).length;
 
     return (
         <>
@@ -35,15 +44,15 @@ const FixtureDetail: React.FC = () => {
                     <div>
                         <h2>{thisMatch.homeTeam.name}</h2>
                         <div className="flex space-x-2">
-                            {/* {homeTeamWonAtHome+homeTeamWonAtAway} */}
+                            {homeTeamWonAtHome+homeTeamWonAtAway}
                             <p>Total Wins</p>
                         </div>
                         <div className="flex space-x-2">
-                            {/* {homeTeamWonAtHome} */}
+                            {homeTeamWonAtHome}
                             <p>Home</p>
                         </div>
                         <div className="flex space-x-2">
-                            {/* {homeTeamWonAtAway} */}
+                            {homeTeamWonAtAway}
                             <p>Away</p>
                         </div>
                     </div>
@@ -58,15 +67,15 @@ const FixtureDetail: React.FC = () => {
                         <h2>{thisMatch.awayTeam.name}</h2>
                         <div className="flex space-x-2">
                             <p>Total Wins</p>
-                            {/* {awayTeamWonAtHome+awayTeamWonAtAway} */}
+                            {awayTeamWonAtHome+awayTeamWonAtAway}
                         </div>
                         <div className="flex space-x-2">
-                            {/* {awayTeamWonAtHome} */}
                             <p>Home</p>
+                            {awayTeamWonAtHome}
                         </div>
                         <div className="flex space-x-2">
-                            {/* {awayTeamWonAtAway} */}
                             <p>Away</p>
+                            {awayTeamWonAtAway}
                         </div>
                     </div>
                 </div>
@@ -95,9 +104,41 @@ const FixtureDetail: React.FC = () => {
                 <div className="flex space-x-4">
                     <div>
                         <h2>{thisMatch.homeTeam.name}</h2>
+                        <div>
+                        {HomeTeamData.slice(0, 5).map((result, key) => (
+                            <ul key={result._id}>
+                                <h2 className="text-xl bold">{moment(result.matchDay).add(-9, 'h').format('yyyy-MM-DD')}</h2>
+                                <Link href={`/team/${thisMatch.homeHeam?._id}/result/${result._id}`}>
+                                    <li className="center space-x-2 hover:bg-gray-300">
+                                        <span className="text-bold text-red-500">{result.homeTeam.name}</span> 
+                                        <span className="border-2">{result.home_goals}</span>
+                                        <span className="border-2">{result.away_goals}</span>
+                                        <span className="text-bold text-blue-500">{result.awayTeam.name}</span>
+                                        <span>{result.venue}</span>
+                                    </li>
+                                </Link>
+                            </ul>
+                            ))}
+                        </div>
                     </div>
                     <div>
                         <h2>{thisMatch.awayTeam.name}</h2>
+                        <div>
+                        {AwayTeamData.slice(0, 5).map((result, key) => (
+                            <ul key={result._id}>
+                                <h2 className="text-xl bold">{moment(result.matchDay).add(-9, 'h').format('yyyy-MM-DD')}</h2>
+                                <Link href={`/team/${thisMatch.awayTeam?._id}/result/${result._id}`}>
+                                    <li className="center space-x-2 hover:bg-gray-300">
+                                        <span className="text-bold text-red-500">{result.homeTeam.name}</span> 
+                                        <span className="border-2">{result.home_goals}</span>
+                                        <span className="border-2">{result.away_goals}</span>
+                                        <span className="text-bold text-blue-500">{result.awayTeam.name}</span>
+                                        <span>{result.venue}</span>
+                                    </li>
+                                </Link>
+                            </ul>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
