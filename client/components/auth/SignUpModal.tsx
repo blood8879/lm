@@ -125,6 +125,21 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
         setValidateMode(false);
     }, []);
 
+    const passwordErrors = [
+        {
+          condition: isPasswordHasNameOrEmail,
+          message: "비밀번호는 이름이나 이메일 주소를 포함할 수 없습니다.",
+        },
+        {
+          condition: !isPasswordOverMinLength,
+          message: "비밀번호는 최소 8자 이상이어야 합니다.",
+        },
+        {
+          condition: !isPasswordHasNumberOrSymbol,
+          message: "비밀번호는 숫자나 특수문자를 포함해야 합니다.",
+        },
+      ];
+
     return (
         <div className="mb-4">
             <div className="w-full bg-cyan-700 flex">
@@ -143,7 +158,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                 <div className="relative mb-4 w-full px-5">
                     <Input placeholder="비밀번호를 입력해 주세요." type="password" name="password" value={password} onChange={onChangePassword} onFocus={onFocusPassword} isValid={!!password} useValidation={validateMode} />
                 </div>
-                {passwordFocused && isPasswordHasNameOrEmail && (
+                {/* {passwordFocused && isPasswordHasNameOrEmail && (
                     <div className="relative px-5">
                         <p className="flex text-red-500 text-bold mb-4">비밀번호는 이름이나 이메일 주소를 포함할 수 없습니다.</p>
                     </div>
@@ -157,7 +172,15 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
                     <div className="relative px-5">
                         <p className="flex text-red-500 text-bold mb-4">비밀번호는 숫자나 특수문자를 포함해야 합니다.</p>
                     </div>
-                )}
+                )} */}
+                {passwordFocused &&
+                    passwordErrors.map((error) =>
+                        error.condition && (
+                        <div className="relative px-5" key={error.message}>
+                            <p className="flex text-red-500 text-bold mb-4">{error.message}</p>
+                        </div>
+                        )
+                    )}
                 <div className="relative mb-4 w-full px-5">
                     <Input placeholder="비밀번호를 다시 한번 입력해주세요." type="password" name="confirmPassword" value={confirmPassword} onChange={onChangeConfirmPassword} onFocus={onFocusConfirmPassword} isValid={!!confirmPassword} useValidation={validateMode} />
                 </div>

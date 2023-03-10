@@ -41,9 +41,16 @@ const TeamDetailHeader = () => {
                 />
                 {/* <img src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${team?.emblem}`} alt="emblem" /> */}
             </div>
-            <div>
-                <Button onClick={requestPermission}>입단신청</Button>
-            </div>
+            {!user.playerId ? (
+                <div>
+                    <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
+                </div>
+            ) : (
+                <div>
+                    <Button onClick={requestPermission}>입단신청</Button>
+                </div>
+            )}
+            
             <div className="flex space-x-2">
                 <div className="py-2 hover:cursor-pointer hover:text-red-300">
                     <Link href={`/team/${team?._id}/`}>

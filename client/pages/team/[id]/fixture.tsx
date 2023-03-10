@@ -8,22 +8,4 @@ const Fixture: NextPage = () => {
     return <TeamFixture />
 }
 
-Fixture.getInitialProps = async ({ query, store }) => {
-    const { id } = query;
-    // console.log("query===", query);
-
-    try {
-        if (id) {
-            const { data: fixtureData } = await getFixtureAPI(id as string, "fixture", null);
-            // console.log("data22===", data);
-            store.dispatch(fixtureActions.setFixture(fixtureData));
-        }
-        
-    } catch(e) {
-        // console.log(e);
-    }
-
-    return {};
-};
-
 export default Fixture;

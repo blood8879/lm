@@ -86,7 +86,6 @@ const joinTeam = async(req: Request, res: Response) => {
     } catch(e) {
         console.log(e);
     }
-    
 }
 
 const emblemUpload = multer({

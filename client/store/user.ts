@@ -22,6 +22,11 @@ const user = createSlice({
             state = { ...action.payload, isLogged: true };
             return state;
         },
+        setRegisteredPlayer(state, action: PayloadAction<UserType>) {
+            const playerid = state._id;
+            state = { ...action.payload, isLogged: true, playerId: playerid };
+            return state;
+        },
         // 유저 초기화
         initUser(state) {
             state = initialState;

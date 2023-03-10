@@ -15,7 +15,7 @@ const TeamResult: React.FC = () => {
                 {results.map((result, key) => (
                     <ul key={result._id}>
                         <h2 className="text-xl bold">{moment(result.matchDay).add(-9, 'h').format('yyyy-MM-DD')}</h2>
-                        <Link href={`/team/${team}/result/${result._id}`}>
+                        <Link href={`/team/${team?._id}/result/${result._id}`}>
                             <li className="center space-x-2 hover:bg-gray-300">
                                 <span className="text-bold text-red-500">{result.homeTeam.name}</span> 
                                 <span className="border-2">{result.home_goals}</span>

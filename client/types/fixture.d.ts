@@ -7,4 +7,6 @@ export type FixtureType = {
     competition: string | null;
     round: number | null;
     venue: string;
+    home_goals: number;
+    away_goals: number;
 }

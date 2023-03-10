@@ -13,3 +13,18 @@ export const cookieStringToObject = (cookieString: string | undefined) => {
     }
     return cookies;
 }
+
+// 1~99까지 자동 번호 생성
+export const generateNumbersArray = (type: string) => {
+    const numbersArray = [];
+    if(type === "player") {
+        for(let i=1; i<100; i++) {
+            numbersArray.push(String(i));
+        }
+        numbersArray.push("all")
+    } else if(type === "team") {
+
+    }
+    
+    return numbersArray;
+}

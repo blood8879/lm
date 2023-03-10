@@ -1,7 +1,10 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { registerPlayerAPI } from "../../lib/api/player";
+import { generateNumbersArray } from "../../lib/utils";
 import { useSelector } from "../../store";
+import { userActions } from "../../store/user";
 import Button from "../common/Button";
 import CheckboxGroup from "../common/CheckboxGroup";
 import Input from "../common/Input";
@@ -32,9 +35,13 @@ const preferFoot = [
     "Both"
 ]
 
+const backNoList = generateNumbersArray("player");
+
 const RegisterPlayer: React.FC = () => {
     const router = useRouter();
+    const dispatch = useDispatch();
 
+    const user = useSelector((state) => state.user);
     const userId = useSelector((state) => state.user._id);
     const name = useSelector((state) => state.user.name);
 
@@ -44,11 +51,14 @@ const RegisterPlayer: React.FC = () => {
     const [foot, setFoot] = useState("Left");
     const [preferPosition, setPreferPosition] = useState<any>([]);
     const [birth, setBirth] = useState("");
-
+    const [preferNumbers, setPreferNumbers] = useState<any>([]);
 
     const onChangeHeight = (event: React.ChangeEvent<HTMLInputElement>) => {
         setHeight(event.target.value);
+    }
 
+    const onChangePreferNumbers = (selected: string[]) => {
+        setPreferNumbers(selected);
     }
 
     const onChangeWeight = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +73,7 @@ const RegisterPlayer: React.FC = () => {
 
     const onChangeFoot = (event: any) => {
         setFoot(event.target.value);
-        console.log("setFoot==", event.target.value);
+        // console.log("setFoot==", event.target.value);
     }
 
     const onSubmitPlayerProfile = async(event: React.FormEvent<HTMLFormElement>) => {
@@ -85,6 +95,7 @@ const RegisterPlayer: React.FC = () => {
             }
             console.log("registerPlayerBody==", registerPlayerBody);
             const { data } = await registerPlayerAPI(registerPlayerBody);
+            dispatch(userActions.setRegisteredPlayer(user));
             router.push("/");
             console.log("player Registered.")
         } catch(e) {
@@ -114,6 +125,14 @@ const RegisterPlayer: React.FC = () => {
                         value={preferPosition}
                         onChange={onChangePosition}
                         options={Position}
+                    />
+                </div>
+                <p>선호하는 번호가 있으신가요?</p>
+                <div>
+                    <CheckboxGroup 
+                        value={preferNumbers}
+                        onChange={onChangePreferNumbers}
+                        options={backNoList}
                     />
                 </div>
                 <p>어느 발을 사용하시나요?</p>

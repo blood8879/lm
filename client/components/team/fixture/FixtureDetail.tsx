@@ -108,7 +108,7 @@ const FixtureDetail: React.FC = () => {
                         {HomeTeamData.slice(0, 5).map((result, key) => (
                             <ul key={result._id}>
                                 <h2 className="text-xl bold">{moment(result.matchDay).add(-9, 'h').format('yyyy-MM-DD')}</h2>
-                                <Link href={`/team/${thisMatch.homeHeam?._id}/result/${result._id}`}>
+                                <Link href={`/team/${thisMatch.homeTeam?._id}/result/${result._id}`}>
                                     <li className="center space-x-2 hover:bg-gray-300">
                                         <span className="text-bold text-red-500">{result.homeTeam.name}</span> 
                                         <span className="border-2">{result.home_goals}</span>

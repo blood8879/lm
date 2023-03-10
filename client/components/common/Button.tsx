@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     width?: "100" | "50";
     size?: "small" | "medium" | "large";
     color?: "bg-pink-700" | "bg-cyan-700";
+    disabledMessage?: string;
 }
 
 const sizeConfig = {
@@ -35,14 +36,38 @@ const disabledConfig = {
     false: 'cursor-pointer'
 }
 
-const Button: React.FC<IProps> = ({ children, width = '100', size = 'medium', color = 'bg-cyan-700', disabled , ...props }) => {
+const Button: React.FC<IProps> = ({ children, width = '100', size = 'medium', color = 'bg-cyan-700', disabled , disabledMessage, ...props }) => {
+    const [showDisabledMessage, setShowDisabledMessage] = useState(false);
+
+    const handleMouseEnter = () => {
+        if(disabled) {
+            setShowDisabledMessage(true);
+        }
+    };
+
+    const handleMouseLeave = () => {
+        setShowDisabledMessage(false)
+    }
+
     return (
         // <button {...props} className={`rounded border-solid border p-1 center ${disabledConfig[disabled]} ${sizeConfig[size]} ${widthConfig[width]} ${colorConfig[color].bgColor} ${colorConfig[color].color}`}>
         //     {children}
         // </button>
-        <button {...props} className={`rounded border-solid border p-1 center ${disabled ? disabledConfig.true : disabledConfig.false} ${sizeConfig[size]} ${widthConfig[width]} ${colorConfig[color].bgColor} ${colorConfig[color].color}`}>
-            {children}
-        </button>
+        <div className="w-full">
+            <button {...props} className={
+                `rounded border-solid border p-1 center ${disabled ? disabledConfig.true : disabledConfig.false} ${sizeConfig[size]} ${widthConfig[width]} ${colorConfig[color].bgColor} ${colorConfig[color].color}`}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                >
+                {children}
+            </button>
+            {showDisabledMessage && (
+                <div>
+                    <label>{disabledMessage}</label>
+                </div>
+            )}
+        </div>
+        
     )
 }
 
