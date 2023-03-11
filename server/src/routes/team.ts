@@ -44,13 +44,25 @@ const getTeambyId = async(req: Request, res: Response) => {
 
 const getSquadbyTeam = async(req: Request, res: Response) => {
     const teamId = objectToString(req.params);
+    const { searchType } = req.query;
 
-    await Squad.find({ teamId: teamId, confirmed: true })
+    if(searchType==="official") {
+        await Squad.find({ teamId: teamId, confirmed: true })
         .populate('userId')
         .exec((err, squad) => {
         if(err) res.status(400).send(err);
         res.status(200).send(squad);
-    });
+        });
+    } else if(searchType==="unofficial") {
+        await Squad.find({ teamId: teamId })
+        .populate('userId')
+        .exec((err, squad) => {
+            if(err) res.status(400).send(err);
+            res.status(200).send(squad);
+        })
+    }
+
+    
 }
 
 const registerTeam = async(req: Request, res: Response) => {

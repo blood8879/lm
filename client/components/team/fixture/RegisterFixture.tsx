@@ -80,7 +80,7 @@ const RegisterFixture: React.FC = () => {
             }
             console.log("registerFixtureBody==", registerFixtureBody);
             await registerFixtureAPI(registerFixtureBody);
-            router.push(`/team/${team.detail?._id}/fixture`);
+            router.push(`/team/${team.detail?._id}`);
         } catch(e) {
             console.log(e);
         }
