@@ -10,8 +10,11 @@ const Manage: NextPage = () => {
                     <Link href="/team/registerFixture">
                         경기등록
                     </Link>
-                    <Link href="/">
+                    <Link href="/team/manage/squadManage">
                         팀원관리
+                    </Link>
+                    <Link href="/">
+                        홈구장등록
                     </Link>
                 </div>
             </div>

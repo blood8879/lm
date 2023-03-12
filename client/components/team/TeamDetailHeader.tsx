@@ -79,7 +79,7 @@ const TeamDetailHeader = () => {
                 </div> */}
                 {team?.owner === user._id && (
                     <div className="py-2 hover:cursor-pointer hover:text-red-300">
-                        <Link href={`/team/${team?._id}/manage`}>
+                        <Link href={`/team/${team?._id}/teamManage`}>
                             <h2>팀관리</h2>
                         </Link>
                     </div>
