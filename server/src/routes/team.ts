@@ -44,25 +44,30 @@ const getTeambyId = async(req: Request, res: Response) => {
 
 const getSquadbyTeam = async(req: Request, res: Response) => {
     const teamId = objectToString(req.params);
-    const { searchType } = req.query;
+    // const { searchType } = req.query;
 
-    if(searchType==="official") {
-        await Squad.find({ teamId: teamId, confirmed: true })
+    await Squad.find({ teamId: teamId })
         .populate('userId')
         .exec((err, squad) => {
         if(err) res.status(400).send(err);
         res.status(200).send(squad);
         });
-    } else if(searchType==="unofficial") {
-        await Squad.find({ teamId: teamId })
-        .populate('userId')
-        .exec((err, squad) => {
-            if(err) res.status(400).send(err);
-            res.status(200).send(squad);
-        })
-    }
 
-    
+    // if(searchType==="official") {
+    //     await Squad.find({ teamId: teamId, confirmed: true })
+    //     .populate('userId')
+    //     .exec((err, squad) => {
+    //     if(err) res.status(400).send(err);
+    //     res.status(200).send(squad);
+    //     });
+    // } else if(searchType==="unofficial") {
+    //     await Squad.find({ teamId: teamId })
+    //     .populate('userId')
+    //     .exec((err, squad) => {
+    //         if(err) res.status(400).send(err);
+    //         res.status(200).send(squad);
+    //     })
+    // }
 }
 
 const registerTeam = async(req: Request, res: Response) => {
@@ -118,6 +123,19 @@ const emblemUpload = multer({
     }
 });
 
+const givePermissionforTeam = async(req: Request, res: Response) => {
+    const { id } = req.body;
+
+    await Squad.findByIdAndUpdate(id, {
+        confirmed: true
+    }).exec((err, squad) => {
+        if(err) res.status(400).send(err);
+        res.status(200).send(squad);
+    })
+
+    
+}
+
 const router = Router();
 router.get("/", getTeamLists);
 router.get("/:id", getTeambyId);
@@ -125,5 +143,6 @@ router.get("/:id/squad", getSquadbyTeam);
 router.post("/registerTeam", user, auth, registerTeam);
 router.post("/registerTeam/emblemUpload", user, auth, emblemUpload.single('file'));
 router.post("/:id/join", joinTeam);
+router.put("/updatePermissions", givePermissionforTeam);
 
 export default router;

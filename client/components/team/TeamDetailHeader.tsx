@@ -1,19 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 import { joinTeamAPI } from "../../lib/api/team";
 import { useSelector } from "../../store"
+import { squadActions } from "../../store/squad/squad";
 import Button from "../common/Button";
 
 const TeamDetailHeader = () => {
     const user = useSelector((state) => state.user);
     const team = useSelector((state) => state.team.detail);
+    const dispatch = useDispatch();
 
     const requestPermission = async() => {
         // console.log("클릭이벤트");
         const userId = user._id;
-        const teamId = team?._id;
-        const backNo = 1;
-        const position = ["GK"]
+        const teamId = team!._id;
+        const backNo = null;
+        const position = ["GK"];
+        const userInfo = user;
         
         try {
             const joinTeamBody = {
@@ -22,8 +26,18 @@ const TeamDetailHeader = () => {
                 backNo,
                 position
             }
+
+            const dispatchJoinTeamBody = {
+                _id: userId,
+                teamId: teamId,
+                userId: userInfo,
+                backNo: null,
+                position: position,
+                confirmed: false
+            }
             console.log("joinTeamBody===", joinTeamBody);
             await joinTeamAPI(teamId, joinTeamBody);
+            dispatch(squadActions.setUpdateSquad(dispatchJoinTeamBody));
             alert('가입되었습니다.');
         } catch(e) {
             console.log(e);

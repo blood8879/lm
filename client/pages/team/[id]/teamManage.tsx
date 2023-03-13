@@ -6,14 +6,14 @@ const Manage: NextPage = () => {
     return (
         <TeamDetail>
             <div>
-                <div>
+                <div className="space-x-3">
                     <Link href="/team/registerFixture">
                         경기등록
                     </Link>
                     <Link href="/team/manage/squadManage">
                         팀원관리
                     </Link>
-                    <Link href="/">
+                    <Link href="/team/registerStadium">
                         홈구장등록
                     </Link>
                 </div>

@@ -12,6 +12,18 @@ const squad = createSlice({
     reducers: {
         setSquad(state, action: PayloadAction<PlayerType[]>) {
             state.squad = action.payload;
+        },
+        // setUnapprovedSquad(state, action: PayloadAction<{ _id: string, teamId: string, userId: string | string[], backNo: number|null, position: string[], confirmed: boolean}>) {
+        //     return {
+        //         ...state,
+        //         squad: [...state.squad, action.payload]
+        //     }
+        // }
+        setUpdateSquad(state, action: PayloadAction<PlayerType>) {
+            return {
+                ...state,
+                squad: [...state.squad, action.payload]
+            }
         }
     },
 });
