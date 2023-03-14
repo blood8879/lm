@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PlayerType } from "../../types/player";
-import { PlayerState } from "../../types/reduxState";
+import { SquadType } from "../../types/player";
+import { SquadState } from "../../types/reduxState";
 
-const initialState : PlayerState = {
+const initialState : SquadState = {
     squad: []
 }
 
@@ -10,16 +10,27 @@ const squad = createSlice({
     name: "squad",
     initialState,
     reducers: {
-        setSquad(state, action: PayloadAction<PlayerType[]>) {
+        setSquad(state, action: PayloadAction<SquadType[]>) {
             state.squad = action.payload;
         },
-        // setUnapprovedSquad(state, action: PayloadAction<{ _id: string, teamId: string, userId: string | string[], backNo: number|null, position: string[], confirmed: boolean}>) {
-        //     return {
-        //         ...state,
-        //         squad: [...state.squad, action.payload]
-        //     }
-        // }
-        setUpdateSquad(state, action: PayloadAction<PlayerType>) {
+        setToApprovePermissions(state, action: PayloadAction<SquadType[]>) {
+            const updatedSquad = action.payload.map(player => {
+                if(player.confirmed) {
+                    return player;
+                } else {
+                    return {
+                        ...player,
+                        confirmed: true,
+                        backNo: action.payload
+                    };
+                }
+            });
+            return {
+                ...state,
+                squad: updatedSquad
+            }
+        },
+        setUpdateSquad(state, action: PayloadAction<SquadType>) {
             return {
                 ...state,
                 squad: [...state.squad, action.payload]

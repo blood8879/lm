@@ -123,17 +123,17 @@ const emblemUpload = multer({
     }
 });
 
-const givePermissionforTeam = async(req: Request, res: Response) => {
-    const { id } = req.body;
+const givePermissionToPlayer = async(req: Request, res: Response) => {
+    const { id, backNo, confirmed } = req.body;
+    // console.log("req.body===", req.body);
 
     await Squad.findByIdAndUpdate(id, {
-        confirmed: true
+        backNo: backNo,
+        confirmed: confirmed
     }).exec((err, squad) => {
         if(err) res.status(400).send(err);
         res.status(200).send(squad);
     })
-
-    
 }
 
 const router = Router();
@@ -143,6 +143,6 @@ router.get("/:id/squad", getSquadbyTeam);
 router.post("/registerTeam", user, auth, registerTeam);
 router.post("/registerTeam/emblemUpload", user, auth, emblemUpload.single('file'));
 router.post("/:id/join", joinTeam);
-router.put("/updatePermissions", givePermissionforTeam);
+router.put("/updatePermissions", givePermissionToPlayer);
 
 export default router;

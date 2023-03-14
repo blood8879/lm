@@ -13,7 +13,7 @@ interface DBSquadModel extends Model<DBSquad> {}
 const squadSchema = new Schema<DBSquad> ({
     teamId: { type: Schema.Types.ObjectId, ref: 'Team' },
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    backNo: { type: Number },
+    backNo: { type: Number || null },
     position: [String],
     confirmed: { type: Boolean, default: false },
 })

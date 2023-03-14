@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
@@ -9,7 +10,11 @@ import Button from "../common/Button";
 const TeamDetailHeader = () => {
     const user = useSelector((state) => state.user);
     const team = useSelector((state) => state.team.detail);
+    const squads = useSelector((state) => state.squad.squad);
     const dispatch = useDispatch();
+
+    const [isRegisteredPlayer, setIsRegisteredPlayer] = useState<boolean>(false);
+    const [isConfirmedPlayer, setIsConfirmedPlayer] = useState<boolean>(false);
 
     const requestPermission = async() => {
         // console.log("클릭이벤트");
@@ -44,6 +49,51 @@ const TeamDetailHeader = () => {
         }
     }
 
+    const findPlayerInTeam = (id: string) => {
+        // const findResult = squads.map((squad) => {
+        //     if(squad.userId._id === id) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // })
+
+        // setIsRegisteredPlayer(findResult.some((value) => value));
+
+        let findResult = false;
+        squads.forEach((squad) => {
+            if (squad.userId._id === id) {
+                findResult = true;
+            }
+        });
+        setIsRegisteredPlayer(findResult);
+    }
+
+    const findConfirmedPlayer = (id: string) => {
+        // const findResult = squads.map((squad) => {
+        //     if(squad.userId._id === id) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // })
+
+        // setIsRegisteredPlayer(findResult.some((value) => value));
+
+        let confirmed = false;
+        squads.forEach((squad) => {
+            if (squad.userId._id === id && squad.confirmed === true) {
+                confirmed = true;
+            }
+        });
+        setIsConfirmedPlayer(confirmed);
+    }
+
+    useEffect(() => {
+        findPlayerInTeam(user._id);
+        findConfirmedPlayer(user._id);
+    }, [])
+
     return (
         <div className="h-64 bg-gray-100">
             <div className="">
@@ -55,16 +105,23 @@ const TeamDetailHeader = () => {
                 />
                 {/* <img src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${team?.emblem}`} alt="emblem" /> */}
             </div>
-            {!user.playerId ? (
+            {!isRegisteredPlayer && !user.playerId ? (
                 <div>
                     <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
                 </div>
-            ) : (
+            ) : !isRegisteredPlayer && user.playerId ? (
                 <div>
                     <Button onClick={requestPermission}>입단신청</Button>
                 </div>
+            ) : isRegisteredPlayer && isConfirmedPlayer ? (
+                <div>
+                    가입된 팀
+                </div>
+            ) : (
+                <div>
+                    가입승인을 기다리고 있습니다.
+                </div>
             )}
-            
             <div className="flex space-x-2">
                 <div className="py-2 hover:cursor-pointer hover:text-red-300">
                     <Link href={`/team/${team?._id}/`}>

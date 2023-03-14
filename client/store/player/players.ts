@@ -1,9 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PlayerType } from "../../types/player";
-import { PlayerState } from "../../types/reduxState";
 
-const initialState : PlayerState = {
-    profile: null
+const initialState : PlayerType = {
+    _id: "",
+    userId: [],
+    name: "",
+    height: null,
+    weight: null,
+    phone: "",
+    foot: "",
+    preferPosition: [],
+    birth: null
 }
 
 const player = createSlice({
@@ -11,7 +18,12 @@ const player = createSlice({
     initialState,
     reducers: {
         setProfile(state, action: PayloadAction<PlayerType>) {
-            state.profile = action.payload;
+            state = action.payload;
+        },
+        // 플레이어 초기화
+        initPlayer(state) {
+            state = initialState;
+            return state;
         }
     },
 });

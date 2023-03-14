@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FixtureType } from "../../types/fixture";
-import { PlayerType } from "../../types/player";
-import { FixtureState, PlayerState } from "../../types/reduxState";
+import { FixtureState } from "../../types/reduxState";
 
 const initialState : FixtureState = {
     fixture: [],

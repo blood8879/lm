@@ -35,3 +35,11 @@ export const joinTeamAPI = (id: any, body: joinTeamAPIBody) =>
 // 선수단정보 가져오기 api
 export const getTeamSquadAPI = (id: string) => 
     axios.get(`/api/team/${id}/squad`);
+
+// 가입승인 api
+export const givePermissionToPlayerAPI = (id: string, body: any) =>
+    axios.put("/api/team/updatePermissions", { 
+        id: id,
+        confirmed: body.confirmed,
+        backNo: body.backNo
+    });

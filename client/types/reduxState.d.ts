@@ -19,8 +19,8 @@ export type TeamState = {
 }
 
 // 선수목록 redux state
-export type PlayerState = {
-    squad: PlayerType[];
+export type SquadState = {
+    squad: SquadType[];
 }
 
 // 경기일정 redux state
@@ -30,3 +30,8 @@ export type FixtureState = {
     result: any[];
     detailResult: FixtureType | null;
 }
+
+// 선수 redux state
+// export type PlayerState = {
+
+// }
