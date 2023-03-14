@@ -13,7 +13,7 @@ export type SquadType = {
 export type PlayerType = {
     _id: string;
     // userId: UserType;
-    userId: string[];
+    userId: string;
     name: string;
     height: number | null;
     weight: number | null;

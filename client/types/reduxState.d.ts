@@ -32,6 +32,6 @@ export type FixtureState = {
 }
 
 // 선수 redux state
-// export type PlayerState = {
-
-// }
+export type PlayerState = PlayerType & {
+    isRegistered: boolean;
+}

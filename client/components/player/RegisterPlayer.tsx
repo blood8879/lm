@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { registerPlayerAPI } from "../../lib/api/player";
 import { generateNumbersArray } from "../../lib/utils";
 import { useSelector } from "../../store";
+import { playerActions } from "../../store/player/players";
 import { userActions } from "../../store/user";
 import Button from "../common/Button";
 import CheckboxGroup from "../common/CheckboxGroup";
@@ -83,6 +84,7 @@ const RegisterPlayer: React.FC = () => {
         const weight = Number(weightS);
 
         try {
+            
             const registerPlayerBody = {
                 userId,
                 name,
@@ -93,9 +95,27 @@ const RegisterPlayer: React.FC = () => {
                 preferPosition,
                 birth
             }
-            console.log("registerPlayerBody==", registerPlayerBody);
-            const { data } = await registerPlayerAPI(registerPlayerBody);
-            dispatch(userActions.setRegisteredPlayer(user));
+            const registerPlayerBodyforredux = {
+                _id : userId,
+                userId : userId,
+                name,
+                height,
+                weight,
+                phone,
+                foot,
+                preferPosition,
+                birth,
+                isRegistered: true
+            }
+            // console.log("registerPlayerBody==", registerPlayerBody);
+            const promises = [
+                registerPlayerAPI(registerPlayerBody),
+                dispatch(playerActions.setProfile(registerPlayerBodyforredux)),
+                dispatch(userActions.setRegisteredPlayer(user)),
+                // console.log("registerPlayerBodyforredux===", registerPlayerBodyforredux)
+            ]
+
+            await Promise.all(promises);
             router.push("/");
             console.log("player Registered.")
         } catch(e) {

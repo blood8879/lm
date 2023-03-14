@@ -3,7 +3,6 @@ import Link from "next/link";
 import React from "react";
 import { useSelector } from "../../../store";
 import Button from "../../common/Button";
-import TeamDetail from "../TeamDetail";
 
 const FixtureDetail: React.FC = () => {
     const currentTeam = useSelector((state) => state.team.detail);
@@ -33,10 +32,23 @@ const FixtureDetail: React.FC = () => {
     const awayTeamWonAtHome = HeadToHeadData.filter(match => (match.homeTeam._id === thisMatch.awayTeam._id) && match.home_goals > match.away_goals).length;
     const awayTeamWonAtAway = HeadToHeadData.filter(match => (match.awayTeam._id === thisMatch.awayTeam._id) && match.away_goals > match.home_goals).length;
 
+    const onAttendMatch = () => {
+
+    }
+
+    const noAttendMatch = () => {
+
+    }
+
     return (
         <>
             <div>
                 <Link href="/team/registerResult"><Button>결과등록</Button></Link>
+                <div className="flex space-x-2">
+                    <Button width="50" onClick={onAttendMatch}>참석</Button>
+                    <Button width="50" onClick={noAttendMatch}>불참석</Button>
+                </div>
+                
             </div>
             <div>
                 <h2>Head-to-Head</h2>
