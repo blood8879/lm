@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { objectToString } from "../api/utils";
 import { Fixture } from "../models/Fixture";
+import { Squad } from "../models/Squad";
 
 const registerFixture = async(req: Request, res: Response) => {
     try {
@@ -85,6 +86,30 @@ const registerResult = async(req: Request, res: Response) => {
         if(err) res.status(400).send(err);
         res.status(200).json({ success: true, fixture });
     })
+}
+
+// 경기 참석
+const attendToMatch = async(req: Request, res: Response) => {
+    const { fixtureId, teamId, playerId } = req.body;
+    console.log("req.body==", req.body);
+    // const teamId = Object("63e1d16cfb413a7890ae1934");
+
+    // 플레이어가 팀에 속해있는지 검사
+    const isPlayerRegisteredTeam = await Squad.exists({ teamId: teamId, userId: playerId})
+    // await Squad.find().where('teamId').equals(teamId).where('userId').equals(playerId)
+    //     .exec((err, squad) => {
+    //     if(err) res.status(400).send(err);
+    //     res.status(200).json({ success: true, squad });
+    // })
+    
+    // console.log("플레이어소속여부==", isPlayerRegisteredTeam);
+
+    if(!isPlayerRegisteredTeam) return;
+
+    // 홈,어웨이 구분하여 참석명단에 push
+    // await Fixture.findByIdAndUpdate(fixtureId, {
+    //     $push: {}
+    // })
     
 }
 
@@ -93,5 +118,6 @@ router.post("/registerFixture", registerFixture);
 router.get("/:id", getFixtureByTeamId);
 router.get("/:id/detail", getDetailFixtureById);
 router.put("/registerResult", registerResult);
+router.post("/isPlayerRegistered", attendToMatch);
 
 export default router;

@@ -1,6 +1,6 @@
 import moment from "moment";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "../../../store";
 import Button from "../../common/Button";
 
@@ -8,6 +8,10 @@ const FixtureDetail: React.FC = () => {
     const currentTeam = useSelector((state) => state.team.detail);
     const thisMatch = useSelector((state) => state.fixture.detailFixture);
     const result = useSelector((state) => state.fixture.result);
+    const squads = useSelector((state) => state.squad.squad);
+    const user = useSelector((state) => state.user)
+
+    const [confirmedPlayer, setIsConfirmedPlayer] = useState(false);
     
     const HeadToHeadData = result.filter(match => {
         const homeTeamName = match.homeTeam.name;
@@ -32,23 +36,39 @@ const FixtureDetail: React.FC = () => {
     const awayTeamWonAtHome = HeadToHeadData.filter(match => (match.homeTeam._id === thisMatch.awayTeam._id) && match.home_goals > match.away_goals).length;
     const awayTeamWonAtAway = HeadToHeadData.filter(match => (match.awayTeam._id === thisMatch.awayTeam._id) && match.away_goals > match.home_goals).length;
 
-    const onAttendMatch = () => {
+    // 사용자가 해당 팀 소속인지 확인
+    const findConfirmedPlayer = (id: string) => {
+        let confirmed = false;
+        squads.forEach((squad) => {
+            if (squad.userId._id === id && squad.confirmed === true) {
+                confirmed = true;
+            }
+        });
+        setIsConfirmedPlayer(confirmed);
+    }
 
+    useEffect(() => {
+        findConfirmedPlayer(user._id);
+    }, [])
+
+    const onAttendMatch = () => {
+        console.log("Attendence.");
     }
 
     const noAttendMatch = () => {
-
+        console.log("NoAttendence.");
     }
 
     return (
         <>
             <div>
                 <Link href="/team/registerResult"><Button>결과등록</Button></Link>
-                <div className="flex space-x-2">
-                    <Button width="50" onClick={onAttendMatch}>참석</Button>
-                    <Button width="50" onClick={noAttendMatch}>불참석</Button>
-                </div>
-                
+                {confirmedPlayer && (
+                    <div className="flex space-x-2">
+                        <Button width="50" onClick={onAttendMatch}>참석</Button>
+                        <Button width="50" onClick={noAttendMatch}>불참석</Button>
+                    </div>
+                )}
             </div>
             <div>
                 <h2>Head-to-Head</h2>
