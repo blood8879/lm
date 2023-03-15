@@ -50,16 +50,6 @@ const TeamDetailHeader = () => {
     }
 
     const findPlayerInTeam = (id: string) => {
-        // const findResult = squads.map((squad) => {
-        //     if(squad.userId._id === id) {
-        //         return true;
-        //     } else {
-        //         return false;
-        //     }
-        // })
-
-        // setIsRegisteredPlayer(findResult.some((value) => value));
-
         let findResult = false;
         squads.forEach((squad) => {
             if (squad.userId._id === id) {
@@ -70,16 +60,6 @@ const TeamDetailHeader = () => {
     }
 
     const findConfirmedPlayer = (id: string) => {
-        // const findResult = squads.map((squad) => {
-        //     if(squad.userId._id === id) {
-        //         return true;
-        //     } else {
-        //         return false;
-        //     }
-        // })
-
-        // setIsRegisteredPlayer(findResult.some((value) => value));
-
         let confirmed = false;
         squads.forEach((squad) => {
             if (squad.userId._id === id && squad.confirmed === true) {

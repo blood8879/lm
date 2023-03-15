@@ -17,6 +17,12 @@ interface registerResultAPIBody {
     isFinish: boolean;
 }
 
+interface attendToMatchAPIBody {
+    fixtureId: string | null;
+    teamId: string | undefined;
+    playerId: string | null;
+}
+
 // 일정/결과 가져오기 api
 export const getFixtureAPI = (id: string, searchType: string, limit: number | null) =>
     axios.get(`/api/fixture/${id}`, {
@@ -34,3 +40,7 @@ export const getDetailFixtureAPI = (id: string) =>
 // 결과등록 api
 export const registerResultAPI = (body: registerResultAPIBody) =>
     axios.put("/api/fixture/registerResult", body);
+
+// 참석 api
+export const attendMatchAPI = (body: attendToMatchAPIBody) => 
+    axios.put("/api/fixture/attendToMatch", body);

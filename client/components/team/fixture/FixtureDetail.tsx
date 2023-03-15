@@ -1,6 +1,7 @@
 import moment from "moment";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { attendMatchAPI } from "../../../lib/api/fixture";
 import { useSelector } from "../../../store";
 import Button from "../../common/Button";
 
@@ -51,8 +52,19 @@ const FixtureDetail: React.FC = () => {
         findConfirmedPlayer(user._id);
     }, [])
 
-    const onAttendMatch = () => {
-        console.log("Attendence.");
+    const onAttendMatch = async() => {
+        try {
+            const body = {
+                fixtureId: thisMatch._id,
+                teamId: currentTeam?._id,
+                playerId: user._id
+            }
+            console.log("AttendenceBody===", body);
+            await attendMatchAPI(body);
+
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     const noAttendMatch = () => {
@@ -65,8 +77,8 @@ const FixtureDetail: React.FC = () => {
                 <Link href="/team/registerResult"><Button>결과등록</Button></Link>
                 {confirmedPlayer && (
                     <div className="flex space-x-2">
-                        <Button width="50" onClick={onAttendMatch}>참석</Button>
-                        <Button width="50" onClick={noAttendMatch}>불참석</Button>
+                        <Button type="submit" width="50" onClick={onAttendMatch}>참석</Button>
+                        <Button type="submit" width="50" onClick={noAttendMatch}>불참석</Button>
                     </div>
                 )}
             </div>
