@@ -1,8 +1,11 @@
 import moment from "moment";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { attendMatchAPI } from "../../../lib/api/fixture";
 import { useSelector } from "../../../store";
+import { fixtureActions } from "../../../store/fixture/fixture";
+import { FixtureType } from "../../../types/fixture";
 import Button from "../../common/Button";
 
 const FixtureDetail: React.FC = () => {
@@ -10,7 +13,9 @@ const FixtureDetail: React.FC = () => {
     const thisMatch = useSelector((state) => state.fixture.detailFixture);
     const result = useSelector((state) => state.fixture.result);
     const squads = useSelector((state) => state.squad.squad);
-    const user = useSelector((state) => state.user)
+    const user = useSelector((state) => state.user);
+
+    const dispatch = useDispatch();
 
     const [confirmedPlayer, setIsConfirmedPlayer] = useState(false);
     
@@ -52,6 +57,9 @@ const FixtureDetail: React.FC = () => {
         findConfirmedPlayer(user._id);
     }, [])
 
+    // redux-store 전달용 type 선언
+    let updatedFixtureBody : FixtureType;
+
     const onAttendMatch = async() => {
         try {
             const body = {
@@ -59,9 +67,29 @@ const FixtureDetail: React.FC = () => {
                 teamId: currentTeam?._id,
                 playerId: user._id
             }
-            console.log("AttendenceBody===", body);
-            await attendMatchAPI(body);
 
+            // redux-store 전달용 type 선언
+            // let updatedFixtureBody : FixtureType;
+            if(thisMatch.homeTeam._id === currentTeam?._id) {
+                updatedFixtureBody = {
+                    ...thisMatch,
+                    homeSquad: [ ...thisMatch.homeSquad, user._id ],
+                }
+            } else if(thisMatch.awayTeam._id === currentTeam?._id) {
+                updatedFixtureBody = {
+                    ...thisMatch,
+                    awaySquad: [ ...thisMatch.awaySquad, user._id ]
+                }
+            }
+            
+            console.log("AttendenceBody===", body);
+            console.log("updatedFixture===", updatedFixtureBody);
+            const promises = [
+                dispatch(fixtureActions.updateDetailFixture(updatedFixtureBody)),
+                await attendMatchAPI(body)
+            ];
+
+            await Promise.all(promises);
         } catch(e) {
             console.log(e);
         }

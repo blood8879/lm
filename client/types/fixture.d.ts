@@ -9,4 +9,7 @@ export type FixtureType = {
     venue: string;
     home_goals: number;
     away_goals: number;
+    homeSquad: string[];
+    awaySquad: string[];
+    isFinish: boolean;
 }
