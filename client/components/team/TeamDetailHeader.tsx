@@ -42,7 +42,7 @@ const TeamDetailHeader = () => {
             }
             console.log("joinTeamBody===", joinTeamBody);
             await joinTeamAPI(teamId, joinTeamBody);
-            dispatch(squadActions.setUpdateSquad(dispatchJoinTeamBody));
+            dispatch(squadActions.setUpdateSquad(dispatchJoinTeamBody));            
             alert('가입되었습니다.');
         } catch(e) {
             console.log(e);
@@ -85,6 +85,24 @@ const TeamDetailHeader = () => {
                 />
                 {/* <img src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${team?.emblem}`} alt="emblem" /> */}
             </div>
+            {/* {squads.map((squad) => {
+                const matchingPlayer = squads.find((squad) => !user.playerId && squad.userId._id !== user._id);
+                const notRegisteredPlayer = !user.playerId;
+                return (
+                    <div>
+                        {notRegisteredPlayer ? (
+                            <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
+                        ) : null}
+                    </div>
+                )
+                if(!user.playerId && squad.userId._id !== user._id) {
+                    return (
+                        <div>
+                            <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
+                        </div>
+                    )
+                }
+            })} */}
             {!isRegisteredPlayer && !user.playerId ? (
                 <div>
                     <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
@@ -97,11 +115,13 @@ const TeamDetailHeader = () => {
                 <div>
                     가입된 팀
                 </div>
-            ) : (
+            ) : isRegisteredPlayer && !isConfirmedPlayer ? (
                 <div>
                     가입승인을 기다리고 있습니다.
                 </div>
-            )}
+            ) : <div>
+                </div>
+            }
             <div className="flex space-x-2">
                 <div className="py-2 hover:cursor-pointer hover:text-red-300">
                     <Link href={`/team/${team?._id}/`}>

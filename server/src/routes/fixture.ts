@@ -90,8 +90,8 @@ const registerResult = async(req: Request, res: Response) => {
 
 // 경기 참석
 const attendToMatch = async(req: Request, res: Response) => {
-    const { fixtureId, teamId, playerId } = req.body;
-    // console.log("req.body==", req.body);
+    const { type, fixtureId, teamId, playerId } = req.body;
+    console.log("req.body==", req.body);
 
     // 플레이어가 팀에 속해있는지 검사
     const isPlayerRegisteredTeam = await Squad.exists({ teamId: teamId, userId: playerId});
@@ -102,21 +102,52 @@ const attendToMatch = async(req: Request, res: Response) => {
     if(!isPlayerRegisteredTeam) return;
 
     // 홈,어웨이 구분하여 참석명단에 push
-    if (teamId === homeTeamId) {
+    if (teamId === homeTeamId && type=="Attend") {
         await Fixture.findByIdAndUpdate(fixtureId, {
-            $push: { homeSquad: playerId }
+            $push: { homeSquad: playerId },
+            $pull: { homeAbsent: playerId }
         }).exec((err, squad) => {
             if(err) res.status(400).send(err);
             res.status(200).send(squad)
         })
-    } else if(teamId === awayTeamId) {
+    } else if(teamId === awayTeamId && type=="Attend") {
         await Fixture.findByIdAndUpdate(fixtureId, {
-            $push: { awaySquad: playerId }
+            $push: { awaySquad: playerId },
+            $pull: { awayAbsent: playerId }
         }).exec((err, squad) => {
             if(err) res.status(400).send(err);
             res.status(200).send(squad)
+        })
+    } else if(teamId === homeTeamId && type=="noAttend") {
+        await Fixture.findByIdAndUpdate(fixtureId, {
+            $pull: { homeSquad: playerId },
+            $push: { homeAbsent: playerId },
+        }).exec((err, squad) => {
+            if(err) res.status(400).send(err);
+            res.status(200).send(squad);
+        })
+    } else {
+        await Fixture.findByIdAndUpdate(fixtureId, {
+            $pull: { awaySquad: playerId },
+            $push: { awayAbsent: playerId }
+        }).exec((err, squad) => {
+            if(err) res.status(400).send(err);
+            res.status(200).send(squad);
         })
     }
+    // let updateObj = {};
+    // if(type == "Attend") {
+    //     if(teamId == homeTeamId) updateObj = { $push: { homeSquad: playerId } };
+    //     else updateObj = { $push: { awaySquad: playerId } };
+    // } else if(type=="noAttend") {
+    //     if(teamId == homeTeamId) updateObj = { $pull: { homeSquad: playerId } };
+    //     else updateObj = { $pull: { awaySquad: playerId } };
+    // }
+
+    // await Fixture.findByIdAndUpdate(fixtureId, updateObj, (err, squad) => {
+    //     if(err) res.status(400).send(err);
+    //     res.status(200).send(squad);
+    // }).exec();
 }
 
 const router = Router();

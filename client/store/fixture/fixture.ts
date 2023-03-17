@@ -26,12 +26,6 @@ const fixture = createSlice({
             state.detailResult = action.payload;
         },
         updateDetailFixture(state, action:PayloadAction<FixtureType>) {
-            // console.log("state==", state);
-            // console.log("action==", action);
-            // console.log("action.payload==", action.payload);
-            // return {
-            //     state = { ...state, action.payload }
-            // }
             state.detailFixture = action.payload;
         }
     },

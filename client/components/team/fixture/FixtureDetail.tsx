@@ -63,6 +63,7 @@ const FixtureDetail: React.FC = () => {
     const onAttendMatch = async() => {
         try {
             const body = {
+                type: "Attend",
                 fixtureId: thisMatch._id,
                 teamId: currentTeam?._id,
                 playerId: user._id
@@ -71,14 +72,18 @@ const FixtureDetail: React.FC = () => {
             // redux-store 전달용 type 선언
             // let updatedFixtureBody : FixtureType;
             if(thisMatch.homeTeam._id === currentTeam?._id) {
+                const updatedHomeAbsent = thisMatch.homeAbsent.filter((id: any) => id !== user._id);
                 updatedFixtureBody = {
                     ...thisMatch,
                     homeSquad: [ ...thisMatch.homeSquad, user._id ],
+                    homeAbsent: updatedHomeAbsent
                 }
             } else if(thisMatch.awayTeam._id === currentTeam?._id) {
+                const updatedAwayAbsent = thisMatch.awayAbsent.filter((id: any) => id !== user._id);
                 updatedFixtureBody = {
                     ...thisMatch,
-                    awaySquad: [ ...thisMatch.awaySquad, user._id ]
+                    awaySquad: [ ...thisMatch.awaySquad, user._id ],
+                    awayAbsent: updatedAwayAbsent
                 }
             }
             
@@ -95,7 +100,44 @@ const FixtureDetail: React.FC = () => {
         }
     }
 
-    const noAttendMatch = () => {
+    const noAttendMatch = async() => {
+        try {
+            const body = {
+                type: "noAttend",
+                fixtureId: thisMatch._id,
+                teamId: currentTeam?._id,
+                playerId: user._id
+            }
+
+            // redux-store 전달용 type 선언
+            // let updatedFixtureBody : FixtureType;
+            if(thisMatch.homeTeam._id === currentTeam?._id) {
+                const updatedHomeSquad = thisMatch.homeSquad.filter((id: any) => id !== user._id);
+                updatedFixtureBody = {
+                    ...thisMatch,
+                    homeSquad: updatedHomeSquad,
+                    homeAbsent: [ ...thisMatch.homeAbsent, user._id ]
+                }
+            } else if(thisMatch.awayTeam._id === currentTeam?._id) {
+                const updatedAwaySquad = thisMatch.awaySquad.filter((id:any) => id !== user._id);
+                updatedFixtureBody = {
+                    ...thisMatch,
+                    awaySquad: updatedAwaySquad,
+                    awayAbsent: [ ...thisMatch.awayAbsent, user._id ]
+                }
+            }
+            
+            console.log("AttendenceBody===", body);
+            console.log("updatedFixture===", updatedFixtureBody);
+            const promises = [
+                dispatch(fixtureActions.updateDetailFixture(updatedFixtureBody)),
+                await attendMatchAPI(body)
+            ];
+
+            await Promise.all(promises);
+        } catch(e) {
+            console.log(e);
+        }
         console.log("NoAttendence.");
     }
 
@@ -105,8 +147,24 @@ const FixtureDetail: React.FC = () => {
                 <Link href="/team/registerResult"><Button>결과등록</Button></Link>
                 {confirmedPlayer && (
                     <div className="flex space-x-2">
-                        <Button type="submit" width="50" onClick={onAttendMatch}>참석</Button>
-                        <Button type="submit" width="50" onClick={noAttendMatch}>불참석</Button>
+                        {thisMatch.homeSquad.includes(user._id) || thisMatch.awaySquad.includes(user._id) ? (
+                            <>
+                                <Button type="submit" width="50" disabled>참석</Button>
+                                <Button type="submit" width="50" onClick={noAttendMatch}>불참석</Button>
+                            </>
+                        ) : thisMatch.homeAbsent.includes(user._id) || thisMatch.awayAbsent.includes(user._id) ? (
+                            <>
+                                <Button type="submit" width="50" onClick={onAttendMatch}>참석</Button>
+                                <Button type="submit" width="50" disabled>불참석</Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button type="submit" width="50" onClick={onAttendMatch}>참석</Button>
+                                <Button type="submit" width="50" onClick={noAttendMatch}>불참석</Button>
+                            </>
+                        )}
+                        {/* <Button type="submit" width="50" onClick={onAttendMatch}>참석</Button>
+                        <Button type="submit" width="50" onClick={noAttendMatch}>불참석</Button> */}
                     </div>
                 )}
             </div>

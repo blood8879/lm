@@ -12,6 +12,8 @@ interface DBFixture {
     isFinish: boolean;
     homeSquad: Types.ObjectId[];
     awaySquad: Types.ObjectId[];
+    homeAbsent: Types.ObjectId[];
+    awayAbsent: Types.ObjectId[];
 }
 
 interface DBFixtureModel extends Model<DBFixture> {}
@@ -27,7 +29,9 @@ const fixtureSchema = new Schema<DBFixture> ({
     away_goals: { type: Number },
     isFinish: { type: Boolean, default: false },
     homeSquad: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
-    awaySquad: [{ type: Schema.Types.ObjectId, ref: 'Player' }]
+    awaySquad: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
+    homeAbsent: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
+    awayAbsent: [{ type: Schema.Types.ObjectId, ref: 'Player' }]
 });
 
 const Fixture = model<DBFixture, DBFixtureModel>('Fixture', fixtureSchema);
