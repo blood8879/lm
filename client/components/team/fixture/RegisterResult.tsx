@@ -13,7 +13,8 @@ const RegisterResult: React.FC = () => {
     const [homeScore, setHomeScore] = useState<number>(0);
     const [awayScore, setAwayScore] = useState<number>(0);
     const [homePlayerGoals, setHomePlayerGoals] = useState<{ [key: string]: number }>({});
-    // const [homePlayerGoals, setHomePlayerGoals] = useState<number>(0);
+    const [awayPlayerGoals, setAwayPlayerGoals] = useState<{ [key: string]: number }>({});
+    
 
     const onChangeHomeScore = (event: any) => {
         setHomeScore(event.target.value);
@@ -23,7 +24,7 @@ const RegisterResult: React.FC = () => {
         setAwayScore(event.target.value);
     }
 
-    const onChangePlayerGoals = (event: any, matchingPlayer: any) => {
+    const onChangeHomePlayerGoals = (event: any, matchingPlayer: any) => {
         const newGoalValue = Number(event.target.value);
         const oldGoalValue = homePlayerGoals[matchingPlayer.userId._id] || 0;
         const newHomeScore = Number(homeScore) - oldGoalValue + newGoalValue
@@ -32,6 +33,17 @@ const RegisterResult: React.FC = () => {
             [matchingPlayer.userId._id]: newGoalValue,
         });
         setHomeScore(newHomeScore);
+    }
+
+    const onChangeAwayPlayerGoals = (event: any, matchingPlayer: any) => {
+        const newGoalValue = Number(event.target.value);
+        const oldGoalValue = awayPlayerGoals[matchingPlayer.userId._id] || 0;
+        const newAwayScore = Number(awayScore) - oldGoalValue + newGoalValue
+        setAwayPlayerGoals({
+            ...awayPlayerGoals,
+            [matchingPlayer.userId._id]: newGoalValue,
+        });
+        setAwayScore(newAwayScore);
     }
     
     const onSubmitMatchResult = async(event: React.FormEvent<HTMLFormElement>) => {
@@ -42,7 +54,9 @@ const RegisterResult: React.FC = () => {
                 fixtureId: matchInfo._id,
                 isFinish: true,
                 home_goals: Number(homeScore),
-                away_goals: Number(awayScore)
+                away_goals: Number(awayScore),
+                homeplayergoals: homePlayerGoals,
+                awayplayergoals: awayPlayerGoals
             }
             
             console.log("registerResultBody===", registerResultBody);
@@ -80,7 +94,28 @@ const RegisterResult: React.FC = () => {
                             <h2>{matchingPlayer.position}</h2>
                             <h2>{matchingPlayer.userId.name}</h2>
                             <div>
-                                <input className="border-2" type="number" name="goal" defaultValue={0} onChange={(event) => onChangePlayerGoals(event, matchingPlayer)} />골
+                                <input className="border-2" type="number" name="goal" defaultValue={0} onChange={(event) => onChangeHomePlayerGoals(event, matchingPlayer)} />골
+                            </div>
+                            <div>
+                                <input className="border-2" type="number" name="assist"/>도움
+                            </div>
+                        </div>
+                    )
+                }
+            })}
+            <h2>참석인원(어웨이)</h2>
+            {matchInfo.awaySquad.map((player:any) => {
+                const matchingPlayer = squad.find((p:any) => p.userId._id === player);
+                // console.log("ma===", matchingPlayer);
+                // 만약 squad 변수에 player와 동일한 값이 있다면 <h2>로 squad.name을 출력
+                if(matchingPlayer) {
+                    return (
+                        <div className="flex space-x-2">
+                            <h2>{matchingPlayer.backNo}</h2>
+                            <h2>{matchingPlayer.position}</h2>
+                            <h2>{matchingPlayer.userId.name}</h2>
+                            <div>
+                                <input className="border-2" type="number" name="goal" defaultValue={0} onChange={(event) => onChangeAwayPlayerGoals(event, matchingPlayer)} />골
                             </div>
                             <div>
                                 <input className="border-2" type="number" name="assist"/>도움

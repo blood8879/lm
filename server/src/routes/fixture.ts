@@ -66,7 +66,7 @@ const getDetailFixtureById = async(req: Request, res: Response) => {
 
 // 경기결과 업데이트
 const registerResult = async(req: Request, res: Response) => {
-    const { fixtureId, isFinish, home_goals, away_goals } = req.body
+    const { fixtureId, isFinish, home_goals, away_goals, homeplayergoals, awayplayergoals } = req.body
     
     // await Fixture.findOneAndUpdate(
     //     { _id: fixtureId },
@@ -80,7 +80,9 @@ const registerResult = async(req: Request, res: Response) => {
     await Fixture.findByIdAndUpdate(fixtureId, {
         isFinish: isFinish,
         home_goals: home_goals,
-        away_goals: away_goals
+        away_goals: away_goals,
+        homePlayerGoals: homeplayergoals,
+        awayPlayerGoals: awayplayergoals
     }
     ).exec((err, fixture) => {
         if(err) res.status(400).send(err);
