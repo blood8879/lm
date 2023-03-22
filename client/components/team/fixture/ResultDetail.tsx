@@ -4,6 +4,7 @@ import { useSelector } from "../../../store";
 
 const ResultDetail: React.FC = () => {
     const matchInfo = useSelector((state) => state.fixture.detailResult);
+    const squad = useSelector((state) => state.squad.squad);
     // console.log("match===", match);
 
     return (
@@ -23,6 +24,40 @@ const ResultDetail: React.FC = () => {
                 <div className="w-[40%]">
                     {matchInfo.awayTeam.name}
                 </div>
+            </div>
+            <div>
+                <h2>득점(홈)</h2>
+                {Object.entries(matchInfo.homePlayerGoals).map(([playerId, goals]) => {
+                    const matchingPlayer = squad.find((p: any) => p.userId._id === playerId);
+                    if(matchingPlayer) {
+                        return (
+                            <div className="flex space-x-2">
+                                <h2>{matchingPlayer.backNo}</h2>
+                                <h2>{matchingPlayer.userId.name}</h2>
+                                <div>
+                                    <span>{Number(goals)}</span>골
+                                </div>
+                            </div>
+                        )
+                    }
+                })}
+            </div>
+            <div>
+                <h2>득점(어웨이)</h2>
+                {Object.entries(matchInfo.awayPlayerGoals).map(([playerId, goals]) => {
+                    const matchingPlayer = squad.find((p: any) => p.userId._id === playerId);
+                    if(matchingPlayer) {
+                        return (
+                            <div className="flex space-x-2">
+                                <h2>{matchingPlayer.backNo}</h2>
+                                <h2>{matchingPlayer.userId.name}</h2>
+                                <div>
+                                    <span>{Number(goals)}</span>골
+                                </div>
+                            </div>
+                        )
+                    }
+                })}
             </div>
         </>
     )
