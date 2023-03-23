@@ -5,6 +5,7 @@ import user from "../middlewares/user";
 import { stringify } from "querystring";
 import { objectToString } from "../api/utils";
 import { User } from "../models/User";
+import { Fixture } from "../models/Fixture";
 
 const registerPlayer = async(req: Request, res: Response) => {
     try {
@@ -41,7 +42,38 @@ const getPlayerById = async(req: Request, res: Response) => {
         if(err) res.status(400).send(err);
         res.status(200).send(player);
     });
-    
+}
+
+const getPlayerStatsByTeam = async(req: Request, res: Response) => {
+    const teamId = objectToString(req.params);
+    const { playerId } = req.query;
+
+    await Fixture.aggregate([
+        {
+            $match: {
+                $or: [
+                    { [`homePlayerGoals."${playerId}`]: { $exists: true } },
+                    { [`awayPlayerGoals."${playerId}`]: { $exists: true } }
+                ]
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                totalGoals: {
+                    $sum: {
+                        $add: [
+                            { $ifNull: [`$homePlayerGoals.${playerId}`, 0] },
+                            { $ifNull: [`$awayPlayerGoals.${playerId}`, 0] },
+                        ]
+                    }
+                }
+            }
+        }
+    ]).exec((err, goals) => {
+        if(err) res.status(400).send(err);
+        res.status(200).send(goals);
+    });
 }
 
 const router = Router();
