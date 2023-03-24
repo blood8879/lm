@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PlayerType } from "../../types/player";
-import { PlayerState } from "../../types/reduxState";
+import { PlayerState, PlayerStatState } from "../../types/reduxState";
 
 const initialState : PlayerState = {
     _id: "",
@@ -13,6 +13,10 @@ const initialState : PlayerState = {
     preferPosition: [],
     birth: null,
     isRegistered: false
+}
+
+const initialState2: PlayerStatState = {
+    detail: [],
 }
 
 const player = createSlice({

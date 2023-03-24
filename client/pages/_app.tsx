@@ -37,6 +37,7 @@ app.getInitialProps = wrapper.getInitialAppProps(store => async context => {
       
       // console.log(data);
       store.dispatch(userActions.setLoggedUser(data));
+      
     }
   } catch(e) {
     // 최초 서버 기동 시 invalidURL 에러가 올라오는 issue로 일단 주석 처리.

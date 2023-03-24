@@ -9,6 +9,7 @@ import team from "./team/teams";
 import player from "./player/players";
 import squad from "./squad/squad";
 import fixture from "./fixture/fixture";
+import stat from "./player/stat";
 
 const rootReducer = combineReducers({
     auth: auth.reducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     player: player.reducer,
     squad: squad.reducer,
     fixture: fixture.reducer,
+    stat: stat.reducer,
 });
 
 // 스토어 타입 설정

@@ -35,3 +35,8 @@ export type FixtureState = {
 export type PlayerState = PlayerType & {
     isRegistered: boolean;
 }
+
+// 선수 스탯 redux state
+export type PlayerStatState = {
+    detail: any[];
+}

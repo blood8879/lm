@@ -51,20 +51,48 @@ const getPlayerStatsByTeam = async(req: Request, res: Response) => {
     await Fixture.aggregate([
         {
             $match: {
-                $or: [
-                    { [`homePlayerGoals."${playerId}`]: { $exists: true } },
-                    { [`awayPlayerGoals."${playerId}`]: { $exists: true } }
-                ]
+                $and: [
+                    // {
+                    //     $or: [
+                    //         { homeTeam: teamId }, { awayTeam: teamId }, 
+                    //         { $and: [ {$or: [
+                    //             { [`homePlayerGoals.${playerId}`]: { $exists: true } },
+                    //             { [`awayPlayerGoals.${playerId}`]: { $exists: true } },
+                    //             { [`homePlayerAssists.${playerId}`]: { $exists: true } },
+                    //             { [`awayPlayerAssists.${playerId}`]: { $exists: true } },
+                    //         ]}]
+                    //         }
+                    //     ]
+                    // }
+                    {
+                        $or: [
+                            { homeTeam: teamId }, { awayTeam: teamId },
+                            { $and: [
+                                { $or: [
+                                    
+                                ]}
+                            ]}
+                        ]
+                    }
+                ],
             }
         },
         {
             $group: {
-                _id: null,
+                _id: playerId,
                 totalGoals: {
                     $sum: {
                         $add: [
                             { $ifNull: [`$homePlayerGoals.${playerId}`, 0] },
                             { $ifNull: [`$awayPlayerGoals.${playerId}`, 0] },
+                        ]
+                    }
+                },
+                totalAssists: {
+                    $sum: {
+                        $add: [
+                            { $ifNull: [`$homePlayerAssists.${playerId}`, 0] },
+                            { $ifNull: [`$awayPlayerAssists.${playerId}`, 0] },
                         ]
                     }
                 }
@@ -79,6 +107,7 @@ const getPlayerStatsByTeam = async(req: Request, res: Response) => {
 const router = Router();
 router.post("/registerPlayer", registerPlayer);
 router.get("/:id", getPlayerById);
+router.get("/:id/detail", getPlayerStatsByTeam);
 // router.post("/registerPlayer", user, auth, registerPlayer);
 
 export default router;
