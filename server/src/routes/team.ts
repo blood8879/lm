@@ -70,6 +70,7 @@ const getSquadbyTeam = async(req: Request, res: Response) => {
     // }
 }
 
+// 팀등록
 const registerTeam = async(req: Request, res: Response) => {
     const { name, emblem, description, published } = req.body;
 
@@ -90,6 +91,7 @@ const registerTeam = async(req: Request, res: Response) => {
     }
 }
 
+// 팀 가입신청
 const joinTeam = async(req: Request, res: Response) => {
     const squad = new Squad(req.body);
 
@@ -123,6 +125,7 @@ const emblemUpload = multer({
     }
 });
 
+// 팀 입단 승인
 const givePermissionToPlayer = async(req: Request, res: Response) => {
     const { id, backNo, confirmed } = req.body;
     // console.log("req.body===", req.body);
@@ -134,6 +137,11 @@ const givePermissionToPlayer = async(req: Request, res: Response) => {
         if(err) res.status(400).send(err);
         res.status(200).send(squad);
     })
+}
+
+// 경기장 등록
+const registerStadium = (req: Request, res: Response) => {
+    
 }
 
 const router = Router();

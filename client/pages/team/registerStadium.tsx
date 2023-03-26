@@ -1,12 +1,9 @@
 import { NextPage } from "next";
+import RegisterStadium from "../../components/team/RegisterStadium";
 
 
 const registerStadium: NextPage = () => {
-    return (
-        <div>
-            스타디움
-        </div>
-    )
+    return <RegisterStadium />
 
 }
 

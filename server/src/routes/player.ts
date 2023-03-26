@@ -53,63 +53,69 @@ const getPlayerStatsByTeam = async(req: Request, res: Response) => {
     await Fixture.aggregate([
         {
             $match: {
-                $or: [
-                    { homeTeam: mongoose.Types.ObjectId(teamId) }
-                    // { [`homePlayerGoals.${playerId}`]: { $exists: true } }
-                    // {
-                    //     $or: [
-                    //         { homeTeam: teamId }, { awayTeam: teamId }, 
-                    //         { $and: [ {$or: [
-                    //             { [`homePlayerGoals.${playerId}`]: { $exists: true } },
-                    //             { [`awayPlayerGoals.${playerId}`]: { $exists: true } },
-                    //             { [`homePlayerAssists.${playerId}`]: { $exists: true } },
-                    //             { [`awayPlayerAssists.${playerId}`]: { $exists: true } },
-                    //         ]}]
-                    //         }
-                    //     ]
-                    // }
-                    // {
-                    //     $or: [
-                    //         { homeTeam: teamId }, { awayTeam: teamId },
-                    //         { $and: [
-                    //             { $or: [
-                                    
-                    //             ]}
-                    //         ]}
-                    //     ]
-                    // }
-                    // {
-                    //     homeTeam: teamId 
-                    //     // [`homePlayerGoals.${playerId}`]: { $exists: true } ,
-                    // }
+                $and: [
+                    {
+                        $or: [
+                            { $and: [
+                                { homeTeam: mongoose.Types.ObjectId(teamId) },
+                                { [`homePlayerGoals.${playerId}`]: { $exists: true } }
+                            ]},
+                            { $and: [
+                                { homeTeam: mongoose.Types.ObjectId(teamId) },
+                                { [`homePlayerAssists.${playerId}`]: { $exists: true } }
+                            ]},
+                            { $and: [
+                                { awayTeam: mongoose.Types.ObjectId(teamId) },
+                                { [`awayPlayerGoals.${playerId}`]: { $exists: true } }
+                            ]},
+                            { $and: [
+                                { awayTeam: mongoose.Types.ObjectId(teamId) },
+                                { [`awayPlayerAssists.${playerId}`]: { $exists: true } }
+                            ]},
+                        ]
+                    }
                 ],
             }
         },
-        // {
-        //     $group: {
-        //         // _id: playerId,
-        //         _id: {
-        //             playerId: playerId,
-        //             teamId: teamId
-        //         },
-        //         totalGoals: {
-        //             $sum: {
-        //                 $add: [
-        //                     { $ifNull: [`$homePlayerGoals.${playerId}`, 0] },
-        //                     { $ifNull: [`$awayPlayerGoals.${playerId}`, 0] },
-        //                 ]
-        //             }
-        //         },
-        //         totalAssists: {
-        //             $sum: {
-        //                 $add: [
-        //                     { $ifNull: [`$homePlayerAssists.${playerId}`, 0] },
-        //                     { $ifNull: [`$awayPlayerAssists.${playerId}`, 0] },
-        //                 ]
-        //             }
-        //         }
-        //     }
-        // }
+        {
+            $group: {
+                // _id: playerId,
+                _id: {
+                    playerId: playerId,
+                    teamId: teamId
+                },
+                homeGoals: {
+                    $sum: {
+                        $add: [
+                            { $ifNull: [`$homePlayerGoals.${playerId}`, 0] },
+                        ]
+                    }
+                },
+                awayGoals: {
+                    $sum: {
+                        $add: [
+                            { $ifNull: [`$awayPlayerGoals.${playerId}`, 0]}
+                        ]
+                    }
+                },
+                totalGoals: {
+                    $sum: {
+                        $add: [
+                            { $ifNull: [`$homePlayerGoals.${playerId}`, 0] },
+                            { $ifNull: [`$awayPlayerGoals.${playerId}`, 0] },
+                        ]
+                    }
+                },
+                totalAssists: {
+                    $sum: {
+                        $add: [
+                            { $ifNull: [`$homePlayerAssists.${playerId}`, 0] },
+                            { $ifNull: [`$awayPlayerAssists.${playerId}`, 0] },
+                        ]
+                    }
+                }
+            }
+        }
     ]).exec((err, goals) => {
         console.log("gg=",goals)
         if(err) res.status(400).send(err);
