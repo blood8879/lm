@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react"
+import { registerStadiumAPI } from "../../lib/api/team";
 import { useSelector } from "../../store";
+import Button from "../common/Button";
 import Input from "../common/Input";
 
 const RegisterStadium: React.FC = () => {
@@ -17,12 +19,15 @@ const RegisterStadium: React.FC = () => {
     const onSumbitRegisterStadium = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        const teamName = team.detail?._id;
+        
         try {
             const registerStadiumBody = {
-                stadium
+                team: teamName,
+                name: stadium
             }
             console.log("registerStadiumBody===", registerStadiumBody);
-            // const { data } = await registerStadiumAPI(registerStadiumBody);
+            await registerStadiumAPI(registerStadiumBody);
             router.push(`/team/${team.detail?._id}`);
         } catch(e) {
             console.log(e);
@@ -35,6 +40,9 @@ const RegisterStadium: React.FC = () => {
             <form onSubmit={onSumbitRegisterStadium}>
                 <div>
                     <Input placeholder="경기장 이름을 입력해 주세요." type="text" value={stadium} onChange={onChangeStadiumName} />
+                </div>
+                <div>
+                    <Button type="submit">홈구장 등록</Button>
                 </div>
             </form>
         </div>

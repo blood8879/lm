@@ -43,3 +43,7 @@ export const givePermissionToPlayerAPI = (id: string, body: any) =>
         confirmed: body.confirmed,
         backNo: body.backNo
     });
+
+// 홈구장 등록 api
+export const registerStadiumAPI = (body: any) =>
+    axios.post("/api/team/registerStadium", body);

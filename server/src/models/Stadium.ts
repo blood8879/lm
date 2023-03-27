@@ -10,7 +10,7 @@ interface DBStadiumModel extends Model<DBStadium> {}
 const stadiumSchema = new Schema<DBStadium> ({
     team: { type: Schema.Types.ObjectId, ref: 'Team' },
     name: { type: String }
-});
+}, { collection: 'stadium' });
 
 const Stadium = model<DBStadium, DBStadiumModel>('Stadium', stadiumSchema);
 
