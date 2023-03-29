@@ -10,7 +10,6 @@ const registerFixture = async(req: Request, res: Response) => {
         // 프론트 단에서 콘솔 찍을 시 GMT+9 되는것 방지하기 위해 처리할 경우 아래와 같이 처리하는 방법1.
         // 현재는 timeZone을 이용하여 back단에서 조절할 필요 없도록 코드 수정해 놓았음.
         // fixture.matchDay = new Date(fixture.matchDay);
-
         // fixture.matchDay.setHours(fixture.matchDay.getHours()+9);
 
         fixture.save((err, doc) => {
@@ -66,7 +65,7 @@ const getDetailFixtureById = async(req: Request, res: Response) => {
 
 // 경기결과 업데이트
 const registerResult = async(req: Request, res: Response) => {
-    const { fixtureId, isFinish, home_goals, away_goals, homeplayergoals, awayplayergoals } = req.body
+    const { fixtureId, isFinish, home_goals, away_goals, homeplayergoals, awayplayergoals, homeplayerassists, awayplayerassists } = req.body
     
     // await Fixture.findOneAndUpdate(
     //     { _id: fixtureId },
@@ -82,7 +81,9 @@ const registerResult = async(req: Request, res: Response) => {
         home_goals: home_goals,
         away_goals: away_goals,
         homePlayerGoals: homeplayergoals,
-        awayPlayerGoals: awayplayergoals
+        awayPlayerGoals: awayplayergoals,
+        homePlayerAssists: homeplayerassists,
+        awayPlayerAssists: awayplayerassists
     }
     ).exec((err, fixture) => {
         if(err) res.status(400).send(err);

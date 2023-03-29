@@ -47,3 +47,7 @@ export const givePermissionToPlayerAPI = (id: string, body: any) =>
 // 홈구장 등록 api
 export const registerStadiumAPI = (body: any) =>
     axios.post("/api/team/registerStadium", body);
+
+// 홈구장 가져오기 api
+export const getStadiumAPI = (id: any) =>
+    axios.get(`/api/team/${id}/getStadium`, id);

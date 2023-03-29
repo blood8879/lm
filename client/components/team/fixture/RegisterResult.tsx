@@ -14,15 +14,8 @@ const RegisterResult: React.FC = () => {
     const [awayScore, setAwayScore] = useState<number>(0);
     const [homePlayerGoals, setHomePlayerGoals] = useState<{ [key: string]: number }>({});
     const [awayPlayerGoals, setAwayPlayerGoals] = useState<{ [key: string]: number }>({});
-    
-
-    const onChangeHomeScore = (event: any) => {
-        setHomeScore(event.target.value);
-    }
-
-    const onChangeAwayScore = (event: any) => {
-        setAwayScore(event.target.value);
-    }
+    const [homePlayerAssists, setHomePlayerAssists] = useState<{ [key: string]: number}>({});
+    const [awayPlayerAssists, setAwayPlayerAssists] = useState<{ [key: string]: number}>({});
 
     const onChangeHomePlayerGoals = (event: any, matchingPlayer: any) => {
         const newGoalValue = Number(event.target.value);
@@ -45,7 +38,21 @@ const RegisterResult: React.FC = () => {
         });
         setAwayScore(newAwayScore);
     }
+
+    const onChangeHomePlayerAssists = (event: any, matchingPlayer: any) => {
+        const newAssistValue = Number(event.target.value);
+        setHomePlayerAssists({
+            [matchingPlayer.userId._id]: newAssistValue,
+        })
+    }
     
+    const onChangeAwayPlayerAssists = (event: any, matchingPlayer: any) => {
+        const newAssistValue = Number(event.target.value);
+        setAwayPlayerAssists({
+            [matchingPlayer.userId._id]: newAssistValue,
+        })
+    }
+
     const onSubmitMatchResult = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -56,7 +63,9 @@ const RegisterResult: React.FC = () => {
                 home_goals: Number(homeScore),
                 away_goals: Number(awayScore),
                 homeplayergoals: homePlayerGoals,
-                awayplayergoals: awayPlayerGoals
+                awayplayergoals: awayPlayerGoals,
+                homeplayerassists: homePlayerAssists,
+                awayplayerassists: awayPlayerAssists,
             }
             
             console.log("registerResultBody===", registerResultBody);
@@ -97,7 +106,7 @@ const RegisterResult: React.FC = () => {
                                 <input className="border-2" type="number" name="goal" defaultValue={0} onChange={(event) => onChangeHomePlayerGoals(event, matchingPlayer)} />골
                             </div>
                             <div>
-                                <input className="border-2" type="number" name="assist"/>도움
+                                <input className="border-2" type="number" name="assist" defaultValue={0} onChange={(event) => onChangeHomePlayerAssists(event, matchingPlayer)} />도움
                             </div>
                         </div>
                     )
@@ -118,7 +127,7 @@ const RegisterResult: React.FC = () => {
                                 <input className="border-2" type="number" name="goal" defaultValue={0} onChange={(event) => onChangeAwayPlayerGoals(event, matchingPlayer)} />골
                             </div>
                             <div>
-                                <input className="border-2" type="number" name="assist"/>도움
+                                <input className="border-2" type="number" name="assist" defaultValue={0} onChange={(event) => onChangeAwayPlayerAssists(event, matchingPlayer)} />도움
                             </div>
                         </div>
                     )

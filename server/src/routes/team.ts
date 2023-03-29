@@ -156,6 +156,21 @@ const registerStadium = (req: Request, res: Response) => {
     }
 }
 
+// 경기장 목록 가져오기
+const getStadium = async(req: Request, res: Response) => {
+    const teamId = objectToString(req.params);
+
+    try {
+        await Stadium.find({ team: teamId })
+            .exec((err, stadium) => {
+                if(err) return res.status(400).send(err);
+                res.status(200).send(stadium);
+            })
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 const router = Router();
 router.get("/", getTeamLists);
 router.get("/:id", getTeambyId);
@@ -165,5 +180,6 @@ router.post("/registerTeam/emblemUpload", user, auth, emblemUpload.single('file'
 router.post("/:id/join", joinTeam);
 router.put("/updatePermissions", givePermissionToPlayer);
 router.post("/registerStadium", registerStadium);
+router.get("/:id/getStadium", getStadium);
 
 export default router;

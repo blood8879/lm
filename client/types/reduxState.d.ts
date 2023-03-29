@@ -16,6 +16,7 @@ export type CommonState = {
 export type TeamState = {
     teams: TeamType[];
     detail: TeamType | null;
+    stadium: any[];
 }
 
 // 선수목록 redux state

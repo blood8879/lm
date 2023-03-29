@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { registerFixtureAPI } from "../../../lib/api/fixture";
 import { useSelector } from "../../../store";
 import Button from "../../common/Button";
@@ -8,6 +8,7 @@ import Input from "../../common/Input";
 import Selector from "../../common/Selector";
 import moment from "moment";
 import SearchBar from "../../common/SearchBar";
+import { getStadiumAPI } from "../../../lib/api/team";
 
 const HomeAway = [
     "Home",
@@ -27,14 +28,13 @@ const RegisterFixture: React.FC = () => {
     const [matchDay, setMatchDay] = useState<Date | null>(null);
     const [opponent, setOpponent] = useState("");
     const [homeAway, setHomeAway] = useState("Home");
-    const [venue, setVenue] = useState("해누리체육공원");
+    const [venue, setVenue] = useState("");
     const [homeTeam, setHomeTeam] = useState(team.detail?._id);
     const [awayTeam, setAwayTeam] = useState<string|undefined>("");
     const [competition, setCompetition] = useState(null);
     const [round, setRound] = useState(null);
     const [searchType, setSearchType] = useState("팀명");
-
-    
+    const [venueList, setVenueList] = useState<any>([]);
 
     const onChangeMatchDay = (date: Date | null) => {
         const matchDate = date ? new Date(date) : null;
@@ -105,6 +105,20 @@ const RegisterFixture: React.FC = () => {
         }
     };
 
+    const getStadia = async(value: any) => {
+        const teamId = team.detail?._id;
+
+        try {
+            await getStadiumAPI(teamId);
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        getStadia(team.detail?._id);
+    },[])
+
     return (
         <div>
             <h2>경기 일정 등록</h2>
@@ -118,13 +132,13 @@ const RegisterFixture: React.FC = () => {
                         dateFormat="yyyy/MM/dd hh:mm a"
                     />
                 </div>
-                <h2>홈/어웨이 여부를 선택해 주세요.</h2>
+                {/* <h2>홈/어웨이 여부를 선택해 주세요.</h2>
                 <div>
                     <Selector 
                         options={HomeAway}
                         onChange={onChangeHomeAway}
                     />
-                </div>
+                </div> */}
                 {homeAway === "Home" ? (
                     <>
                     <h2>상대팀을 알려주세요.</h2>
@@ -141,7 +155,7 @@ const RegisterFixture: React.FC = () => {
                     </div>
                     <h2>구장을 선택해 주세요.</h2>
                     <div>
-                        <h1>해누리체육공원</h1>
+                        {/* <h1>해누리체육공원</h1> */}
                         {/* <Selector 
                             options={}
                             onChange={}
