@@ -105,13 +105,16 @@ const RegisterFixture: React.FC = () => {
         }
     };
 
-    const getStadia = async(value: any) => {
-        const teamId = team.detail?._id;
+    const onChangeVenue = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setVenue(event.target.value);
+    }
 
-        try {
-            await getStadiumAPI(teamId);
-        } catch(e) {
-            console.log(e);
+    const getStadia = async(value: any) => {
+        setVenueList([]);
+        if(team.stadium.length > 0) {
+            for(let i=0; i< team.stadium.length; i++) {
+                setVenueList((venue: any) => [...venue, team.stadium[i]['name']])
+            }
         }
     }
 
@@ -153,14 +156,28 @@ const RegisterFixture: React.FC = () => {
                         )}
                         {/* <Input type="text" name="opponentTeam" value={awayTeam} onChange={onChangeOpponent} /> */}
                     </div>
-                    <h2>구장을 선택해 주세요.</h2>
-                    <div>
-                        {/* <h1>해누리체육공원</h1> */}
-                        {/* <Selector 
-                            options={}
-                            onChange={}
-                        /> */}
-                    </div>
+                    {team.stadium.length>0 ? (
+                        <>
+                        <h2>구장을 선택해 주세요.</h2>
+                        <div>
+                            {/* <h1>해누리체육공원</h1> */}
+                            <Selector 
+                                options={venueList}
+                                onChange={onChangeVenue}
+                            />
+                        </div>
+                        <div>
+                            <Button type="submit">등록</Button>
+                        </div>
+                        </>
+                    ) : (
+                        <>
+                        <h2>구장을 우선 등록해 주세요.</h2>
+                        <div>
+                            <Button type="submit" disabled>등록</Button>
+                        </div>
+                        </>
+                    )}
                     </>
                 ) : (
                     <>
@@ -176,19 +193,11 @@ const RegisterFixture: React.FC = () => {
                         )}
                         {/* <Input type="text" name="opponentTeam" value={homeTeam} onChange={onChangeOpponent} /> */}
                     </div>
-                    {/* <h2>구장을 선택해 주세요.</h2>
-                    <div>
-                        <h1>해누리체육공원</h1>
-                        <Selector 
-                            options={}
-                            onChange={}
-                        />
-                    </div> */}
                     </>
                 )}
-                <div>
+                {/* <div>
                     <Button type="submit">등록</Button>
-                </div>
+                </div> */}
             </form>
             <div>
                 <Button onClick={onCancel}>취소</Button>

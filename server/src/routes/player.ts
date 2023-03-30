@@ -46,6 +46,7 @@ const getPlayerById = async(req: Request, res: Response) => {
     });
 }
 
+// 선수 상세페이지(출전기록/골/어시)
 const getPlayerStatsByTeam = async(req: Request, res: Response) => {
     const teamId = objectToString(req.params);
     const { playerId } = req.query;
@@ -72,6 +73,14 @@ const getPlayerStatsByTeam = async(req: Request, res: Response) => {
                                 { awayTeam: mongoose.Types.ObjectId(teamId) },
                                 { [`awayPlayerAssists.${playerId}`]: { $exists: true } }
                             ]},
+                            { $and: [
+                                { homeTeam: mongoose.Types.ObjectId(teamId) },
+                                { homeSquad: mongoose.Types.ObjectId(playerId)}
+                            ]},
+                            { $and: [
+                                { awayTeam: mongoose.Types.ObjectId(teamId) },
+                                { awaySquad: mongoose.Types.ObjectId(playerId)}
+                            ]},
                         ]
                     }
                 ],
@@ -84,6 +93,13 @@ const getPlayerStatsByTeam = async(req: Request, res: Response) => {
                     playerId: playerId,
                     teamId: teamId
                 },
+                // totalCaps: {
+                //     $sum: {
+                //         $add: [
+                //             { $ifNull: [`$homeSquad.${playerId}`, 0] },
+                //         ]
+                //     }
+                // },
                 homeGoals: {
                     $sum: {
                         $add: [
@@ -95,6 +111,20 @@ const getPlayerStatsByTeam = async(req: Request, res: Response) => {
                     $sum: {
                         $add: [
                             { $ifNull: [`$awayPlayerGoals.${playerId}`, 0]}
+                        ]
+                    }
+                },
+                homeAssists: {
+                    $sum: {
+                        $add: [
+                            { $ifNull: [`$homePlayerAssists.${playerId}`, 0] },
+                        ]
+                    }
+                },
+                awayAssists: {
+                    $sum: {
+                        $add: [
+                            { $ifNull: [`$awayPlayerAssists.${playerId}`, 0]}
                         ]
                     }
                 },
