@@ -14,6 +14,7 @@ const squad = createSlice({
             state.squad = action.payload;
         },
         setToApprovePermissions(state, action: PayloadAction<SquadType[]>) {
+            console.log("payload===", action.payload);
             const updatedSquad = action.payload.map(player => {
                 if(player.confirmed) {
                     return player;
@@ -21,7 +22,7 @@ const squad = createSlice({
                     return {
                         ...player,
                         confirmed: true,
-                        backNo: action.payload
+                        backNo: player.backNo
                     };
                 }
             });

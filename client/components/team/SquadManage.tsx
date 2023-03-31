@@ -7,26 +7,61 @@ import squad, { squadActions } from "../../store/squad/squad";
 import Button from "../common/Button";
 import Input from "../common/Input";
 
+interface BackNoState {
+    id: string;
+    backNo: number;
+}
+
 const SquadManage: React.FC = () => {
     const squads = useSelector((state) => state.squad.squad);
     const dispatch = useDispatch();
     const [backNo, setBackNo] = useState<number>(0);
+    const [backNos, setBackNos] = useState<BackNoState[]>([]);
 
     const approvedSquad = squads.filter((squad) => squad.confirmed === true);
     const unApprovedSquad = squads.filter((squad) => squad.confirmed === false);
 
-    const onChangeBackNo = (event: any) => {
-        setBackNo(Number(event.target.value));
+    // const approvedSquad = Object.values(squads).filter((squad) => squad.confirmed === true);
+    // const unApprovedSquad = Object.values(squads).filter((squad) => squad.confirmed === false);
+
+    // const onChangeBackNo = (event: any) => {
+    //     setBackNo(Number(event.target.value));
+    // }
+
+    const onChangeBackNo = (event: any, id: string) => {
+        const value = Number(event.target.value);
+        setBackNos((prevBackNos) => {
+            console.log("prevBackNos111===", prevBackNos)
+            const index = prevBackNos.findIndex((backNo) => backNo.id === id);
+            if(index === -1) {
+                return [...prevBackNos, { id, backNo: value }];
+            } else {
+                return [
+                    ...prevBackNos.slice(0, index),
+                    { id, backNo: value },
+                    ...prevBackNos.slice(index+1),
+                ]
+            }
+        })
+
+        console.log("prevBackNos222===", backNos);
+        // setBackNo(Number(event.target.value));
     }
 
     const onSubmitPlayerApprove = async (id: string) => {
+        const backNoObj = backNos.find((backNo) => backNo.id === id);
+        
+        if(!backNoObj) {
+            return;
+        }
+
         const updatedSquad = unApprovedSquad.map((squad) => {
             if(squad._id === id) {
                 return {
                     _id: squad._id,
                     teamId: squad.teamId,
                     userId: squad.userId,
-                    backNo: backNo,
+                    backNo: backNoObj.backNo,
                     position: squad.position,
                     confirmed: true
                 }
@@ -36,7 +71,7 @@ const SquadManage: React.FC = () => {
         console.log("updatedSquad===", updatedSquad);
 
         const dispatchJoinTeamBody = {
-            backNo: backNo,
+            backNo: backNoObj.backNo,
             confirmed: true
         }
 
@@ -47,6 +82,35 @@ const SquadManage: React.FC = () => {
         
         await Promise.all(promises);
     }
+
+    // const onSubmitPlayerApprove = async (id: string) => {
+    //     const updatedSquad = unApprovedSquad.map((squad) => {
+    //         if(squad._id === id) {
+    //             return {
+    //                 _id: squad._id,
+    //                 teamId: squad.teamId,
+    //                 userId: squad.userId,
+    //                 backNo: backNo,
+    //                 position: squad.position,
+    //                 confirmed: true
+    //             }
+    //         }
+    //         return squad;
+    //     });
+    //     console.log("updatedSquad===", updatedSquad);
+
+    //     const dispatchJoinTeamBody = {
+    //         backNo: backNo,
+    //         confirmed: true
+    //     }
+
+    //     const promises = [
+    //         givePermissionToPlayerAPI(id, dispatchJoinTeamBody),
+    //         dispatch(squadActions.setToApprovePermissions(updatedSquad))
+    //     ];
+        
+    //     await Promise.all(promises);
+    // }
 
     const onSubmitPlayerReject = () => {
         console.log("Rejected");
@@ -70,7 +134,7 @@ const SquadManage: React.FC = () => {
             ))}
             <div>가입대기</div>
             {unApprovedSquad.map((squad: any, index) => (
-                <ul>
+                <ul key={squad._id}>
                     <li>
                         <Link href={`/`}>
                             <div>
@@ -79,7 +143,8 @@ const SquadManage: React.FC = () => {
                                 {/* 선호등번호: {squad.backNo} */}
                             </div>
                         </Link>
-                        <Input type="number" value={backNo} onChange={onChangeBackNo} />
+                        {/* <Input type="number" value={backNo} onChange={onChangeBackNo} /> */}
+                        <Input type="number" value={backNos.find((backNo) => backNo.id === squad._id)?.backNo || 0} onChange={(event) => onChangeBackNo(event, squad._id)} />
                         <Button onClick={() => onSubmitPlayerApprove(squad._id)}>
                             승인
                         </Button>
