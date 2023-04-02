@@ -31,7 +31,7 @@ const SquadManage: React.FC = () => {
     const onChangeBackNo = (event: any, id: string) => {
         const value = Number(event.target.value);
         setBackNos((prevBackNos) => {
-            console.log("prevBackNos111===", prevBackNos)
+            // console.log("prevBackNos111===", prevBackNos)
             const index = prevBackNos.findIndex((backNo) => backNo.id === id);
             if(index === -1) {
                 return [...prevBackNos, { id, backNo: value }];
@@ -44,7 +44,7 @@ const SquadManage: React.FC = () => {
             }
         })
 
-        console.log("prevBackNos222===", backNos);
+        // console.log("prevBackNos222===", backNos);
         // setBackNo(Number(event.target.value));
     }
 
@@ -55,7 +55,9 @@ const SquadManage: React.FC = () => {
             return;
         }
 
-        const updatedSquad = unApprovedSquad.map((squad) => {
+        const updateItem = unApprovedSquad.find((squad) => squad._id === id);
+        
+        const updatedSquad = squads.map((squad: any) => {
             if(squad._id === id) {
                 return {
                     _id: squad._id,
@@ -69,6 +71,7 @@ const SquadManage: React.FC = () => {
             return squad;
         });
         console.log("updatedSquad===", updatedSquad);
+        // console.log("updatedSquad===", updateItem);
 
         const dispatchJoinTeamBody = {
             backNo: backNoObj.backNo,
@@ -76,8 +79,9 @@ const SquadManage: React.FC = () => {
         }
 
         const promises = [
-            givePermissionToPlayerAPI(id, dispatchJoinTeamBody),
+            // givePermissionToPlayerAPI(id, dispatchJoinTeamBody),
             dispatch(squadActions.setToApprovePermissions(updatedSquad))
+            // dispatch(squadActions.setToApprovePermissions(updateItem))
         ];
         
         await Promise.all(promises);
