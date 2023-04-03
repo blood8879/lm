@@ -14,8 +14,12 @@ interface DBFixture {
     awaySquad: Types.ObjectId[];
     homeAbsent: Types.ObjectId[];
     awayAbsent: Types.ObjectId[];
-    homePlayerGoals: { goals: { [playerId: string]: number }, assists: { [playerId: string]: number } },
-    awayPlayerGoals: { goals: { [playerId: string]: number }, assists: { [playerId: string]: number } }
+    homePlayerGoals: { [playerId: string]: number },
+    awayPlayerGoals: { [playerId: string]: number },
+    homePlayerAssists: { [playerId: string]: number },
+    awayPlayerAssists: { [playerId: string]: number }
+    // homePlayerGoals: { goals: { [playerId: string]: number }, assists: { [playerId: string]: number } },
+    // awayPlayerGoals: { goals: { [playerId: string]: number }, assists: { [playerId: string]: number } },
 }
 
 interface DBFixtureModel extends Model<DBFixture> {}
@@ -34,20 +38,33 @@ const fixtureSchema = new Schema<DBFixture> ({
     awaySquad: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
     homeAbsent: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
     awayAbsent: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
+    // 플레이어 골-어시를 현재 통합이 아닌 골별로 기록하기 위해 수정해야함
+    // homePlayerGoals: {
+    //     goals: {
+    //         type: Map,
+    //         of: Number
+    //     },
+    //     assists: {
+    //         type: Map,
+    //         of: Number
+    //     }
+    // },
     homePlayerGoals: {
-        goals: {
-            type: Map,
-            of: Number
-        },
-        assists: {
-            type: Map,
-            of: Number
-        }
+        type: Map,
+        of: Number
     },
     awayPlayerGoals: {
         type: Map,
         of: Number
     },
+    homePlayerAssists: {
+        type: Map,
+        of: Number
+    },
+    awayPlayerAssists: {
+        type: Map,
+        of: Number
+    }
 });
 
 const Fixture = model<DBFixture, DBFixtureModel>('Fixture', fixtureSchema);

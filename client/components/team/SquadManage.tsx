@@ -54,8 +54,6 @@ const SquadManage: React.FC = () => {
         if(!backNoObj) {
             return;
         }
-
-        const updateItem = unApprovedSquad.find((squad) => squad._id === id);
         
         const updatedSquad = squads.map((squad: any) => {
             if(squad._id === id) {
@@ -79,42 +77,12 @@ const SquadManage: React.FC = () => {
         }
 
         const promises = [
-            // givePermissionToPlayerAPI(id, dispatchJoinTeamBody),
+            givePermissionToPlayerAPI(id, dispatchJoinTeamBody),
             dispatch(squadActions.setToApprovePermissions(updatedSquad))
-            // dispatch(squadActions.setToApprovePermissions(updateItem))
         ];
         
         await Promise.all(promises);
     }
-
-    // const onSubmitPlayerApprove = async (id: string) => {
-    //     const updatedSquad = unApprovedSquad.map((squad) => {
-    //         if(squad._id === id) {
-    //             return {
-    //                 _id: squad._id,
-    //                 teamId: squad.teamId,
-    //                 userId: squad.userId,
-    //                 backNo: backNo,
-    //                 position: squad.position,
-    //                 confirmed: true
-    //             }
-    //         }
-    //         return squad;
-    //     });
-    //     console.log("updatedSquad===", updatedSquad);
-
-    //     const dispatchJoinTeamBody = {
-    //         backNo: backNo,
-    //         confirmed: true
-    //     }
-
-    //     const promises = [
-    //         givePermissionToPlayerAPI(id, dispatchJoinTeamBody),
-    //         dispatch(squadActions.setToApprovePermissions(updatedSquad))
-    //     ];
-        
-    //     await Promise.all(promises);
-    // }
 
     const onSubmitPlayerReject = () => {
         console.log("Rejected");

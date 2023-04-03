@@ -5,6 +5,11 @@ import { useSelector } from "../../../store";
 import Button from "../../common/Button";
 import Input from "../../common/Input";
 
+interface PlayerGoals {
+    goals: { [key: string]: number };
+    assists: { [key: string]: number };
+}
+
 const RegisterResult: React.FC = () => {
     const router = useRouter();
     const matchInfo = useSelector((state) => state.fixture.detailFixture);
@@ -13,6 +18,7 @@ const RegisterResult: React.FC = () => {
     const [homeScore, setHomeScore] = useState<number>(0);
     const [awayScore, setAwayScore] = useState<number>(0);
     const [homePlayerGoals, setHomePlayerGoals] = useState<{ [key: string]: number }>({});
+    // const [homePlayerGoals, setHomePlayerGoals] = useState<PlayerGoals>({goals:{}, assists: {}});
     const [awayPlayerGoals, setAwayPlayerGoals] = useState<{ [key: string]: number }>({});
     const [homePlayerAssists, setHomePlayerAssists] = useState<{ [key: string]: number}>({});
     const [awayPlayerAssists, setAwayPlayerAssists] = useState<{ [key: string]: number}>({});
@@ -69,7 +75,7 @@ const RegisterResult: React.FC = () => {
             }
             
             console.log("registerResultBody===", registerResultBody);
-            await registerResultAPI(registerResultBody);
+            // await registerResultAPI(registerResultBody);
             router.push("/");
         } catch(e) {
             console.log(e);
