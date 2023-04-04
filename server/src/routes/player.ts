@@ -93,13 +93,9 @@ const getPlayerStatsByTeam = async(req: Request, res: Response) => {
                     playerId: playerId,
                     teamId: teamId
                 },
-                // totalCaps: {
-                //     $sum: {
-                //         $add: [
-                //             { $ifNull: [`$homeSquad.${playerId}`, 0] },
-                //         ]
-                //     }
-                // },
+                totalCaps: {
+                    $sum : 1
+                },
                 homeGoals: {
                     $sum: {
                         $add: [
@@ -146,10 +142,10 @@ const getPlayerStatsByTeam = async(req: Request, res: Response) => {
                 }
             }
         }
-    ]).exec((err, goals) => {
-        console.log("gg=",goals)
+    ]).exec((err, stats) => {
+        // console.log("gg=",goals)
         if(err) res.status(400).send(err);
-        res.status(200).send(goals);
+        res.status(200).send(stats);
     });
 }
 

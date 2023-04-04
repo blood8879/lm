@@ -75,7 +75,7 @@ const RegisterResult: React.FC = () => {
             }
             
             console.log("registerResultBody===", registerResultBody);
-            // await registerResultAPI(registerResultBody);
+            await registerResultAPI(registerResultBody);
             router.push("/");
         } catch(e) {
             console.log(e);

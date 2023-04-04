@@ -24,11 +24,12 @@ const RegisterFixture: React.FC = () => {
     const router = useRouter();
 
     const team = useSelector((state) => state.team);
+    const stadium = useSelector((state) => state.team.stadium);
 
     const [matchDay, setMatchDay] = useState<Date | null>(null);
     const [opponent, setOpponent] = useState("");
     const [homeAway, setHomeAway] = useState("Home");
-    const [venue, setVenue] = useState("");
+    const [venue, setVenue] = useState(stadium[0].name);
     const [homeTeam, setHomeTeam] = useState(team.detail?._id);
     const [awayTeam, setAwayTeam] = useState<string|undefined>("");
     const [competition, setCompetition] = useState(null);

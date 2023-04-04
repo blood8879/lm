@@ -13,7 +13,11 @@ const TeamSquad: React.FC = () => {
             {squads.length > 0 ? squads.map((squad:any) => (
                 <div key={squad._id}>
                     <ul>
-                        <Link href={`/team/${team?._id}/squad/${squad.userId._id}`}><li>{squad.userId['name']}</li></Link>
+                        {/* <Link href={`/team/${team?._id}/squad/${squad.userId._id}`}><li>{squad.userId['name']}</li></Link> */}
+                        <Link href={{
+                            pathname: `/team/${team?._id}/squad/${squad.userId._id}`,
+                            query: { userId: squad.userId._id }
+                        }}><li>{squad.userId['name']}</li></Link>
                     </ul>
                     {/* <h2 className="center flex">{squad.userId['name']}</h2> */}
                 </div>
