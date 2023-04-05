@@ -171,6 +171,10 @@ const getStadium = async(req: Request, res: Response) => {
     }
 }
 
+const getPlayerStats = async(req: Request, res: Response) => {
+    const teamId = objectToString(req.params);
+}
+
 const router = Router();
 router.get("/", getTeamLists);
 router.get("/:id", getTeambyId);
