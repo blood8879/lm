@@ -12,12 +12,17 @@ const TeamSquad: React.FC = () => {
         <TeamDetail>
             {squads.length > 0 ? squads.map((squad:any) => (
                 <div key={squad._id}>
-                    <ul>
+                    <ul className="float-left">
                         {/* <Link href={`/team/${team?._id}/squad/${squad.userId._id}`}><li>{squad.userId['name']}</li></Link> */}
                         <Link href={{
                             pathname: `/team/${team?._id}/squad/${squad.userId._id}`,
                             query: { userId: squad.userId._id }
-                        }}><li>{squad.userId['name']}</li></Link>
+                        }}>
+                            <li>{squad.userId['name']}</li>
+                            <li>출장:</li>
+                            <li>골:</li>
+                            <li>도움:</li>
+                        </Link>
                     </ul>
                     {/* <h2 className="center flex">{squad.userId['name']}</h2> */}
                 </div>

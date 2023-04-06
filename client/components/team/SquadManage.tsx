@@ -69,12 +69,14 @@ const SquadManage: React.FC = () => {
             return squad;
         });
         console.log("updatedSquad===", updatedSquad);
-        // console.log("updatedSquad===", updateItem);
+        
 
         const dispatchJoinTeamBody = {
             backNo: backNoObj.backNo,
             confirmed: true
         }
+
+        console.log("dispatchJoinTeamBody===", dispatchJoinTeamBody);
 
         const promises = [
             givePermissionToPlayerAPI(id, dispatchJoinTeamBody),

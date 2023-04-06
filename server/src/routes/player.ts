@@ -75,11 +75,13 @@ const getPlayerStatsByTeam = async(req: Request, res: Response) => {
                             ]},
                             { $and: [
                                 { homeTeam: mongoose.Types.ObjectId(teamId) },
-                                { homeSquad: mongoose.Types.ObjectId(playerId)}
+                                { homeSquad: mongoose.Types.ObjectId(playerId) },
+                                { isFinish: true }
                             ]},
                             { $and: [
                                 { awayTeam: mongoose.Types.ObjectId(teamId) },
-                                { awaySquad: mongoose.Types.ObjectId(playerId)}
+                                { awaySquad: mongoose.Types.ObjectId(playerId) },
+                                { isFinish: true }
                             ]},
                         ]
                     }
