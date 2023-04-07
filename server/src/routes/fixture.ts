@@ -40,7 +40,7 @@ const getFixtureByTeamId = async(req: Request, res: Response) => {
     } else {
         await Fixture.find({ $or: [{ homeTeam: teamId }, { awayTeam: teamId }], $and: [{ isFinish: true }]})
         .populate('homeTeam').populate('awayTeam')
-        .sort({ "matchDay": 1 })
+        .sort({ "matchDay": -1 })
         .exec((err, fixture) => {
             if(err) res.status(400).send(err);
             res.status(200).send(fixture);
