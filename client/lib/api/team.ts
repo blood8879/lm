@@ -51,3 +51,7 @@ export const registerStadiumAPI = (body: any) =>
 // 홈구장 가져오기 api
 export const getStadiumAPI = (id: any) =>
     axios.get(`/api/team/${id}/getStadium`, id);
+
+// 선수단스탯 가져오기 api
+export const getStatsAPI = (id: any) =>
+    axios.get(`/api/team/${id}/stats`, id);

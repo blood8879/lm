@@ -5,7 +5,8 @@ import { TeamType } from "../../types/team";
 const initialState: TeamState = {
     teams: [],
     detail: null,
-    stadium: []
+    stadium: [],
+    stats: []
 }
 
 const team = createSlice({
@@ -20,6 +21,9 @@ const team = createSlice({
         },
         setStadium(state, action: PayloadAction<any>) {
             state.stadium = action.payload;
+        },
+        setPlayersStats(state, action:  PayloadAction<any>) {
+            state.stats = action.payload;
         }
     },
 });

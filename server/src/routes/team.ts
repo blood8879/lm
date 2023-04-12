@@ -7,6 +7,10 @@ import { stringify } from "querystring";
 import { objectToString } from "../api/utils";
 import { Squad } from "../models/Squad";
 import { Stadium } from "../models/Stadium";
+import { Fixture } from "../models/Fixture";
+
+
+const mongoose = require('mongoose');
 
 // server단에서 multer를 이용한 이미지 업로드와 client 단에서 register request보낼 때 Date.now() 시간 차이가 발생하여 
 // db적재시 시간 통일을 위한 가변수 설정.
@@ -171,8 +175,84 @@ const getStadium = async(req: Request, res: Response) => {
     }
 }
 
+// 팀원 출장정보, 골, 어시 가져오기
 const getPlayerStats = async(req: Request, res: Response) => {
     const teamId = objectToString(req.params);
+
+    await Fixture.aggregate([
+        {
+            $match: {
+                $or: [
+                    { $and: [
+                        { homeTeam: mongoose.Types.ObjectId(teamId) },
+                        { homeSquad: { $exists: true, $not: { $size: 0 } } }
+                    ]},
+                    { $and: [
+                        { awayTeam: mongoose.Types.ObjectId(teamId) },
+                        { awaySquad: { $exists: true, $not: { $size: 0 } } }
+                    ]}
+                ]
+            }
+        },
+        // 홈팀일 경우 homeSquad를 teamSquad필드에 할당, 반대일 경우 awaySquad필드에 할당 , $cond == if문
+        {
+            $addFields: {
+                teamSquad: {
+                    $cond: {
+                        if: { $eq: [ "$homeTeam", mongoose.Types.ObjectId(teamId) ] },
+                        then: "$homeSquad",
+                        else: "$awaySquad"
+                    }
+                }
+            }
+        },
+        {
+            $addFields: {
+                playerGoals: {
+                    $objectToArray: {
+                        $cond: {
+                            if: { $eq: [ "$homeTeam", mongoose.Types.ObjectId(teamId) ] },
+                            then: "$homePlayerGoals",
+                            else: "$awayPlayerGoals"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $addFields: {
+                playerAssists: {
+                    $objectToArray: {
+                        $cond: {
+                            if: { $eq: [ "$homeTeam", mongoose.Types.ObjectId(teamId) ] },
+                            then: "$homePlayerAssists",
+                            else: "$awayPlayerAssists"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            // 두개 이상의 배열을 $unwind할 경우 $count, $sum 집계시 문제가 생겨 그룹별로 $unwind하기 위해 $facet 함수 사용.
+            $facet: {
+                "totalCaps": [
+                    { $unwind: "$teamSquad" },
+                    { $group: { _id: "$teamSquad", totalCaps: { $sum: 1 } } }
+                ],
+                "totalGoals": [
+                    { $unwind: "$playerGoals" },
+                    { $group: { _id: "$playerGoals.k", totalGoals: { $sum: "$playerGoals.v" } } }
+                ],
+                "totalAssists": [
+                    { $unwind: "$playerAssists" },
+                    { $group: { _id: "$playerAssists.k", totalAssists: { $sum: "$playerAssists.v" } } }
+                ]
+            }
+        }
+    ]).exec((err, stats) => {
+        if(err) res.status(400).send(err);
+        res.status(200).send(stats);
+    })
 }
 
 const router = Router();
@@ -185,5 +265,6 @@ router.post("/:id/join", joinTeam);
 router.put("/updatePermissions", givePermissionToPlayer);
 router.post("/registerStadium", registerStadium);
 router.get("/:id/getStadium", getStadium);
+router.get("/:id/stats", getPlayerStats)
 
 export default router;

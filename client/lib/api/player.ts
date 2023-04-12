@@ -21,6 +21,7 @@ export const registerPlayerAPI = (body: registerPlayerAPIBody) =>
 export const getPlayerInfoAPI = (id: string) =>
     axios.get(`/api/player/${id}`);
 
+// 선수 스탯 가져오기
 export const getPlayerDetailAPI = (id: string, playerId: string) =>
     axios.get(`/api/player/${id}/detail`, {
         params: { playerId }

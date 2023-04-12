@@ -68,7 +68,7 @@ const SquadManage: React.FC = () => {
             }
             return squad;
         });
-        console.log("updatedSquad===", updatedSquad);
+        // console.log("updatedSquad===", updatedSquad);
         
 
         const dispatchJoinTeamBody = {
@@ -76,7 +76,7 @@ const SquadManage: React.FC = () => {
             confirmed: true
         }
 
-        console.log("dispatchJoinTeamBody===", dispatchJoinTeamBody);
+        // console.log("dispatchJoinTeamBody===", dispatchJoinTeamBody);
 
         const promises = [
             givePermissionToPlayerAPI(id, dispatchJoinTeamBody),
