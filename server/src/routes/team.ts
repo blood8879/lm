@@ -233,6 +233,30 @@ const getPlayerStats = async(req: Request, res: Response) => {
             }
         },
         {
+            $addFields: {
+                isCleanSheet: {
+                    $cond: {
+                        if: {
+                            $or: [
+                                { $and: [
+                                    { $eq: [ "$homeTeam", mongoose.Types.ObjectId(teamId) ] },
+                                    { $eq: [ "$away_goals", 0 ] }
+                                ]},
+                                {
+                                    $and: [
+                                        { $eq: [ "$awayTeam", mongoose.Types.ObjectId(teamId) ] },
+                                        { $eq: [ "$home_goals", 0 ] }
+                                    ]
+                                }
+                            ]
+                        },
+                        then: 1,
+                        else: null
+                    }
+                }
+            }
+        },
+        {
             // 두개 이상의 배열을 $unwind할 경우 $count, $sum 집계시 문제가 생겨 그룹별로 $unwind하기 위해 $facet 함수 사용.
             $facet: {
                 "totalCaps": [
@@ -246,6 +270,10 @@ const getPlayerStats = async(req: Request, res: Response) => {
                 "totalAssists": [
                     { $unwind: "$playerAssists" },
                     { $group: { _id: "$playerAssists.k", totalAssists: { $sum: "$playerAssists.v" } } }
+                ],
+                "cleanSheets": [
+                    { $unwind: "$teamSquad" },
+                    { $group: { _id: "$teamSquad", cleanSheets: { $sum: "$isCleanSheet" } } }
                 ]
             }
         }

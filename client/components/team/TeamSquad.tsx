@@ -16,6 +16,7 @@ const TeamSquad: React.FC = () => {
                 const caps = stats.totalCaps.find((obj: any) => obj._id === squad.userId._id);
                 const goals = stats.totalGoals.find((obj: any) => obj._id === squad.userId._id);
                 const assists = stats.totalAssists.find((obj: any) => obj._id === squad.userId._id);
+                const cleanSheets = stats.cleanSheets.find((obj: any) => obj.id === squad.userId._id);
 
                 return (
                     <div key={squad._id}>
