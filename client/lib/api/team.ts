@@ -40,6 +40,8 @@ export const getTeamSquadAPI = (id: string) =>
 export const givePermissionToPlayerAPI = (id: string, body: any) =>
     axios.put("/api/team/updatePermissions", { 
         id: id,
+        teamId: body.teamId,
+        userId: body.userId,
         confirmed: body.confirmed,
         backNo: body.backNo
     });

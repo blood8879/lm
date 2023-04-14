@@ -8,6 +8,7 @@ import { objectToString } from "../api/utils";
 import { Squad } from "../models/Squad";
 import { Stadium } from "../models/Stadium";
 import { Fixture } from "../models/Fixture";
+import { Player } from "../models/Player";
 
 
 const mongoose = require('mongoose');
@@ -132,8 +133,8 @@ const emblemUpload = multer({
 
 // 팀 입단 승인
 const givePermissionToPlayer = async(req: Request, res: Response) => {
-    const { id, backNo, confirmed } = req.body;
-    // console.log("req.body===", req.body);
+    const { id, backNo, confirmed, teamId, userId } = req.body;
+    console.log("req.body===", req.body);
 
     await Squad.findByIdAndUpdate(id, {
         backNo: backNo,
@@ -142,6 +143,11 @@ const givePermissionToPlayer = async(req: Request, res: Response) => {
         if(err) res.status(400).send(err);
         res.status(200).send(squad);
     })
+
+    // 팀 가입되면 유저정보에 가입팀 리스트에 넣어줌.
+    // await Player.findByIdAndUpdate(userId, {
+
+    // })
 }
 
 // 경기장 등록

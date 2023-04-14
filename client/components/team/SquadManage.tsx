@@ -71,12 +71,25 @@ const SquadManage: React.FC = () => {
         // console.log("updatedSquad===", updatedSquad);
         
 
-        const dispatchJoinTeamBody = {
-            backNo: backNoObj.backNo,
-            confirmed: true
-        }
+        const dispatchJoinTeamBody = squads.map((squad: any) => {
+            if(squad._id === id) {
+                return {
+                    backNo: backNoObj.backNo,
+                    confirmed: true,
+                    teamId: squad.teamId,
+                    userId: squad.userId
+                }
+            }
+        })
 
-        // console.log("dispatchJoinTeamBody===", dispatchJoinTeamBody);
+        // const dispatchJoinTeamBody = {
+        //     backNo: backNoObj.backNo,
+        //     confirmed: true,
+        //     teamId: squads.find()
+
+        // }
+
+        console.log("dispatchJoinTeamBody===", dispatchJoinTeamBody);
 
         const promises = [
             givePermissionToPlayerAPI(id, dispatchJoinTeamBody),
