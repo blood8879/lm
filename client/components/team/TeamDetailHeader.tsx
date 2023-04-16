@@ -6,12 +6,26 @@ import { joinTeamAPI } from "../../lib/api/team";
 import { useSelector } from "../../store"
 import { squadActions } from "../../store/squad/squad";
 import Button from "../common/Button";
+import { useRouter } from "next/router";
+import TeamSquad from "./TeamSquad";
 
 const TeamDetailHeader = () => {
     const user = useSelector((state) => state.user);
     const team = useSelector((state) => state.team.detail);
     const squads = useSelector((state) => state.squad.squad);
     const dispatch = useDispatch();
+    const router = useRouter();
+
+    const [activeTab, setActiveTab] = useState(0);
+    const tabs = ["개요", "스쿼드", "일정", "결과", "팀관리"];
+
+    const links = [
+        { index: 0, href: `/team/${team?._id}/`, title: '개요' },
+        { index: 1, href: `/team/${team?._id}/squad`, title: '스쿼드' },
+        { index: 2, href: `/team/${team?._id}/fixture`, title: '일정' },
+        { index: 3, href: `/team/${team?._id}/result`, title: '결과' },
+        { index: 4, href: `/team/${team?._id}/teamManage`, title: '팀관리', condition: team?.owner === user._id },
+      ];
 
     const [isRegisteredPlayer, setIsRegisteredPlayer] = useState<boolean>(false);
     const [isConfirmedPlayer, setIsConfirmedPlayer] = useState<boolean>(false);
@@ -69,94 +83,135 @@ const TeamDetailHeader = () => {
         setIsConfirmedPlayer(confirmed);
     }
 
+    const handleTabClick = (index: any) => {
+        setActiveTab(index);
+        switch (index) {
+          case 0:
+            <Link href={`/team/${team?._id}/`}></Link>
+            break;
+          case 1:
+            <TeamSquad />
+            break;
+          case 2:
+            <Link href={`/team/${team?._id}/fixture`}></Link>
+            break;
+          case 3:
+            <Link href={`/team/${team?._id}/result`}></Link>
+            break;
+          case 4:
+            <Link href={`/team/${team?._id}/teamManage`}></Link>
+            break;
+          default:
+            break;
+        }
+    };
+
     useEffect(() => {
         findPlayerInTeam(user._id);
         findConfirmedPlayer(user._id);
     }, [])
 
     return (
-        <div className="h-64 bg-gray-100">
-            <div className="">
-                <Image 
-                    src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${team?.emblem}`}
-                    width={200}
-                    height={200}
-                    alt="img"
-                />
-                {/* <img src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${team?.emblem}`} alt="emblem" /> */}
-            </div>
-            {/* {squads.map((squad) => {
-                const matchingPlayer = squads.find((squad) => !user.playerId && squad.userId._id !== user._id);
-                const notRegisteredPlayer = !user.playerId;
-                return (
-                    <div>
-                        {notRegisteredPlayer ? (
-                            <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
-                        ) : null}
-                    </div>
-                )
-                if(!user.playerId && squad.userId._id !== user._id) {
-                    return (
-                        <div>
-                            <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
-                        </div>
-                    )
-                }
-            })} */}
-            {!isRegisteredPlayer && !user.playerId ? (
-                <div>
-                    <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
-                </div>
-            ) : !isRegisteredPlayer && user.playerId ? (
-                <div>
-                    <Button onClick={requestPermission}>입단신청</Button>
-                </div>
-            ) : isRegisteredPlayer && isConfirmedPlayer ? (
-                <div>
-                    가입된 팀
-                </div>
-            ) : isRegisteredPlayer && !isConfirmedPlayer ? (
-                <div>
-                    가입승인을 기다리고 있습니다.
-                </div>
-            ) : <div>
-                </div>
-            }
-            <div className="flex space-x-2">
-                <div className="py-2 hover:cursor-pointer hover:text-red-300">
-                    <Link href={`/team/${team?._id}/`}>
-                        <h2>개요</h2>
-                    </Link>
-                </div>
-                <div className="py-2 hover:cursor-pointer hover:text-red-300">
-                    <Link href={`/team/${team?._id}/squad`}>
-                        <h2>스쿼드</h2>
-                    </Link>
-                </div>
-                <div className="py-2 hover:cursor-pointer hover:text-red-300">
-                    <Link href={`/team/${team?._id}/fixture`}>
-                        <h2>일정</h2>
-                    </Link>
-                </div>
-                <div className="py-2 hover:cursor-pointer hover:text-red-300">
-                    <Link href={`/team/${team?._id}/result`}>
-                        <h2>결과</h2>
-                    </Link>
-                </div>
-                {/* <div className="py-2 hover:cursor-pointer hover:text-red-300">
-                    <Link href={`/team/${team?._id}/history`}>
-                        <h2>시즌역사</h2>
-                    </Link>
-                </div> */}
-                {team?.owner === user._id && (
-                    <div className="py-2 hover:cursor-pointer hover:text-red-300">
-                        <Link href={`/team/${team?._id}/teamManage`}>
-                            <h2>팀관리</h2>
-                        </Link>
-                    </div>
-                )}
+        <div className="flex h-screen">
+            <div>
+                <ul className="flex justify-center items-center my-4">
+                    {tabs.map((tab, index) => (
+                        <li
+                            key={index}
+                            className={`cursor-pointer py-3 px-4 rounded transtion ${
+                                activeTab === index ? 'bg-green-500 text-white' : 'text-gray-500'
+                            }`}
+                            onClick={() => handleTabClick(index)}
+                        >
+                            {/* <Link href={links.in}>{tab}</Link> */}
+                            {tab}
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
+        // <div className="h-64 bg-gray-100">
+        //     <div className="">
+        //         <Image 
+        //             src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${team?.emblem}`}
+        //             width={200}
+        //             height={200}
+        //             alt="img"
+        //         />
+        //         {/* <img src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${team?.emblem}`} alt="emblem" /> */}
+        //     </div>
+        //     {/* {squads.map((squad) => {
+        //         const matchingPlayer = squads.find((squad) => !user.playerId && squad.userId._id !== user._id);
+        //         const notRegisteredPlayer = !user.playerId;
+        //         return (
+        //             <div>
+        //                 {notRegisteredPlayer ? (
+        //                     <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
+        //                 ) : null}
+        //             </div>
+        //         )
+        //         if(!user.playerId && squad.userId._id !== user._id) {
+        //             return (
+        //                 <div>
+        //                     <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
+        //                 </div>
+        //             )
+        //         }
+        //     })} */}
+        //     {!isRegisteredPlayer && !user.playerId ? (
+        //         <div>
+        //             <Button disabled disabledMessage="선수등록을 완료해주세요.">입단신청</Button>
+        //         </div>
+        //     ) : !isRegisteredPlayer && user.playerId ? (
+        //         <div>
+        //             <Button onClick={requestPermission}>입단신청</Button>
+        //         </div>
+        //     ) : isRegisteredPlayer && isConfirmedPlayer ? (
+        //         <div>
+        //             가입된 팀
+        //         </div>
+        //     ) : isRegisteredPlayer && !isConfirmedPlayer ? (
+        //         <div>
+        //             가입승인을 기다리고 있습니다.
+        //         </div>
+        //     ) : <div>
+        //         </div>
+        //     }
+        //     <div className="flex space-x-2">
+        //         <div className="py-2 hover:cursor-pointer hover:text-red-300">
+        //             <Link href={`/team/${team?._id}/`}>
+        //                 <h2>개요</h2>
+        //             </Link>
+        //         </div>
+        //         <div className="py-2 hover:cursor-pointer hover:text-red-300">
+        //             <Link href={`/team/${team?._id}/squad`}>
+        //                 <h2>스쿼드</h2>
+        //             </Link>
+        //         </div>
+        //         <div className="py-2 hover:cursor-pointer hover:text-red-300">
+        //             <Link href={`/team/${team?._id}/fixture`}>
+        //                 <h2>일정</h2>
+        //             </Link>
+        //         </div>
+        //         <div className="py-2 hover:cursor-pointer hover:text-red-300">
+        //             <Link href={`/team/${team?._id}/result`}>
+        //                 <h2>결과</h2>
+        //             </Link>
+        //         </div>
+        //         {/* <div className="py-2 hover:cursor-pointer hover:text-red-300">
+        //             <Link href={`/team/${team?._id}/history`}>
+        //                 <h2>시즌역사</h2>
+        //             </Link>
+        //         </div> */}
+        //         {team?.owner === user._id && (
+        //             <div className="py-2 hover:cursor-pointer hover:text-red-300">
+        //                 <Link href={`/team/${team?._id}/teamManage`}>
+        //                     <h2>팀관리</h2>
+        //                 </Link>
+        //             </div>
+        //         )}
+        //     </div>
+        // </div>
     )
 }
 
