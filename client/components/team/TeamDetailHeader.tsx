@@ -83,27 +83,11 @@ const TeamDetailHeader = () => {
         setIsConfirmedPlayer(confirmed);
     }
 
-    const handleTabClick = (index: any) => {
+    const handleTabClick = (index: number) => {
+        console.log("index===", index);
+        console.log("ActiveTab====1", activeTab);
         setActiveTab(index);
-        switch (index) {
-          case 0:
-            <Link href={`/team/${team?._id}/`}></Link>
-            break;
-          case 1:
-            <TeamSquad />
-            break;
-          case 2:
-            <Link href={`/team/${team?._id}/fixture`}></Link>
-            break;
-          case 3:
-            <Link href={`/team/${team?._id}/result`}></Link>
-            break;
-          case 4:
-            <Link href={`/team/${team?._id}/teamManage`}></Link>
-            break;
-          default:
-            break;
-        }
+        console.log("ActiveTab====2", activeTab);
     };
 
     useEffect(() => {
@@ -112,7 +96,7 @@ const TeamDetailHeader = () => {
     }, [])
 
     return (
-        <div className="flex h-screen">
+        <div className="flex">
             <div>
                 <ul className="flex justify-center items-center my-4">
                     {tabs.map((tab, index) => (
@@ -123,8 +107,32 @@ const TeamDetailHeader = () => {
                             }`}
                             onClick={() => handleTabClick(index)}
                         >
-                            {/* <Link href={links.in}>{tab}</Link> */}
                             {tab}
+                            {/* {activeTab === 0 && (
+                                <Link href={`/team/${team?._id}/`}>
+                                    {tab}
+                                </Link>
+                            )}
+                            {activeTab === 1 && (
+                                <Link href={`/team/${team?._id}/squad`}>
+                                    {tab}
+                                </Link>
+                            )}
+                            {activeTab === 2 && (
+                                <Link href={`/team/${team?._id}/fixture`}>
+                                    {tab}
+                                </Link>
+                            )}
+                            {activeTab === 3 && (
+                                <Link href={`/team/${team?._id}/result`}>
+                                    {tab}
+                                </Link>
+                            )}
+                            {activeTab === 4 && (
+                                <Link href={`/team/${team?._id}/teamManage`}>
+                                    {tab}
+                                </Link>
+                            )} */}
                         </li>
                     ))}
                 </ul>
