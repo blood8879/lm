@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
@@ -18,14 +18,6 @@ const TeamDetailHeader = () => {
 
     const [activeTab, setActiveTab] = useState(0);
     const tabs = ["개요", "스쿼드", "일정", "결과", "팀관리"];
-
-    const links = [
-        { index: 0, href: `/team/${team?._id}/`, title: '개요' },
-        { index: 1, href: `/team/${team?._id}/squad`, title: '스쿼드' },
-        { index: 2, href: `/team/${team?._id}/fixture`, title: '일정' },
-        { index: 3, href: `/team/${team?._id}/result`, title: '결과' },
-        { index: 4, href: `/team/${team?._id}/teamManage`, title: '팀관리', condition: team?.owner === user._id },
-      ];
 
     const [isRegisteredPlayer, setIsRegisteredPlayer] = useState<boolean>(false);
     const [isConfirmedPlayer, setIsConfirmedPlayer] = useState<boolean>(false);
@@ -93,7 +85,8 @@ const TeamDetailHeader = () => {
     useEffect(() => {
         findPlayerInTeam(user._id);
         findConfirmedPlayer(user._id);
-    }, [])
+        handleTabClick(activeTab);
+    }, [activeTab]);
 
     return (
         <div className="flex">
@@ -102,13 +95,45 @@ const TeamDetailHeader = () => {
                     {tabs.map((tab, index) => (
                         <li
                             key={index}
+                            onClick={() => handleTabClick(index)}
                             className={`cursor-pointer py-3 px-4 rounded transtion ${
                                 activeTab === index ? 'bg-green-500 text-white' : 'text-gray-500'
                             }`}
-                            onClick={() => handleTabClick(index)}
+                            
                         >
-                            {tab}
-                            {/* {activeTab === 0 && (
+                            {/* {tab} */}
+                            {/* {activeTab === index ? (
+                                <>
+                                    {activeTab === 0 && (
+                                        <Link href={`/team/${team?._id}/`}>
+                                            {tab}
+                                        </Link>
+                                    )}
+                                    {activeTab === 1 && (
+                                        <Link href={`/team/${team?._id}/squad`}>
+                                            {tab}
+                                        </Link>
+                                    )}
+                                    {activeTab === 2 && (
+                                        <Link href={`/team/${team?._id}/fixture`}>
+                                            {tab}
+                                        </Link>
+                                    )}
+                                    {activeTab === 3 && (
+                                        <Link href={`/team/${team?._id}/result`}>
+                                            {tab}
+                                        </Link>
+                                    )}
+                                    {activeTab === 4 && (
+                                        <Link href={`/team/${team?._id}/teamManage`}>
+                                            {tab}
+                                        </Link>
+                                    )}
+                                </>
+                            ) : (
+                                tab
+                            )} */}
+                            {activeTab === 0 && (
                                 <Link href={`/team/${team?._id}/`}>
                                     {tab}
                                 </Link>
@@ -132,7 +157,7 @@ const TeamDetailHeader = () => {
                                 <Link href={`/team/${team?._id}/teamManage`}>
                                     {tab}
                                 </Link>
-                            )} */}
+                            )}
                         </li>
                     ))}
                 </ul>
