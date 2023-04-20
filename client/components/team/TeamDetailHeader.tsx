@@ -17,8 +17,14 @@ const TeamDetailHeader = () => {
     const router = useRouter();
 
     const [activeTab, setActiveTab] = useState(0);
-    // const activateTabRef = useRef(0);
-    const tabs = ["개요", "스쿼드", "일정", "결과", "팀관리"];
+    
+    const tabs = [
+        { label: "개요", link: `/team/${team?._id}`},
+        { label: "스쿼드", link: `/team/${team?._id}/squad`},
+        { label: "일정", link: `/team/${team?._id}/fixture`},
+        { label: "결과", link: `/team/${team?._id}/result`},
+        ...(team?.owner === user._id ? [{ label: "팀관리", link: `/team/${team?._id}/teamManage`}] : [])
+    ]
 
     const [isRegisteredPlayer, setIsRegisteredPlayer] = useState<boolean>(false);
     const [isConfirmedPlayer, setIsConfirmedPlayer] = useState<boolean>(false);
@@ -78,103 +84,43 @@ const TeamDetailHeader = () => {
 
     // let tabNum = 0;
 
-    const handleTabClick = (index: any) => {
-        console.log("index===", index);
-        // console.log("currentTab===", tabNum);
-        // activateTabRef.current;
+    const handleTabClick = (index: number) => {
         // tabNum = index;
         setActiveTab(index);
-        console.log("ActiveTab====2", activeTab);
+        
     };
 
     useEffect(() => {
         findPlayerInTeam(user._id);
         findConfirmedPlayer(user._id);
-        handleTabClick(activeTab);
-    }, [activeTab]);
+        const handleRouteChange = (url: string) => {
+            const activeTabIndex = tabs.findIndex(tab => tab.link === url);
+            setActiveTab(activeTabIndex)
+        };
+
+        router.events.on("routeChangeComplete", handleRouteChange);
+
+        return () => {
+            router.events.off("routeChangeComplete", handleRouteChange);
+        }
+    }, []);
 
     return (
-        <div className="flex">
+        <div className="flex h-12">
             <div>
-                <ul className="flex justify-center items-center my-4">
-                    {tabs.map((tab, index) => (
-                        <li
-                            key={index}
-                            onClick={() => handleTabClick(index)}
-                            className={`cursor-pointer py-3 px-4 rounded transtion ${
-                                activeTab === index ? 'bg-blue-500 text-white' : 'text-gray-500'
-                            }`}
-                            
-                        >
-                            {/* <Link
-                                href={
-                                    activeTab === indexindex === 0 ? `/team/${team?._id}/`
-                                    : index === 1 ? `/team/${team?._id}/squad`
-                                    : index === 2 ? `/team/${team?._id}/fixture`
-                                    : index === 3 ? `/team/${team?._id}/result`
-                                    : `/team/${team?._id}/teamManage`
-                                }
-                            >
-                                {tab}
-                            </Link> */}
-                            {tab}
-                            {/* {activeTab === index ? (
-                                <>
-                                    {activeTab === 0 && (
-                                        <Link href={`/team/${team?._id}/`}>
-                                            {tab}
-                                        </Link>
-                                    )}
-                                    {activeTab === 1 && (
-                                        <Link href={`/team/${team?._id}/squad`}>
-                                            {tab}
-                                        </Link>
-                                    )}
-                                    {activeTab === 2 && (
-                                        <Link href={`/team/${team?._id}/fixture`}>
-                                            {tab}
-                                        </Link>
-                                    )}
-                                    {activeTab === 3 && (
-                                        <Link href={`/team/${team?._id}/result`}>
-                                            {tab}
-                                        </Link>
-                                    )}
-                                    {activeTab === 4 && (
-                                        <Link href={`/team/${team?._id}/teamManage`}>
-                                            {tab}
-                                        </Link>
-                                    )}
-                                </>
-                            ) : (
-                                tab
-                            )} */}
-                            {/* {activeTab === 1 && (
-                                <Link href={`/team/${team?._id}/squad`}>
-                                    {tab}
-                                </Link>
-                            )}
-                            {activeTab === 2 && (
-                                <Link href={`/team/${team?._id}/fixture`}>
-                                    {tab}
-                                </Link>
-                            )}
-                            {activeTab === 3 && (
-                                <Link href={`/team/${team?._id}/result`}>
-                                    {tab}
-                                </Link>
-                            )}
-                            {activeTab === 4 && (
-                                <Link href={`/team/${team?._id}/teamManage`}>
-                                    {tab}
-                                </Link>
-                            )} */}
-                        </li>
-                    ))}
-                </ul>
+                {tabs.map((tab, index) => (
+                    <Link key={index} href={tab.link} onClick={() => handleTabClick(index)} className={`cursor-pointer py-3 px-4 rounded transtion ${activeTab === index ? 'bg-blue-500 text-white' : 'text-gray-500'}`}>
+                        {tab.label}
+                    </Link>
+                ))}
             </div>
         </div>
-        // <div className="h-64 bg-gray-100">
+    )
+}
+
+export default TeamDetailHeader;
+
+// <div className="h-64 bg-gray-100">
         //     <div className="">
         //         <Image 
         //             src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${team?.emblem}`}
@@ -256,7 +202,3 @@ const TeamDetailHeader = () => {
         //         )}
         //     </div>
         // </div>
-    )
-}
-
-export default TeamDetailHeader;
