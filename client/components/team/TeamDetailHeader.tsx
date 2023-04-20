@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
@@ -17,6 +17,7 @@ const TeamDetailHeader = () => {
     const router = useRouter();
 
     const [activeTab, setActiveTab] = useState(0);
+    // const activateTabRef = useRef(0);
     const tabs = ["개요", "스쿼드", "일정", "결과", "팀관리"];
 
     const [isRegisteredPlayer, setIsRegisteredPlayer] = useState<boolean>(false);
@@ -75,9 +76,13 @@ const TeamDetailHeader = () => {
         setIsConfirmedPlayer(confirmed);
     }
 
-    const handleTabClick = (index: number) => {
+    // let tabNum = 0;
+
+    const handleTabClick = (index: any) => {
         console.log("index===", index);
-        console.log("ActiveTab====1", activeTab);
+        // console.log("currentTab===", tabNum);
+        // activateTabRef.current;
+        // tabNum = index;
         setActiveTab(index);
         console.log("ActiveTab====2", activeTab);
     };
@@ -97,11 +102,22 @@ const TeamDetailHeader = () => {
                             key={index}
                             onClick={() => handleTabClick(index)}
                             className={`cursor-pointer py-3 px-4 rounded transtion ${
-                                activeTab === index ? 'bg-green-500 text-white' : 'text-gray-500'
+                                activeTab === index ? 'bg-blue-500 text-white' : 'text-gray-500'
                             }`}
                             
                         >
-                            {/* {tab} */}
+                            {/* <Link
+                                href={
+                                    activeTab === indexindex === 0 ? `/team/${team?._id}/`
+                                    : index === 1 ? `/team/${team?._id}/squad`
+                                    : index === 2 ? `/team/${team?._id}/fixture`
+                                    : index === 3 ? `/team/${team?._id}/result`
+                                    : `/team/${team?._id}/teamManage`
+                                }
+                            >
+                                {tab}
+                            </Link> */}
+                            {tab}
                             {/* {activeTab === index ? (
                                 <>
                                     {activeTab === 0 && (
@@ -133,12 +149,7 @@ const TeamDetailHeader = () => {
                             ) : (
                                 tab
                             )} */}
-                            {activeTab === 0 && (
-                                <Link href={`/team/${team?._id}/`}>
-                                    {tab}
-                                </Link>
-                            )}
-                            {activeTab === 1 && (
+                            {/* {activeTab === 1 && (
                                 <Link href={`/team/${team?._id}/squad`}>
                                     {tab}
                                 </Link>
@@ -157,7 +168,7 @@ const TeamDetailHeader = () => {
                                 <Link href={`/team/${team?._id}/teamManage`}>
                                     {tab}
                                 </Link>
-                            )}
+                            )} */}
                         </li>
                     ))}
                 </ul>
