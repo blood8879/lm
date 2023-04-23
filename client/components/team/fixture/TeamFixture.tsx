@@ -35,10 +35,10 @@ const TeamFixture: React.FC = () => {
                     <ul key={fixture._id} className="space-y-4">
                         <h2 className="text-xl font-bold mb-2">{moment(fixture.matchDay).add(-9, 'h').format('yyyy-MM-DD')}</h2>
                         <Link href={`/team/${team}/fixture/${fixture._id}`}>
-                            <li className="h-8 center space-x-2 hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:text-white">
-                                <span className="text-bold-4">{fixture.homeTeam.name}</span> 
-                                <span className="border-2">{moment(fixture.matchDay).add(-9, 'h').format('HH:mm')}</span>
-                                <span className="text-bold">{fixture.awayTeam.name}</span>
+                            <li className="h-14 pt-4 items-center space-x-2 hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:text-white border-t border-b border-y-gray-300">
+                                <span className="font-bold">{fixture.homeTeam.name}</span> 
+                                <span className="border px-2 py-2">{moment(fixture.matchDay).add(-9, 'h').format('HH:mm')}</span>
+                                <span className="font-bold">{fixture.awayTeam.name}</span>
                                 <span>{fixture.venue}</span>
                             </li>
                         </Link>
