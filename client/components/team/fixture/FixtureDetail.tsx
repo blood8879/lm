@@ -143,7 +143,7 @@ const FixtureDetail: React.FC = () => {
 
     return (
         <>
-            <div>
+            {/* <div>
                 <Link href="/team/registerResult"><Button>결과등록</Button></Link>
                 {confirmedPlayer && (
                     <div className="flex space-x-2">
@@ -163,15 +163,38 @@ const FixtureDetail: React.FC = () => {
                                 <Button type="submit" width="50" onClick={noAttendMatch}>불참석</Button>
                             </>
                         )}
-                        {/* <Button type="submit" width="50" onClick={onAttendMatch}>참석</Button>
-                        <Button type="submit" width="50" onClick={noAttendMatch}>불참석</Button> */}
                     </div>
                 )}
-            </div>
-            <div>
-                <h2>Head-to-Head</h2>
-                <div className="flex space-x-4">
-                    <div>
+            </div> */}
+            <div className="container mx-auto px-4">
+                <h2 className="font-bold text-2xl text-center">Head-to-Head</h2>
+                <div className="container flex mx-auto px-4">
+                    <div className="w-[45%] mr-2">
+                        <h2 className="flex justify-end">{thisMatch.homeTeam.name}</h2>
+                        <div className="flex justify-end">
+                            {homeTeamWonAtHome+homeTeamWonAtAway}
+                            <p>Total Wins</p>
+                        </div>
+                        <div className="flex justify-end">
+                            {homeTeamWonAtHome}
+                            <p>Home</p>
+                        </div>
+                        <div className="flex justify-end">
+                            {homeTeamWonAtAway}
+                            <p>Away</p>
+                        </div>
+                    </div>
+                    <div className="py-6">
+                        <p>played</p>
+                        <h2>{totalPlayed}</h2>
+                    </div>
+                    <div className="w=[45%]">
+                        <h2 className="flex justify-start">{thisMatch.awayTeam.name}</h2>
+                    </div>
+                </div>
+                
+                {/* <div className="flex container justify-center mx-auto space-x-4 my-4">
+                    <div className="w-[40%] inline-block float-right">
                         <h2>{thisMatch.homeTeam.name}</h2>
                         <div className="flex space-x-2">
                             {homeTeamWonAtHome+homeTeamWonAtAway}
@@ -186,14 +209,14 @@ const FixtureDetail: React.FC = () => {
                             <p>Away</p>
                         </div>
                     </div>
-                    <div>
+                    <div className="w-[20%]">
                         <p>played</p>
                         <h2 className="text-pink-500 text-2xl text-bold">{totalPlayed}</h2>
                         
                         <p>draws</p>
                         <h2>{drawMatches.length}</h2>
                     </div>
-                    <div>
+                    <div className="w-[40%]">
                         <h2>{thisMatch.awayTeam.name}</h2>
                         <div className="flex space-x-2">
                             <p>Total Wins</p>
@@ -208,7 +231,7 @@ const FixtureDetail: React.FC = () => {
                             {awayTeamWonAtAway}
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div>
                 <h2>Recent Meetings(최근상대전적)</h2>
