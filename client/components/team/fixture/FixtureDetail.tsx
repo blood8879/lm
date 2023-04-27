@@ -171,31 +171,49 @@ const FixtureDetail: React.FC = () => {
                 <h2 className="font-bold text-2xl text-center">Head-to-Head</h2>
                 <div className="container flex mx-auto mt-4">
                     <div className="w-[50%]">
-                        <div className="flex justify-end">
-                            <span className="flex justify-end font-bold mt-3">{thisMatch.homeTeam.name}</span>
-                            <span><Image className="rounded-full grid place-items-center" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.homeTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                        <div className="flex justify-end my-4">
+                            <span className="flex justify-end font-bold mt-2">{thisMatch.homeTeam.name}</span>
+                            <span><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.homeTeam.emblem}`} width={50} height={50} alt="img" /></span>
                         </div>
                         <div className="flex justify-end">
-                            {homeTeamWonAtHome+homeTeamWonAtAway}
-                            <p>Total Wins</p>
+                            <p className="mr-2 font-bold">{homeTeamWonAtHome+homeTeamWonAtAway}</p>
+                            <p className="text-xs mt-1 w-16 justify-end flex">Total Wins</p>
                         </div>
                         <div className="flex justify-end">
-                            {homeTeamWonAtHome}
-                            <p>Home</p>
+                            <p className="mr-2 font-bold">{homeTeamWonAtHome}</p>
+                            <p className="text-xs mt-1 w-16 justify-end flex">Home</p>
                         </div>
                         <div className="flex justify-end">
-                            {homeTeamWonAtAway}
-                            <p>Away</p>
+                            <p className="mr-2 font-bold">{homeTeamWonAtAway}</p>
+                            <p className="text-xs mt-1 w-16 justify-end flex">Away</p>
                         </div>
                     </div>
-                    <div className="py-16 px-8">
-                        <p>played</p>
-                        <h2>{totalPlayed}</h2>
+                    <div className="py-16 px-24">
+                        <p className="text-xs">played</p>
+                        <p className="justify-center text-5xl font-bold flex text-pink-500">{totalPlayed}</p>
+                        {/* <p className="text-xs">draws</p> */}
+                        <div className="flex justify-center">
+                            <p className="text-xs">draws</p>
+                            <p className="text-xs font-bold">&nbsp;{drawMatches.length}</p>
+                        </div>
+                        {/* <p className="justify-center flex text-sm">{drawMatches.length}</p> */}
                     </div>
                     <div className="w-[50%]">
+                        <div className="flex justify-start my-4">
+                            <span><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                            <span className="flex justify-start font-bold mt-2">{thisMatch.awayTeam.name}</span>
+                        </div>
                         <div className="flex justify-start">
-                            <span><Image className="rounded-full grid place-items-center" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
-                            <span className="flex justify-start font-bold mt-3">{thisMatch.awayTeam.name}</span>
+                            <p className="text-xs mt-1 w-16 justify-start flex">Total Wins</p>
+                            <p className="ml-2 font-bold">{awayTeamWonAtHome+awayTeamWonAtAway}</p>
+                        </div>
+                        <div className="flex justify-start">
+                            <p className="text-xs mt-1 w-16 justify-start flex">Home</p>
+                            <p className="ml-2 font-bold">{awayTeamWonAtHome}</p>
+                        </div>
+                        <div className="flex justify-start">
+                            <p className="text-xs mt-1 w-16 justify-start flex">Away</p>
+                            <p className="ml-2 font-bold">{awayTeamWonAtAway}</p>
                         </div>
                     </div>
                 </div>

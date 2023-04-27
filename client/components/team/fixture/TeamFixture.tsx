@@ -45,7 +45,7 @@ const TeamFixture: React.FC = () => {
                                         <span className="mr-2 grid place-items-center"><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${fixture.homeTeam.emblem}`} width={50} height={50} alt="img" /></span>
                                     </div>
                                     <div className="flex">
-                                        <span className="px-2 my-2 border">{moment(fixture.matchDay).add(-9, 'h').format('HH:mm')}</span>    
+                                        <span className="px-2 my-2 border bg-white text-black">{moment(fixture.matchDay).add(-9, 'h').format('HH:mm')}</span>    
                                     </div>
                                     <div className="w-[50%] flex justify-start">
                                         <span className="ml-2 grid place-items-center"><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${fixture.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
