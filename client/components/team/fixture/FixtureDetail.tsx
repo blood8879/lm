@@ -1,4 +1,5 @@
 import moment from "moment";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -166,11 +167,14 @@ const FixtureDetail: React.FC = () => {
                     </div>
                 )}
             </div> */}
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto">
                 <h2 className="font-bold text-2xl text-center">Head-to-Head</h2>
-                <div className="container flex mx-auto px-4">
-                    <div className="w-[45%] mr-2">
-                        <h2 className="flex justify-end">{thisMatch.homeTeam.name}</h2>
+                <div className="container flex mx-auto mt-4">
+                    <div className="w-[50%]">
+                        <div className="flex justify-end">
+                            <span className="flex justify-end font-bold mt-3">{thisMatch.homeTeam.name}</span>
+                            <span><Image className="rounded-full grid place-items-center" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.homeTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                        </div>
                         <div className="flex justify-end">
                             {homeTeamWonAtHome+homeTeamWonAtAway}
                             <p>Total Wins</p>
@@ -184,12 +188,15 @@ const FixtureDetail: React.FC = () => {
                             <p>Away</p>
                         </div>
                     </div>
-                    <div className="py-6">
+                    <div className="py-16 px-8">
                         <p>played</p>
                         <h2>{totalPlayed}</h2>
                     </div>
-                    <div className="w=[45%]">
-                        <h2 className="flex justify-start">{thisMatch.awayTeam.name}</h2>
+                    <div className="w-[50%]">
+                        <div className="flex justify-start">
+                            <span><Image className="rounded-full grid place-items-center" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                            <span className="flex justify-start font-bold mt-3">{thisMatch.awayTeam.name}</span>
+                        </div>
                     </div>
                 </div>
                 
