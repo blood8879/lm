@@ -10,19 +10,21 @@ const TeamFixture: React.FC = () => {
     const fixtures = useSelector((state) => state.fixture.fixture);
 
     // 매치데이트별로 그룹핑하는 함수
-    // const groupByDate = (fixtures: any) => {
-    //     const result: any = {};
-    //     fixtures.forEach((fixture: any) => {
-    //     const date = moment(fixture.matchDay).format("YYYY-MM-DD");
-    //     if (!result[date]) {
-    //         result[date] = [];
-    //     }
-    //     result[date].push(fixture);
-    //     });
-    //     return result;
-    // };
+    const groupByDate = (fixtures: any) => {
+        const result: any = {};
+        fixtures.forEach((fixture: any) => {
+        const date = moment(fixture.matchDay).format("YYYY-MM-DD");
+        if (!result[date]) {
+            result[date] = [];
+        }
+        result[date].push(fixture);
+        });
+        return result;
+    };
 
-    // const groupedFixtures = groupByDate(fixtures);
+    const groupedFixtures = groupByDate(fixtures);
+    console.log("fixtures===", fixtures);
+    console.log("groupedFixtures===", groupedFixtures);
     
     return (
         <TeamDetail>

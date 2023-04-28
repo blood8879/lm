@@ -42,7 +42,7 @@ const TeamResult: React.FC = () => {
                                                 <span className="grid place-items-center my-3 w-8 h-8 bg-[#37003c] text-white font-bold">{result.away_goals}</span>
                                             </div>
                                             <div className="w-[50%] flex">
-                                            <span className="ml-2 grid place-items-center"><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${result.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                                                <span className="ml-2 grid place-items-center"><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${result.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
                                                 <span className="font-bold my-2 pl-2 py-2">{result.awayTeam.name}</span>
                                             </div>
                                         </div>
