@@ -68,12 +68,14 @@ const SquadManage: React.FC = () => {
             }
             return squad;
         });
-        // console.log("updatedSquad===", updatedSquad);
+        console.log("updatedSquad===", updatedSquad);
+        console.log("id===", id)
         
 
         const dispatchJoinTeamBody = squads.map((squad: any) => {
             if(squad._id === id) {
                 return {
+                    _id: squad._id,
                     backNo: backNoObj.backNo,
                     confirmed: true,
                     teamId: squad.teamId,

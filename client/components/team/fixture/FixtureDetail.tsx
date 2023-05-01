@@ -144,7 +144,7 @@ const FixtureDetail: React.FC = () => {
 
     return (
         <>
-            {/* <div>
+            <div>
                 <Link href="/team/registerResult"><Button>결과등록</Button></Link>
                 {confirmedPlayer && (
                     <div className="flex space-x-2">
@@ -166,7 +166,7 @@ const FixtureDetail: React.FC = () => {
                         )}
                     </div>
                 )}
-            </div> */}
+            </div>
             <div className="container mx-auto px-4">
                 <h2 className="font-bold text-2xl text-center">Head-to-Head</h2>
                 <div className="container flex mx-auto">
@@ -251,8 +251,58 @@ const FixtureDetail: React.FC = () => {
                 <div className="border-b-4 mt-4"></div>
                 <div className="container mx-auto">
                     <h2 className="font-bold text-2xl justify-center flex my-6">Form Guide</h2>
-                    <div className="flex">
-                        <div className="w-[50%] justify-end">
+                    <div>
+                        <div className="flex">
+                            <div className="w-[50%] justify-end">
+                                <div className="flex justify-end">
+                                    <span className="font-bold my-2 py-2">{thisMatch.homeTeam.name}</span> 
+                                    <span className="mr-2 grid place-items-center"><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.homeTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                                </div>
+                                <div>
+                                    {HomeTeamData.slice(0, 5).map((result, key) => (
+                                        <ul key={result._id}>
+                                            <Link href={`/team/${thisMatch.homeTeam?._id}/result/${result._id}`}>
+                                                <li className="center space-x-2 hover:text-red-500 flex justify-end">
+                                                    {result.homeTeam.name === thisMatch.homeTeam.name ? (
+                                                        <>
+                                                            <span><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${result.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                                                            <span>{result.home_goals}-{result.away_goals}&nbsp;v&nbsp;{result.awayTeam.name}</span>
+                                                        </>
+                                                    ) : result.awayTeam.name === thisMatch.homeTeam.name ? (
+                                                        <>
+                                                            <span><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${result.homeTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                                                            <span>{result.home_goals}-{result.away_goals}&nbsp;v&nbsp;{result.homeTeam.name}</span>
+                                                        </>
+                                                    ) : (
+                                                        <h2></h2>
+                                                    )}
+                                                    {/* {result.homeTeam.name === thisMatch.homeTeam.name ? (
+
+                                                    )} */}
+                                                    {result.homeTeam.name === thisMatch.homeTeam.name ? (
+                                                        <span className="font-bold">H</span>
+                                                    ) : (
+                                                        <span className="font-bold">A</span>
+                                                    )}
+                                                    {/* <span className="text-bold text-red-500">{result.homeTeam.name}</span> 
+                                                    <span className="border-2">{result.home_goals}</span>
+                                                    <span className="border-2">{result.away_goals}</span>
+                                                    <span className="text-bold text-blue-500">{result.awayTeam.name}</span> */}
+                                                </li>
+                                            </Link>
+                                        </ul>
+                                        ))}
+                                    </div>
+                            </div>
+                            <div className="flex w-4">
+
+                            </div>
+                            <div className="w-[50%] flex justify-start">
+                                <span className="font-bold my-2 py-2">{thisMatch.awayTeam.name}</span> 
+                                <span className="mr-2 grid place-items-center"><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                            </div>
+                        </div>
+                        {/* <div className="w-[50%] justify-end">
                             <div className="flex justify-end">
                                 <span className="font-bold my-2 py-2">{thisMatch.homeTeam.name}</span> 
                                 <span className="mr-2 grid place-items-center"><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.homeTeam.emblem}`} width={50} height={50} alt="img" /></span>
@@ -264,7 +314,7 @@ const FixtureDetail: React.FC = () => {
                         <div className="w-[50%] flex justify-start">
                             <span className="font-bold my-2 py-2">{thisMatch.awayTeam.name}</span> 
                             <span className="mr-2 grid place-items-center"><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

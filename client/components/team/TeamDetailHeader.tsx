@@ -36,13 +36,15 @@ const TeamDetailHeader = () => {
         const backNo = null;
         const position = ["GK"];
         const userInfo = user;
+        const confirmed = false;
         
         try {
             const joinTeamBody = {
                 userId,
                 teamId,
                 backNo,
-                position
+                position,
+                confirmed,
             }
 
             const dispatchJoinTeamBody = {
@@ -56,7 +58,7 @@ const TeamDetailHeader = () => {
             console.log("joinTeamBody===", joinTeamBody);
             await joinTeamAPI(teamId, joinTeamBody);
             dispatch(squadActions.setUpdateSquad(dispatchJoinTeamBody));            
-            alert('가입되었습니다.');
+            alert('가입신청하였습니다.');
         } catch(e) {
             console.log(e);
         }
@@ -114,6 +116,9 @@ const TeamDetailHeader = () => {
                     </Link>
                 ))}
             </div>
+            {/* <div>
+                <Button onClick={requestPermission}>입단신청</Button>
+            </div> */}
         </div>
     )
 }
