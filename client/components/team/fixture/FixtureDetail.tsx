@@ -35,7 +35,7 @@ const FixtureDetail: React.FC = () => {
     const AwayTeamData = result.filter(match => {
         return match.homeTeam.name === thisMatch.awayTeam.name || match.awayTeam.name === thisMatch.awayTeam.name
     })
-    // console.log("match===", filterData);
+    console.log("AwayTeamData===", AwayTeamData);
     const drawMatches = HeadToHeadData.filter(match => match.home_goals === match.away_goals);
     const totalPlayed = HeadToHeadData.length;
     const homeTeamWonAtHome = HeadToHeadData.filter(match => (match.homeTeam._id === thisMatch.homeTeam._id) && match.home_goals > match.away_goals).length;
@@ -262,16 +262,16 @@ const FixtureDetail: React.FC = () => {
                                     {HomeTeamData.slice(0, 5).map((result, key) => (
                                         <ul key={result._id}>
                                             <Link href={`/team/${thisMatch.homeTeam?._id}/result/${result._id}`}>
-                                                <li className="center space-x-2 hover:text-red-500 flex justify-end">
+                                                <li className="center space-x-2 hover:text-red-500 flex justify-end mr-4">
                                                     {result.homeTeam.name === thisMatch.homeTeam.name ? (
                                                         <>
                                                             <span><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${result.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
-                                                            <span>{result.home_goals}-{result.away_goals}&nbsp;v&nbsp;{result.awayTeam.name}</span>
+                                                            <span className="grid place-items-center">{result.home_goals}-{result.away_goals}&nbsp;v&nbsp;{result.awayTeam.name}</span>
                                                         </>
                                                     ) : result.awayTeam.name === thisMatch.homeTeam.name ? (
                                                         <>
                                                             <span><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${result.homeTeam.emblem}`} width={50} height={50} alt="img" /></span>
-                                                            <span>{result.home_goals}-{result.away_goals}&nbsp;v&nbsp;{result.homeTeam.name}</span>
+                                                            <span className="grid place-items-center">{result.home_goals}-{result.away_goals}&nbsp;v&nbsp;{result.homeTeam.name}</span>
                                                         </>
                                                     ) : (
                                                         <h2></h2>
@@ -280,9 +280,17 @@ const FixtureDetail: React.FC = () => {
 
                                                     )} */}
                                                     {result.homeTeam.name === thisMatch.homeTeam.name ? (
-                                                        <span className="font-bold">H</span>
+                                                        <span className="font-bold grid place-items-center mx-4">H</span>
                                                     ) : (
-                                                        <span className="font-bold">A</span>
+                                                        <span className="font-bold grid place-items-center mx-4">A</span>
+                                                    )}
+                                                    {result.homeTeam.name === thisMatch.homeTeam.name && result.home_goals < result.away_goals ? (
+                                                        <span className="rounded-full bg-red-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">L</span>
+                                                        
+                                                    ) : result.homeTeam.name === thisMatch.homeTeam.name && result.home_goals > result.away_goals ? (
+                                                        <span className="rounded-full bg-green-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">W</span>
+                                                    ) : (
+                                                        <span className="rounded-full bg-gray-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">D</span>
                                                     )}
                                                     {/* <span className="text-bold text-red-500">{result.homeTeam.name}</span> 
                                                     <span className="border-2">{result.home_goals}</span>
@@ -292,14 +300,59 @@ const FixtureDetail: React.FC = () => {
                                             </Link>
                                         </ul>
                                         ))}
-                                    </div>
+                                </div>
                             </div>
                             <div className="flex w-4">
 
                             </div>
-                            <div className="w-[50%] flex justify-start">
-                                <span className="font-bold my-2 py-2">{thisMatch.awayTeam.name}</span> 
-                                <span className="mr-2 grid place-items-center"><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                            <div className="w-[50%] justify-start">
+                                <div className="flex justify-start">
+                                    <span className="font-bold my-2 py-2">{thisMatch.awayTeam.name}</span> 
+                                    <span className="mr-2 grid place-items-center"><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${thisMatch.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                                </div>
+                                <div>
+                                    {AwayTeamData.slice(0, 5).map((result, key) => (
+                                        <ul key={result._id}>
+                                            <Link href={`/team/${thisMatch.awayTeam?._id}/result/${result._id}`}>
+                                                <li className="center space-x-2 hover:text-red-500 flex justify-start ml-4">
+                                                    {result.homeTeam.name === thisMatch.awayTeam.name ? (
+                                                        <>
+                                                            <span><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${result.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                                                            <span className="grid place-items-center">{result.home_goals}-{result.away_goals}&nbsp;v&nbsp;{result.awayTeam.name}</span>
+                                                        </>
+                                                    ) : result.awayTeam.name === thisMatch.awayTeam.name ? (
+                                                        <>
+                                                            <span><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${result.homeTeam.emblem}`} width={50} height={50} alt="img" /></span>
+                                                            <span className="grid place-items-center">{result.home_goals}-{result.away_goals}&nbsp;v&nbsp;{result.homeTeam.name}</span>
+                                                        </>
+                                                    ) : (
+                                                        <h2></h2>
+                                                    )}
+                                                    {/* {result.homeTeam.name === thisMatch.homeTeam.name ? (
+
+                                                    )} */}
+                                                    {result.awayTeam.name === thisMatch.homeTeam.name ? (
+                                                        <span className="font-bold grid place-items-center mx-4">H</span>
+                                                    ) : (
+                                                        <span className="font-bold grid place-items-center mx-4">A</span>
+                                                    )}
+                                                    {result.homeTeam.name === thisMatch.awayTeam.name && result.home_goals < result.away_goals ? (
+                                                        <span className="rounded-full bg-red-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">L</span>
+                                                        
+                                                    ) : result.awayTeam.name === thisMatch.awayTeam.name && result.home_goals > result.away_goals ? (
+                                                        <span className="rounded-full bg-green-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">W</span>
+                                                    ) : (
+                                                        <span className="rounded-full bg-gray-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">D</span>
+                                                    )}
+                                                    {/* <span className="text-bold text-red-500">{result.homeTeam.name}</span> 
+                                                    <span className="border-2">{result.home_goals}</span>
+                                                    <span className="border-2">{result.away_goals}</span>
+                                                    <span className="text-bold text-blue-500">{result.awayTeam.name}</span> */}
+                                                </li>
+                                            </Link>
+                                        </ul>
+                                        ))}
+                                </div>
                             </div>
                         </div>
                         {/* <div className="w-[50%] justify-end">
