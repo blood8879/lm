@@ -286,8 +286,11 @@ const FixtureDetail: React.FC = () => {
                                                     )}
                                                     {result.homeTeam.name === thisMatch.homeTeam.name && result.home_goals < result.away_goals ? (
                                                         <span className="rounded-full bg-red-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">L</span>
-                                                        
                                                     ) : result.homeTeam.name === thisMatch.homeTeam.name && result.home_goals > result.away_goals ? (
+                                                        <span className="rounded-full bg-green-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">W</span>
+                                                    ) : result.awayTeam.name === thisMatch.homeTeam.name && result.home_goals > result.away_goals ? (
+                                                        <span className="rounded-full bg-red-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">L</span>
+                                                    ) : result.awayTeam.name === thisMatch.homeTeam.name && result.home_goals < result.away_goals ? (
                                                         <span className="rounded-full bg-green-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">W</span>
                                                     ) : (
                                                         <span className="rounded-full bg-gray-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">D</span>
@@ -314,7 +317,7 @@ const FixtureDetail: React.FC = () => {
                                     {AwayTeamData.slice(0, 5).map((result, key) => (
                                         <ul key={result._id}>
                                             <Link href={`/team/${thisMatch.awayTeam?._id}/result/${result._id}`}>
-                                                <li className="center space-x-2 hover:text-red-500 flex justify-start ml-4">
+                                                <li className="center space-x-2 hover:text-red-500 flex justify-start">
                                                     {result.homeTeam.name === thisMatch.awayTeam.name ? (
                                                         <>
                                                             <span><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${result.awayTeam.emblem}`} width={50} height={50} alt="img" /></span>
@@ -323,7 +326,7 @@ const FixtureDetail: React.FC = () => {
                                                     ) : result.awayTeam.name === thisMatch.awayTeam.name ? (
                                                         <>
                                                             <span><Image className="rounded-full grid place-items-center w-10 h-10" src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${result.homeTeam.emblem}`} width={50} height={50} alt="img" /></span>
-                                                            <span className="grid place-items-center">{result.home_goals}-{result.away_goals}&nbsp;v&nbsp;{result.homeTeam.name}</span>
+                                                            <span className="grid place-items-center">{result.away_goals}-{result.home_goals}&nbsp;v&nbsp;{result.homeTeam.name}</span>
                                                         </>
                                                     ) : (
                                                         <h2></h2>
@@ -338,8 +341,11 @@ const FixtureDetail: React.FC = () => {
                                                     )}
                                                     {result.homeTeam.name === thisMatch.awayTeam.name && result.home_goals < result.away_goals ? (
                                                         <span className="rounded-full bg-red-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">L</span>
-                                                        
+                                                    ) : result.homeTeam.name === thisMatch.awayTeam.name && result.home_goals > result.away_goals ? (
+                                                        <span className="rounded-full bg-green-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">W</span>
                                                     ) : result.awayTeam.name === thisMatch.awayTeam.name && result.home_goals > result.away_goals ? (
+                                                        <span className="rounded-full bg-red-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">L</span>
+                                                    ) : result.awayTeam.name === thisMatch.awayTeam.name && result.home_goals < result.away_goals ? (
                                                         <span className="rounded-full bg-green-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">W</span>
                                                     ) : (
                                                         <span className="rounded-full bg-gray-400 w-7 h-7 grid place-items-center font-bold text-white mt-1.5">D</span>
