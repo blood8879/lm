@@ -20,16 +20,16 @@ export default async(req: Request, res: Response, next: NextFunction) => {
         const { email } : any = jwt.verify(token, process.env.JWT_SECRET);
 
         const user = await User.findOne({ email });
-        const playerId = user['_id'];
+        // const playerId = user['_id'];
         // console.log("playerId==", playerId);
-        const player = await Player.findOne({ playerId });
+        // const player = await Player.findOne({ playerId });
         // console.log("player===", player);
 
         if(!user) throw new Error("Unauthenticated");
 
         // 유저 정보를 res.locals.user에 넣어주기
         res.locals.user = user;
-        res.locals.player = player;
+        // res.locals.player = player;
         // console.log("res.locals===", res.locals);
         return next();
     } catch (error) {

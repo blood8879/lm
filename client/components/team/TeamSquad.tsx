@@ -25,16 +25,31 @@ const TeamSquad: React.FC = () => {
 
                 return (
                     <div key={squad._id} className="container px-4 my-2 mx-auto">
-                        <ul className="h-full border-2 border-gray-200 border-opacity-50 rounded-lg float-left my-4 mx-1 hover:cursor-pointer">
+                        <ul className="h-full border-2 border-gray-200 border-opacity-50 rounded-lg float-left my-4 mx-1 hover:cursor-pointer w-1/5">
+                            <Link href={{
+                                pathname: `/team/${team?._id}/squad/${squad.userId._id}`,
+                                query: { userId: squad.userId._id }
+                            }}>
                             <div className="flex">
                                 <div className="w-[80%]">
-                                    <span>{squad.userId['name']}</span>
+                                    <div className="px-4 py-4">
+                                        <span className="text-gray-500 text-xs"># </span>
+                                        <span className="text-blue-500 font-bold text-lg">{squad.backNo}</span>
+                                    </div>
+                                    <div className="px-4">
+                                        <span className="text-xl font-bold">{squad.userId['name']}</span>
+                                    </div>
+                                    <div className="px-4">
+                                        {squad.position.length > 1 ? (
+                                            <span className="text-gray-500 text-xs">{squad.position.join(", ")}</span>
+                                        ) : (
+                                            <span className="text-gray-500 text-xs">{squad.position}</span>
+                                        )}
+                                    </div>
                                 </div>
-                                <div>
-                                    <img className="lg:h-36 object-cover object-center" src="https://picsum.photos/id/188/720/400/" alt="test_image" />    
+                                <div className="pt-2 pr-2">
+                                    <img className="lg:h-24 object-cover object-center rounded-2xl" src="https://www.gravatar.com/avatar/0000?d=mp&f=y" alt="test_image" />    
                                 </div>
-                                {/* <span className="w-[80%]">{squad.userId['name']}</span> */}
-                                
                             </div>
                             <div className="mx-2 my-2 border-blue-300 border-t-2">
                                 <div className="flex py-2">
@@ -45,10 +60,15 @@ const TeamSquad: React.FC = () => {
                                     <span className="w-5/6 text-gray-500 mx-2">Goals:</span>
                                     <span className="w-1/5 text-end font-bold mx-2">{goals ? goals.totalGoals: 0}</span>
                                 </div>
-                                <li>골: {goals ? goals.totalGoals: 0}</li>
-                                <li>도움: {assists ? assists.totalAssists: 0}</li>
+                                <div className="flex py-2 border-t">
+                                    <span className="w-5/6 text-gray-500 mx-2">Assists:</span>
+                                    <span className="w-1/5 text-end font-bold mx-2">{assists ? assists.totalAssists: 0}</span>
+                                </div>
+                                <div className="flex border-t w-full px-2 pt-8 pb-2 justify-end">
+                                    <span className="font-bold text-sm hover:text-pink-500 hover:underline">View Player →</span>
+                                </div>
                             </div>
-                            
+                            </Link>
                         </ul>
                     </div>
                     // <div key={squad._id}>

@@ -48,6 +48,47 @@ userSchema.methods.comparePassword = function(plainPassword, cb) {
     })
 };
 
+// 비밀번호 재설정 토큰 생성(gpt참조라 작동여부 확인 필요)
+userSchema.methods.generateResetToken = function() {
+    // 랜덤한 32자리 문자열 생성
+    const resetToken = require('crypto').randomBytes(32).toString('hex');
+
+    // 토큰 만료일 (1시간 후)
+    const resetTokenExpiration = new Date().getTime() + 1000 * 60 * 60;
+
+    // DB에 저장
+    this.resetToken = resetToken;
+    this.resetTokenExpiration = resetTokenExpiration;
+    this.save();
+
+    // 토큰과 만료일을 포함한 객체 반환
+    return {
+        resetToken,
+        resetTokenExpiration,
+    };
+}
+
+// 비밀번호 재설정(gpt참조라 작동여부 확인 필요)
+userSchema.statics.resetPassword = async function(resetToken, newPassword) {
+    // 토큰과 일치하는 유저 찾기
+    const user = await this.findOne({
+        resetToken,
+        resetTokenExpiration: { $gt: new Date().getTime() },
+    });
+
+    if (!user) {
+        throw new Error('Invalid or expired reset token.');
+    }
+
+    // 비밀번호 업데이트
+    user.password = newPassword;
+    user.resetToken = undefined;
+    user.resetTokenExpiration = undefined;
+    await user.save();
+
+    return user;
+}
+
 const User = model<DBUser, DBUserModel>('User', userSchema);
 
 export { User };

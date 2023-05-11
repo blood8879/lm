@@ -11,10 +11,7 @@ const me = async(_:Request, res: Response) => {
     return res.json(res.locals.user);
 }
 
-const player = async(_: Request, res: Response) => {
-    return res.json(res.locals.player);
-}
-
+// 회원가입
 const signup = async(req: Request, res: Response) => {
     try {
         // 이미 사용중인 이메일인지 확인
@@ -37,6 +34,7 @@ const signup = async(req: Request, res: Response) => {
     }
 }
 
+// 로그인
 const login = async(req: Request, res: Response) => {
     const { email, password } = req.body;
 
@@ -76,6 +74,7 @@ const login = async(req: Request, res: Response) => {
     }
 }
 
+// 로그아웃
 const logout = async(_: Request, res: Response) => {
     res.set(
         "Set-Cookie",
@@ -93,7 +92,6 @@ const logout = async(_: Request, res: Response) => {
 const router = Router();
 
 router.get("/me", user, auth, me);
-router.get("/player", user, auth, player);
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", user, auth, logout);
