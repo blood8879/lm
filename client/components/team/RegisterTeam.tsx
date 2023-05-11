@@ -95,43 +95,43 @@ const RegisterTeam: React.FC = () => {
     }
 
     return (
-        <div>
-            <h2>팀 등록 페이지</h2>
+        <div className="container px-2 py-8 mx-auto">
+            <h2 className="mb-8 font-bold text-2xl">팀 등록 페이지</h2>
             <form onSubmit={onSubmitRegisterTeam}>
                 <div>
                     <Input placeholder="팀 이름을 입력해 주세요." type="text" name="name" value={name} onChange={onChangeName} isValid={!!name} />
                 </div>
-                <div>
+                <div className="pt-4">
                     <Input placeholder="우리팀을 소개해 주세요." type="text" name="description" value={description} onChange={onChangeDescription} isValid={!!description} />
                 </div>
-                <h3>엠블럼을 등록해 주세요.</h3>
-                <div>
+                <h3 className="pt-4">엠블럼을 등록해 주세요.</h3>
+                <div className="pt-2">
                     {!emblem ? (
                         <div>
-                            <input type="file" accept="image/*" onChange={uploadEmblem} />
+                            <input type="file" accept="image/*" onChange={uploadEmblem} className="pb-2" />
                             <Button>
                                 업로드
                             </Button>
                         </div>
                     ) : (
                         <div>
-                            <img src={preview} alt="preview-img" />
-                            <input type="file" accept="image/*" onChange={uploadEmblem} />
+                            <img src={preview} alt="preview-img" className="pb-2"/>
+                            <input type="file" accept="image/*" onChange={uploadEmblem} className="pb-2" />
                             <Button>
                                 엠블럼 변경
                             </Button>
                         </div>
                     )}
                 </div>
-                <h3>팀 창단일을 알려주세요</h3>
-                <div>
+                <h3 className="pt-4">팀 창단일을 알려주세요</h3>
+                <div className="pt-2">
                     <DatePicker
                         selected={datePublished}
                         onChange={onChangePublishedDate}
                         dateFormat="yyyy-MM-dd"
                     />
                 </div>
-                <div>
+                <div className="pt-4">
                     <Button type="submit">팀 등록</Button>
                 </div>
             </form>
