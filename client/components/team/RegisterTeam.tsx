@@ -86,7 +86,7 @@ const RegisterTeam: React.FC = () => {
                 owner
             }
             console.log("registerTeamBody==", registerTeamBody);
-            const { data } = await registerTeamAPI(registerTeamBody);
+            await registerTeamAPI(registerTeamBody);
             dispatch(registerTeamActions.setInitState());
             router.push("/");
         } catch(e) {
