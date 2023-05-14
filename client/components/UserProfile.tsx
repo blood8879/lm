@@ -21,6 +21,8 @@ const UserProfile: React.FC = () => {
     const onSubmitChangeInfo = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        console.log("newPassword ===", newPassword, "newPasswordConfirm===", newPasswordConfirm)
+
         if(newPassword == "" || newPasswordConfirm == "") {
             return;
         }

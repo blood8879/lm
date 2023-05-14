@@ -27,4 +27,4 @@ export const logoutAPI = () => axios.post("/api/auth/logout");
 export const meAPI = () => axios.get("/api/auth/me");
 
 // 회원정보 api
-export const getProfileAPI = () => axios.get("/api/auth/getProfile");
+export const getProfileAPI = () => axios.put("/api/auth/changeProfile");

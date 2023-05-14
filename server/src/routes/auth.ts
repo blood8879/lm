@@ -89,6 +89,11 @@ const logout = async(_: Request, res: Response) => {
     res.status(200).json({ success: true })
 };
 
+// 회원정보 수정
+const changeProfile = async(req: Request, res: Response) => {
+
+}
+
 const router = Router();
 
 router.get("/me", user, auth, me);
