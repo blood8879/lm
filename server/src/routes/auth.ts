@@ -91,6 +91,9 @@ const logout = async(_: Request, res: Response) => {
 
 // 회원정보 수정
 const changeProfile = async(req: Request, res: Response) => {
+    const { newPassword, newPasswordConfirm } = req.body;
+
+    console.log("body===", req.body);
 
 }
 
@@ -100,5 +103,6 @@ router.get("/me", user, auth, me);
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", user, auth, logout);
+router.put("/changeProfile", user, auth, changeProfile);
 
 export default router;

@@ -1,5 +1,6 @@
 import Head from "next/head";
 import React, { useState } from "react";
+import { changeProfileAPI } from "../lib/api/auth";
 import { useSelector } from "../store";
 import Button from "./common/Button";
 import Input from "./common/Input";
@@ -21,11 +22,26 @@ const UserProfile: React.FC = () => {
     const onSubmitChangeInfo = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        console.log("newPassword ===", newPassword, "newPasswordConfirm===", newPasswordConfirm)
+        // console.log("newPassword ===", newPassword, "newPasswordConfirm===", newPasswordConfirm)
 
         if(newPassword == "" || newPasswordConfirm == "") {
             return;
         }
+
+        if((!!newPassword && !!newPasswordConfirm) && (newPassword == newPasswordConfirm)) {
+            try {
+                const changePasswordBody = {
+                    newPassword,
+                    newPasswordConfirm
+                }
+                console.log(changePasswordBody);
+                await changeProfileAPI(changePasswordBody);
+            } catch (e) {
+                console.log(e);   
+            }
+        }
+
+        
         
     }
 

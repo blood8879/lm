@@ -28,3 +28,7 @@ export const meAPI = () => axios.get("/api/auth/me");
 
 // 회원정보 api
 export const getProfileAPI = () => axios.put("/api/auth/changeProfile");
+
+// 회원정보 수정 api
+export const changeProfileAPI = (body: any) =>
+    axios.put("/api/auth/changeProfile", body);
