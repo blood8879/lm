@@ -51,11 +51,11 @@ const login = async(req: Request, res: Response) => {
 
         if(!user) return res.status(404).json({ email: "this email is not registered." });
 
-        const passwordMatches = await bcrypt.compare(password, user.password);
+        // const passwordMatches = await bcrypt.compare(password, user.password);
 
-        if(!passwordMatches) {
-            return res.status(401).json({ password: 'Oops! wrong password!' });
-        }
+        // if(!passwordMatches) {
+        //     return res.status(401).json({ password: 'Oops! wrong password!' });
+        // }
 
         const token = jwt.sign({ email }, process.env.JWT_SECRET);
 
@@ -91,9 +91,29 @@ const logout = async(_: Request, res: Response) => {
 
 // 회원정보 수정
 const changeProfile = async(req: Request, res: Response) => {
-    const { newPassword, newPasswordConfirm } = req.body;
+    try {
+        const { id, newPassword, newPasswordConfirm } = req.body;
 
-    console.log("body===", req.body);
+        // console.log("body===", req.body);
+        
+        // const user = await User.findById(id);
+        // if(!user) {
+        //     return res.status(404).json({ error: 'User not found.' });
+        // }
+
+        // user.password = hash;
+        // await 
+
+        // await User.findByIdAndUpdate(id, {
+        //     password: newPasswordConfirm
+        // }).exec((err, user) => {
+        //     if(err) res.status(400).send(err);
+        //     res.status(200).send(user);
+        // })    
+    } catch (e) {
+        console.log(e);
+    }
+    
 
 }
 

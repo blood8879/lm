@@ -28,9 +28,15 @@ const UserProfile: React.FC = () => {
             return;
         }
 
+        if((!!newPassword && !!newPasswordConfirm) && newPassword != newPasswordConfirm) {
+            alert("변경할 비밀번호가 일치하지 않습니다.")
+            return;
+        }
+
         if((!!newPassword && !!newPasswordConfirm) && (newPassword == newPasswordConfirm)) {
             try {
                 const changePasswordBody = {
+                    id: user._id,
                     newPassword,
                     newPasswordConfirm
                 }
