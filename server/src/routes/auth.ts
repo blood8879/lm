@@ -51,11 +51,11 @@ const login = async(req: Request, res: Response) => {
 
         if(!user) return res.status(404).json({ email: "this email is not registered." });
 
-        // const passwordMatches = await bcrypt.compare(password, user.password);
+        const passwordMatches = await bcrypt.compare(password, user.password);
 
-        // if(!passwordMatches) {
-        //     return res.status(401).json({ password: 'Oops! wrong password!' });
-        // }
+        if(!passwordMatches) {
+            return res.status(401).json({ password: 'Oops! wrong password!' });
+        }
 
         const token = jwt.sign({ email }, process.env.JWT_SECRET);
 
@@ -94,22 +94,32 @@ const changeProfile = async(req: Request, res: Response) => {
     try {
         const { id, newPassword, newPasswordConfirm } = req.body;
 
-        // console.log("body===", req.body);
-        
-        // const user = await User.findById(id);
-        // if(!user) {
-        //     return res.status(404).json({ error: 'User not found.' });
-        // }
+        const saltRounds = 10;
+        bcrypt.genSalt(saltRounds, (err, salt) => {
+            if(err) {
+                return res.status(500).json({ error: 'Failed to update password.' });
+            }
 
-        // user.password = hash;
-        // await 
+            bcrypt.hash(newPasswordConfirm, salt, async(err, hash) => {
+                if(err) {
+                    return res.status(500).json({ error: 'Failed to update password.' });
+                }
 
-        // await User.findByIdAndUpdate(id, {
-        //     password: newPasswordConfirm
-        // }).exec((err, user) => {
-        //     if(err) res.status(400).send(err);
-        //     res.status(200).send(user);
-        // })    
+                try {
+                    await User.findByIdAndUpdate(id, {
+                        password: hash,
+                    }).exec((err, user) => {
+                        if(err) {
+                            return res.status(400).send(user);
+                        }
+                        return res.status(200).send(user);
+                    });
+                } catch (e) {
+                    console.log(e);
+                    return res.status(500).json({ error: 'Failed to update password.' });
+                }
+            })
+        })
     } catch (e) {
         console.log(e);
     }
