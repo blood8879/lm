@@ -6,6 +6,9 @@ import jwt from "jsonwebtoken";
 import cookie from "cookie";
 import auth from "../middlewares/auth";
 import user from "../middlewares/user";
+import nodeMailer from "nodemailer";
+
+// const nodemailer = require('nodemailer');
 
 const me = async(_:Request, res: Response) => {
     return res.json(res.locals.user);
@@ -95,6 +98,7 @@ const changeProfile = async(req: Request, res: Response) => {
         const { id, newPassword, newPasswordConfirm } = req.body;
 
         const saltRounds = 10;
+
         bcrypt.genSalt(saltRounds, (err, salt) => {
             if(err) {
                 return res.status(500).json({ error: 'Failed to update password.' });
@@ -123,8 +127,43 @@ const changeProfile = async(req: Request, res: Response) => {
     } catch (e) {
         console.log(e);
     }
-    
+}
 
+// 비밀번호 찾기
+const findPassword = async(req: Request, res: Response) => {
+    const variable = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,!,@,#,$,%,^,&,*,(,)".split(",");
+    const randomPassword = createRandomPassword(variable, 8);
+
+    // 임시 비밀번호 생성
+    function createRandomPassword(variable, passwordLength) {
+        let randomString = "";
+        for(let i=0; i<passwordLength; i++) 
+            randomString += variable[Math.floor(Math.random()*variable.length)];
+            return randomString;
+    }
+
+    const transporter = nodeMailer.createTransport({
+        service: 'gmail',
+        port: 465,
+        secure: true,
+        auth: { // 이메일을 보낼 계정 데이터 입력
+            user: '@gmail.com',
+            pass: ''
+        },
+    });
+
+    const emailOptions = { // 옵션값 설정
+        from: 'blood8879@gmail.com',
+        to: 'blood8879@naver.com', // email값 받아와서 발송
+        subject: 'MatchArchive에서 임시 비밀번호를 알려드립니다.',
+        html:
+        "<h1>MatchArchive에서 새로운 임시 비밀번호를 알려드립니다.</h1> <h2> 비밀번호: " + randomPassword + "</h2>"
+        +'<h3 styoe="color: crimson;">임시 비밀번호로 로그인 하신 후, 반드시 비밀번호를 수정해 주세요.</h3>'
+    };
+    transporter.sendMail(emailOptions, res);
+
+    console.log()
+    console.log("randomPasswd=====", randomPassword);
 }
 
 const router = Router();
@@ -134,5 +173,6 @@ router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", user, auth, logout);
 router.put("/changeProfile", user, auth, changeProfile);
+router.post("/findPassword", findPassword);
 
 export default router;

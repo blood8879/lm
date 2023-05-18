@@ -34,6 +34,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
     }
 
     return (
+        <>
         <div>
             <form onSubmit={onSubmitLogin}>
                 <div className="relative mb-4 mt-4 w-full px-5">
@@ -51,6 +52,17 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
                 </div>
             </form>
         </div>
+        <p className="mt-4 px-5 text-gray-400">
+            비밀번호가 기억나지 않으시나요?
+            <span
+                className="cursor-pointer ml-2 text-blue-400"
+                role="presentation"
+                // onClick={() => dispatch(authActions.setAuthMode("login"))}
+            >
+                비밀번호 찾기
+            </span>
+        </p>
+        </>
     )
 }
 
