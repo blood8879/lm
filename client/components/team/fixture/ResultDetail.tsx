@@ -12,7 +12,7 @@ const ResultDetail: React.FC = () => {
             <Head>
                 <title>{matchInfo.homeTeam.name} v {matchInfo.awayTeam.name}, {moment(matchInfo.matchDay).add(-9, 'h').format('yyyy-MM-DD')}</title>
             </Head>
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 container mx-auto">
                 <h4 className="text-xs bold">{moment(matchInfo.matchDay).add(-9, 'h').format('yyyy-MM-DD')}</h4>
                 <h4 className="text-xs bold">{matchInfo.venue}</h4>
             </div>
