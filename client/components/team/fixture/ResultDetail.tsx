@@ -16,13 +16,13 @@ const ResultDetail: React.FC = () => {
                 <h4 className="text-xs bold">{moment(matchInfo.matchDay).add(-9, 'h').format('yyyy-MM-DD')}</h4>
                 <h4 className="text-xs bold">{matchInfo.venue}</h4>
             </div>
-            <div className="flex">
-                <div className="w-[40%]">
-                    {matchInfo.homeTeam.name}
+            <div className="flex container mx-auto mt-4 h-8">
+                <div className="w-[48%]">
+                    <span className="flex justify-end bg-[#37003c] text-white h-8 py-1">{matchInfo.homeTeam.name}&nbsp;&nbsp;</span>
                 </div>
-                <div className="w-[20%] space-x-4">{matchInfo.home_goals}-{matchInfo.away_goals}</div>
-                <div className="w-[40%]">
-                    {matchInfo.awayTeam.name}
+                <div className="w-[4%] space-x-4 grid place-items-center bg-pink-500 text-white">{matchInfo.home_goals}-{matchInfo.away_goals}</div>
+                <div className="w-[48%]">
+                    <span className="flex justify-start bg-[#37003c] text-white h-8 py-1">{matchInfo.awayTeam.name}</span>
                 </div>
             </div>
             <div>
