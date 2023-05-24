@@ -8,7 +8,7 @@ const TeamList: React.FC = () => {
     // console.log("teams==", teams);
 
     return (
-        <div>
+        <div className="container px-4 flex mx-auto space-x-2">
             {teams.map((team, key) => (
                 <div key={team._id}>
                     <Link href={`/team/${team._id}`}>
@@ -18,7 +18,7 @@ const TeamList: React.FC = () => {
                             height={200}
                             alt="img"
                         />
-                        <h2 className="w-4 center">{team.name}</h2>
+                        <h2 className="center">{team.name}</h2>
                     </Link>
                     {/* <img src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${team.emblem}`} alt="emblem" /> */}
                     

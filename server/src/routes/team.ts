@@ -28,6 +28,26 @@ const getTeamLists = async(req: Request, res: Response) => {
         })
 }
 
+const getTeambyName = async(req: Request, res: Response) => {
+    // let searchTerm = req.body.name;
+    const { name } = req.body;
+
+    console.log("searchTerm===", name);
+
+    const regex = (pattern) => new RegExp(`.*${pattern}.*`);
+    const Regex = regex(name);
+
+    if(name) {
+        await Team.find({ name: Regex })
+            .exec((err, teams) => {
+                if(err) res.status(400).send(err);
+                res.status(200).send(teams);
+            })
+    } else {
+        return;
+    }
+}
+
 const getTeambyId = async(req: Request, res: Response) => {
     // const teamId = stringify(req.params).split("=")[1];
     const teamId = objectToString(req.params);
@@ -311,6 +331,7 @@ router.post("/:id/join", joinTeam);
 router.put("/updatePermissions", givePermissionToPlayer);
 router.post("/registerStadium", registerStadium);
 router.get("/:id/getStadium", getStadium);
-router.get("/:id/stats", getPlayerStats)
+router.get("/:id/stats", getPlayerStats);
+router.post("/search", getTeambyName);
 
 export default router;

@@ -18,6 +18,7 @@ export type TeamState = {
     detail: TeamType | null;
     stadium: any[];
     stats: any[];
+    searchTeams: TeamType[];
 }
 
 // 선수목록 redux state

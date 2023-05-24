@@ -16,9 +16,20 @@ interface joinTeamAPIBody {
     position: string[];
 }
 
+interface TestAPIBody {
+    name: string;
+}
+
 // 팀 정보 가져오기 api
 export const getTeamListAPI = () => 
-    axios.get("/api/team/")
+    axios.get("/api/team/");
+
+// 팀명 검색 api
+// export const getTeamListByName = (name: TestAPIBody) => {
+//     console.log("name===", name);
+//     axios.post("/api/team/search", name);
+// }
+    
 
 // 팀 세부정보 가져오기 api
 export const getTeamDetailAPI = (id: string) =>

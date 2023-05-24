@@ -6,7 +6,8 @@ const initialState: TeamState = {
     teams: [],
     detail: null,
     stadium: [],
-    stats: []
+    stats: [],
+    searchTeams: []
 }
 
 const team = createSlice({
@@ -24,6 +25,9 @@ const team = createSlice({
         },
         setPlayersStats(state, action:  PayloadAction<any>) {
             state.stats = action.payload;
+        },
+        setSearchTeams(state, action: PayloadAction<TeamType[]>) {
+            state.searchTeams = action.payload;
         }
     },
 });
