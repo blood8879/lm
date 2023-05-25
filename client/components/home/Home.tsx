@@ -1,14 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { getTeamListByName } from "../../lib/api/team";
+import { getTeamListByNameAPI } from "../../lib/api/team";
 import { useSelector } from "../../store";
 import { teamActions } from "../../store/team/teams";
 import SearchBar from "../common/SearchBar";
 import TeamList from "../team/TeamList";
 
 const Home: React.FC = () => {
+    // searchValue는 설정할 필요 없으나, SearchBar 공용 컴포넌트 value가 필수값이라 일단 설정해 놓음. 추후에 수정 필요함.
     const [searchValue, setSearchValue] = useState("");
     
     const searchTeams = useSelector((state) => state.team.searchTeams);
@@ -17,30 +18,44 @@ const Home: React.FC = () => {
 
     const searchTimer = useRef<NodeJS.Timeout | null>(null);
 
-    const onChangeSearchValue = (e: string) => {
+    const onChangeSearchValue = useCallback((e: any) => {
         setSearchValue(e);
-        console.log("sValue===", searchValue);
-        
+
         if(searchTimer.current) {
             clearTimeout(searchTimer.current);
         }
-        
-        // try {
-        //     const joinTeamBody = {
-        //         name: searchValue,
-        //     }
-        // } catch(e) {
-        //     console.log(e);
-        // }
-        // const { data } = getTeamListByName(joinTeamBody);
-        // console.log("data===", data);
 
-        // searchTimer.current = setTimeout(async () => {
-        //     const { data } = await getTeamListByName(searchValue);
-        //     console.log("data===", data);
-        //     dispatch(teamActions.setSearchTeams(data.teams));
-        // }, 500);
-    }
+        console.log("event===", e);
+
+        const tt = {
+            name: e
+        };
+
+        searchTimer.current = setTimeout(async() => {
+            try {
+                if(e == null || e == "" || e == undefined) {
+                    dispatch(teamActions.setSearchTeams([]));
+                } else {
+                    const { data } = await getTeamListByNameAPI(tt);
+                    dispatch(teamActions.setSearchTeams(data));
+                }
+                
+            } catch (e) {
+                console.log(e)
+            }
+        }, 500);
+
+        // try {
+        //     const { data } = await getTeamListByNameAPI(tt);
+        //     console.log("data===", data)
+        //     // const response = await getTeamListByName(tt);
+        //     // console.log("resp===", response);
+        // } catch (e) {
+        //     console.log(e)
+        // }
+        
+        // dispatch(teamActions.setSearchTeams(e));
+    }, [searchValue]);
 
     return (
         <>
@@ -59,11 +74,8 @@ const Home: React.FC = () => {
                         />
                         <h2 className="center">{team.name}</h2>
                     </Link>
-                    {/* <img src={`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/emblem/${team.emblem}`} alt="emblem" /> */}
-                    
                 </div>
             ))}
-            {/* <TeamList /> */}
         </div>
         </>
     )

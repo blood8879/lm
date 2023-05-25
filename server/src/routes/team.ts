@@ -29,16 +29,17 @@ const getTeamLists = async(req: Request, res: Response) => {
 }
 
 const getTeambyName = async(req: Request, res: Response) => {
-    // let searchTerm = req.body.name;
     const { name } = req.body;
+    
 
-    console.log("searchTerm===", name);
+    console.log("req.body===", req.body);
+    // console.log("searchTerm===", name);
 
-    const regex = (pattern) => new RegExp(`.*${pattern}.*`);
-    const Regex = regex(name);
+    const regex = (pattern) => new RegExp(`.*${pattern}.*`, "i");
+    const regexPattern = regex(name);
 
     if(name) {
-        await Team.find({ name: Regex })
+        await Team.find({ name: regexPattern })
             .exec((err, teams) => {
                 if(err) res.status(400).send(err);
                 res.status(200).send(teams);

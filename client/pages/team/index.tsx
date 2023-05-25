@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import TeamList from "../../components/team/TeamList";
-import { getTeamListAPI } from "../../lib/api/team";
+import { getTeamListAPI, getTeamListByNameAPI } from "../../lib/api/team";
 import { teamActions } from "../../store/team/teams";
 
 
