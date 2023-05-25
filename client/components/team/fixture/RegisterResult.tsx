@@ -140,6 +140,17 @@ const RegisterResult: React.FC = () => {
                 }
             })}
             </div>
+            <div>
+                <h2>불참</h2>
+                {matchInfo.homeAbsent.map((player: any) => {
+                    const matchingPlayer = squad.find((p:any) => p.userId._id === player);
+                    if(matchingPlayer) {
+                        return (
+                            <h2>{matchingPlayer.userId.name}</h2>
+                        )
+                    }
+                })}
+            </div>
         </>
     )
 }
