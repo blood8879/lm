@@ -41,8 +41,10 @@ export const getTeamSquadAPI = (id: string) =>
     axios.get(`/api/team/${id}/homeSquad`);
 
 // 선수단정보 가져오기 api(어웨이)
-export const getAwayTeamSquadAPI = (body: any) =>
+export const getAwayTeamSquadAPI = (body: any) => 
     axios.post("/api/team/awaySquad", body);
+
+    
 
 // 가입승인 api
 // export const givePermissionToPlayerAPI = (id: string, body: any) => {

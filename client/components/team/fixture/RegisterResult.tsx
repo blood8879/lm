@@ -1,8 +1,11 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { registerResultAPI } from "../../../lib/api/fixture";
 import { getAwayTeamSquadAPI } from "../../../lib/api/team";
 import { useSelector } from "../../../store";
+import { squadActions } from "../../../store/squad/squad";
+import { teamActions } from "../../../store/team/teams";
 import Button from "../../common/Button";
 import Input from "../../common/Input";
 
@@ -16,6 +19,8 @@ const RegisterResult: React.FC = () => {
     const matchInfo = useSelector((state) => state.fixture.detailFixture);
     const squad = useSelector((state) => state.squad.squad);
     const awaySquad = useSelector((state) => state.squad.awaysquad);
+
+    const dispatch = useDispatch();
 
     const [homeScore, setHomeScore] = useState<number>(0);
     const [awayScore, setAwayScore] = useState<number>(0);
@@ -85,13 +90,18 @@ const RegisterResult: React.FC = () => {
     }
 
     const getAwaySquad = async() => {
-        const { data } = await getAwayTeamSquadAPI(matchInfo.awayTeam._id);
+        console.log("iiii==", matchInfo.awayTeam._id);
+        const getAwaySquadBody = {
+            _id : matchInfo.awayTeam._id
+        }
+        const { data } = await getAwayTeamSquadAPI(getAwaySquadBody);
+        dispatch(squadActions.setAwaySquad(data));
         // console.log("data===", data);
     }
 
     useEffect(() => {
         getAwaySquad();
-    })
+    }, [])
 
     return (
         <>
