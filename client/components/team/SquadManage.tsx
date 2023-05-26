@@ -91,7 +91,10 @@ const SquadManage: React.FC = () => {
 
         // }
 
+        const filterJoinTeamBody = dispatchJoinTeamBody.filter((item) => item !== null || item !== undefined);
+
         console.log("dispatchJoinTeamBody===", dispatchJoinTeamBody);
+        console.log("filterJoinTeamBody===", filterJoinTeamBody);
 
         const promises = [
             givePermissionToPlayerAPI(id, dispatchJoinTeamBody),

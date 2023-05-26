@@ -36,9 +36,13 @@ export const registerTeamAPI = (body: registerTeamAPIBody) =>
 export const joinTeamAPI = (id: any, body: joinTeamAPIBody) =>
     axios.post(`/api/team/${id}/join`, body)
 
-// 선수단정보 가져오기 api
+// 선수단정보 가져오기 api(홈)
 export const getTeamSquadAPI = (id: string) => 
-    axios.get(`/api/team/${id}/squad`);
+    axios.get(`/api/team/${id}/homeSquad`);
+
+// 선수단정보 가져오기 api(어웨이)
+export const getAwayTeamSquadAPI = (body: any) =>
+    axios.post("/api/team/awaySquad", body);
 
 // 가입승인 api
 // export const givePermissionToPlayerAPI = (id: string, body: any) => {
@@ -54,7 +58,7 @@ export const getTeamSquadAPI = (id: string) =>
 
 export const givePermissionToPlayerAPI = (id: string, body: any) => {
     console.log("bbb=", body);
-    axios.put("/api/team/updatePermissions", body);
+    return axios.put("/api/team/updatePermissions", body);
 }
 
 // 홈구장 등록 api

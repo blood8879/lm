@@ -153,7 +153,7 @@ const findPassword = async(req: Request, res: Response) => {
     });
 
     const emailOptions = { // 옵션값 설정
-        from: 'blood8879@gmail.com',
+        from: 'matcharchiveofficial@gmail.com',
         to: 'blood8879@naver.com', // email값 받아와서 발송
         subject: 'MatchArchive에서 임시 비밀번호를 알려드립니다.',
         html:

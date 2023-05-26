@@ -69,7 +69,8 @@ const getTeambyId = async(req: Request, res: Response) => {
     });
 }
 
-const getSquadbyTeam = async(req: Request, res: Response) => {
+// 홈 스쿼드 가져오기
+const getSquadbyHomeTeam = async(req: Request, res: Response) => {
     const teamId = objectToString(req.params);
     // const { searchType } = req.query;
 
@@ -95,6 +96,20 @@ const getSquadbyTeam = async(req: Request, res: Response) => {
     //         res.status(200).send(squad);
     //     })
     // }
+}
+
+// 어웨이 스쿼드 가져오기
+const getSquadbyAwayTeam = async(req: Request, res: Response) => {
+    const { _id : teamId } = req.body;
+
+    console.log("req.body===", req.body);
+
+    await Squad.find({ teamId: teamId })
+        .populate('userId')
+        .exec((err, squad) => {
+        if(err) res.status(400).send(err);
+        res.status(200).send(squad);
+        });
 }
 
 // 팀등록
@@ -155,7 +170,12 @@ const emblemUpload = multer({
 // 팀 입단 승인
 const givePermissionToPlayer = async(req: Request, res: Response) => {
     // const { _id, backNo, confirmed, teamId, userId } = req.body;
-    const squadDataArray = req.body;
+    // const squadDataArray = req.body;
+    console.log("req.body====", req.body);
+    console.log("length===", req.body.length);
+    // req.body에 기존 가입된 팀원이 있는 경우 null로 데이터가 전달됨. 정상 작동 위해 일단 코드작성해둠. 로직 새로 짜야함.
+    const squadDataArray = req.body.filter((item) => item !== null);
+    console.log("filteredData===", squadDataArray);
     for (const squadData of squadDataArray) {
         const { _id, backNo, confirmed } = squadData;
         await Squad.findByIdAndUpdate(_id, {
@@ -325,7 +345,7 @@ const getPlayerStats = async(req: Request, res: Response) => {
 const router = Router();
 router.get("/", getTeamLists);
 router.get("/:id", getTeambyId);
-router.get("/:id/squad", getSquadbyTeam);
+router.get("/:id/homeSquad", getSquadbyHomeTeam);
 router.post("/registerTeam", user, auth, registerTeam);
 router.post("/registerTeam/emblemUpload", user, auth, emblemUpload.single('file'));
 router.post("/:id/join", joinTeam);
@@ -334,5 +354,6 @@ router.post("/registerStadium", registerStadium);
 router.get("/:id/getStadium", getStadium);
 router.get("/:id/stats", getPlayerStats);
 router.post("/search", getTeambyName);
+router.post("/awaySquad", getSquadbyAwayTeam);
 
 export default router;

@@ -44,17 +44,6 @@ const Home: React.FC = () => {
                 console.log(e)
             }
         }, 500);
-
-        // try {
-        //     const { data } = await getTeamListByNameAPI(tt);
-        //     console.log("data===", data)
-        //     // const response = await getTeamListByName(tt);
-        //     // console.log("resp===", response);
-        // } catch (e) {
-        //     console.log(e)
-        // }
-        
-        // dispatch(teamActions.setSearchTeams(e));
     }, [searchValue]);
 
     return (

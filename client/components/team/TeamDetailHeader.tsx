@@ -116,9 +116,9 @@ const TeamDetailHeader = () => {
                     </Link>
                 ))}
             </div>
-            {/* <div>
+            <div>
                 <Button onClick={requestPermission}>입단신청</Button>
-            </div> */}
+            </div>
         </div>
     )
 }

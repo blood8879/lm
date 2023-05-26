@@ -3,7 +3,8 @@ import { SquadType } from "../../types/player";
 import { SquadState } from "../../types/reduxState";
 
 const initialState : SquadState = {
-    squad: []
+    squad: [],
+    awaysquad: []
 }
 
 const squad = createSlice({
@@ -36,6 +37,9 @@ const squad = createSlice({
                 ...state,
                 squad: [...state.squad, action.payload]
             }
+        },
+        setAwaySquad(state, action: PayloadAction<SquadType[]>) {
+            state.awaysquad = action.payload;
         }
     },
 });

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { registerResultAPI } from "../../../lib/api/fixture";
+import { getAwayTeamSquadAPI } from "../../../lib/api/team";
 import { useSelector } from "../../../store";
 import Button from "../../common/Button";
 import Input from "../../common/Input";
@@ -14,6 +15,7 @@ const RegisterResult: React.FC = () => {
     const router = useRouter();
     const matchInfo = useSelector((state) => state.fixture.detailFixture);
     const squad = useSelector((state) => state.squad.squad);
+    const awaySquad = useSelector((state) => state.squad.awaysquad);
 
     const [homeScore, setHomeScore] = useState<number>(0);
     const [awayScore, setAwayScore] = useState<number>(0);
@@ -81,6 +83,15 @@ const RegisterResult: React.FC = () => {
             console.log(e);
         }
     }
+
+    const getAwaySquad = async() => {
+        const { data } = await getAwayTeamSquadAPI(matchInfo.awayTeam._id);
+        // console.log("data===", data);
+    }
+
+    useEffect(() => {
+        getAwaySquad();
+    })
 
     return (
         <>

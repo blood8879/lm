@@ -24,6 +24,7 @@ export type TeamState = {
 // 선수목록 redux state
 export type SquadState = {
     squad: SquadType[];
+    awaysquad: SquadType[];
 }
 
 // 경기일정 redux state
