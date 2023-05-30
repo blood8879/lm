@@ -163,14 +163,28 @@ const RegisterResult: React.FC = () => {
             </div>
             <div>
                 <h2>불참</h2>
-                {matchInfo.homeAbsent.map((player: any) => {
-                    const matchingPlayer = squad.find((p:any) => p.userId._id === player);
+                {matchInfo.homeSquad.map((player: any) => {
+                    const matchingPlayer = squad.find((p: any) => p.userId._id !== player);
+                    if(matchingPlayer) {
+                        return (
+                            <div>
+                                <h2>{matchingPlayer.userId.name}</h2>
+                            </div>
+                        )
+                    }
+                })}
+                {/* {squad.map((player: any) => {
+                    const matchingPlayer = matchInfo.homeSquad.find((p:any) => p.userId._id !== player);
                     if(matchingPlayer) {
                         return (
                             <h2>{matchingPlayer.userId.name}</h2>
                         )
                     }
-                })}
+                    return (
+                        <h2>{player.backNo}</h2>
+                    )
+                    
+                })} */}
             </div>
         </>
     )
