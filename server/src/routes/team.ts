@@ -175,7 +175,7 @@ const givePermissionToPlayer = async(req: Request, res: Response) => {
     // console.log("length===", req.body.length);
     // req.body에 기존 가입된 팀원이 있는 경우 null로 데이터가 전달됨. 정상 작동 위해 일단 코드작성해둠. 로직 새로 짜야함.
     const squadDataArray = req.body.filter((item) => item !== null);
-    console.log("filteredData===", squadDataArray);
+    // console.log("filteredData===", squadDataArray);
     for (const squadData of squadDataArray) {
         const { _id, backNo, confirmed } = squadData;
         await Squad.findByIdAndUpdate(_id, {
