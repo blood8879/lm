@@ -90,7 +90,7 @@ const RegisterResult: React.FC = () => {
     }
 
     const getAwaySquad = async() => {
-        console.log("iiii==", matchInfo.awayTeam._id);
+        // console.log("iiii==", matchInfo.awayTeam._id);
         const getAwaySquadBody = {
             _id : matchInfo.awayTeam._id
         }
@@ -99,8 +99,16 @@ const RegisterResult: React.FC = () => {
         // console.log("data===", data);
     }
 
+    // const missingPlayers = squad.filter((player) => !matchInfo.homeSquad.includes(player._id));
+
+    const missingPlayers = squad.filter((player) => {
+        const matchingPlayer = matchInfo.homeSquad.find((homePlayer: any) => homePlayer === player.userId._id);
+        return !matchingPlayer;
+    });
+
     useEffect(() => {
         getAwaySquad();
+        console.log("missingP===", missingPlayers);
     }, [])
 
     return (
@@ -160,31 +168,14 @@ const RegisterResult: React.FC = () => {
                     )
                 }
             })}
-            </div>
-            <div>
-                <h2>불참</h2>
-                {matchInfo.homeSquad.map((player: any) => {
-                    const matchingPlayer = squad.find((p: any) => p.userId._id !== player);
-                    if(matchingPlayer) {
-                        return (
-                            <div>
-                                <h2>{matchingPlayer.userId.name}</h2>
-                            </div>
-                        )
-                    }
-                })}
-                {/* {squad.map((player: any) => {
-                    const matchingPlayer = matchInfo.homeSquad.find((p:any) => p.userId._id !== player);
-                    if(matchingPlayer) {
-                        return (
-                            <h2>{matchingPlayer.userId.name}</h2>
-                        )
-                    }
-                    return (
-                        <h2>{player.backNo}</h2>
-                    )
-                    
-                })} */}
+            <h2>불참</h2>
+            {missingPlayers.map((player: any) => {
+                return (
+                    <div>
+                        {player.userId.name}
+                    </div>
+                )
+            })}
             </div>
         </>
     )
