@@ -106,10 +106,23 @@ const RegisterResult: React.FC = () => {
         return !matchingPlayer;
     });
 
+    const noAttendMatch = async(playerId: string, teamId: string) => {
+        try {
+            const body = {
+                type: "noAttend",
+                fixtureId: matchInfo._id,
+                teamId: teamId,
+                playerId: playerId
+            };
+            console.log("body====", body);
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
     useEffect(() => {
         getAwaySquad();
-        console.log("missingP===", missingPlayers);
-    }, [])
+    }, []);
 
     return (
         <>
@@ -143,6 +156,9 @@ const RegisterResult: React.FC = () => {
                             <div>
                                 <input className="border-2" type="number" name="assist" defaultValue={0} onChange={(event) => onChangeHomePlayerAssists(event, matchingPlayer)} />도움
                             </div>
+                            <div>
+                                <Button type="submit" onClick={() => noAttendMatch(matchingPlayer.userId._id, matchInfo.homeTeam._id)}>불참</Button>
+                            </div>
                         </div>
                     )
                 }
@@ -171,9 +187,15 @@ const RegisterResult: React.FC = () => {
             <h2>불참</h2>
             {missingPlayers.map((player: any) => {
                 return (
-                    <div>
-                        {player.userId.name}
-                    </div>
+                    <>
+                        <div className="flex space-x-2">
+                            <h2>{player.userId.name}</h2>
+                            <div><Button type="button">참석</Button></div>
+                        </div>
+                        <div>
+                            
+                        </div>
+                    </>
                 )
             })}
             </div>
