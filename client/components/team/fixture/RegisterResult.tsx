@@ -106,7 +106,7 @@ const RegisterResult: React.FC = () => {
         return !matchingPlayer;
     });
 
-    const noAttendMatch = async(playerId: string, teamId: string) => {
+    const noAttendMatch = async(playerId: string, teamId: string, isHome: string) => {
         try {
             const body = {
                 type: "noAttend",
@@ -114,7 +114,8 @@ const RegisterResult: React.FC = () => {
                 teamId: teamId,
                 playerId: playerId
             };
-            console.log("body====", body);
+            console.log("body====", body, "isHome====", isHome);
+
         } catch(e) {
             console.log(e);
         }
@@ -157,7 +158,7 @@ const RegisterResult: React.FC = () => {
                                 <input className="border-2" type="number" name="assist" defaultValue={0} onChange={(event) => onChangeHomePlayerAssists(event, matchingPlayer)} />도움
                             </div>
                             <div>
-                                <Button type="submit" onClick={() => noAttendMatch(matchingPlayer.userId._id, matchInfo.homeTeam._id)}>불참</Button>
+                                <Button type="submit" onClick={() => noAttendMatch(matchingPlayer.userId._id, matchInfo.homeTeam._id, "home")}>불참</Button>
                             </div>
                         </div>
                     )
