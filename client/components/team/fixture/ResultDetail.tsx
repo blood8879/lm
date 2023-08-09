@@ -26,14 +26,17 @@ const ResultDetail: React.FC = () => {
                     const matchingPlayer = squad.find((p: any) => p.userId._id === playerId);
                     if(matchingPlayer) {
                         return (
-                            <div className="flex space-x-2">
-                                <h2>{matchingPlayer.backNo}</h2>
-                                <h2>{matchingPlayer.userId.name}</h2>
-                                <div>
-                                    <span>{Number(goals)}</span>골
-                                </div>
+                          <div
+                            key={matchingPlayer.userId._id}
+                            className="flex space-x-2"
+                          >
+                            <h2>{matchingPlayer.backNo}</h2>
+                            <h2>{matchingPlayer.userId.name}</h2>
+                            <div>
+                              <span>{Number(goals)}</span>골
                             </div>
-                        )
+                          </div>
+                        );
                     }
                 })}
             </div>
@@ -47,14 +50,17 @@ const ResultDetail: React.FC = () => {
                             const matchingPlayer = squad.find((p: any) => p.userId._id === playerId);
                             if(matchingPlayer) {
                                 return (
-                                    <div className="flex space-x-2">
-                                        <h2>{matchingPlayer.backNo}</h2>
-                                        <h2>{matchingPlayer.userId.name}</h2>
-                                        <div>
-                                            <span>{Number(goals)}</span>골
-                                        </div>
+                                  <div
+                                    key={matchingPlayer.userId._id}
+                                    className="flex space-x-2"
+                                  >
+                                    <h2>{matchingPlayer.backNo}</h2>
+                                    <h2>{matchingPlayer.userId.name}</h2>
+                                    <div>
+                                      <span>{Number(goals)}</span>골
                                     </div>
-                                )
+                                  </div>
+                                );
                             }
                         })}
                     </div>

@@ -106,102 +106,157 @@ const RegisterResult: React.FC = () => {
         return !matchingPlayer;
     });
 
-    const noAttendMatch = async(playerId: string, teamId: string, isHome: string) => {
-        try {
-            const body = {
-                type: "noAttend",
-                fixtureId: matchInfo._id,
-                teamId: teamId,
-                playerId: playerId
-            };
-            console.log("body====", body, "isHome====", isHome);
-
-        } catch(e) {
-            console.log(e);
-        }
-    }
+    const noAttendMatch = async (
+      playerId: string,
+      teamId: string,
+      isHome: string
+    ) => {
+      console.log("111");
+      try {
+        const body = {
+          type: "noAttend",
+          fixtureId: matchInfo._id,
+          teamId: teamId,
+          playerId: playerId,
+        };
+        console.log("body====", body, "isHome====", isHome);
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
     useEffect(() => {
-        getAwaySquad();
+      getAwaySquad();
     }, []);
 
     return (
-        <>
-            <div className="flex space-x-2">            
-                <form onSubmit={onSubmitMatchResult}>
-                    <h2>{matchInfo.homeTeam.name}</h2>
-                    <h2>{homeScore}</h2>vs
-                    <h2>{matchInfo.awayTeam.name}</h2>
-                    <h2>{awayScore}</h2>
-                    <h2>{matchInfo.venue}</h2>
-                    <div>
-                        <Button type="submit">결과등록</Button>
-                    </div>
-                </form>
-            </div>
+      <>
+        <div className="flex space-x-2">
+          <form onSubmit={onSubmitMatchResult}>
+            <h2>{matchInfo.homeTeam.name}</h2>
+            <h2>{homeScore}</h2>vs
+            <h2>{matchInfo.awayTeam.name}</h2>
+            <h2>{awayScore}</h2>
+            <h2>{matchInfo.venue}</h2>
             <div>
-            <h2>참석인원(홈)</h2>
-            {matchInfo.homeSquad.map((player:any) => {
-                const matchingPlayer = squad.find((p:any) => p.userId._id === player);
-                // console.log("ma===", matchingPlayer);
-                // 만약 squad 변수에 player와 동일한 값이 있다면 <h2>로 squad.name을 출력
-                if(matchingPlayer) {
-                    return (
-                        <div className="flex space-x-2">
-                            <h2>{matchingPlayer.backNo}</h2>
-                            <h2>{matchingPlayer.position}</h2>
-                            <h2>{matchingPlayer.userId.name}</h2>
-                            <div>
-                                <input className="border-2" type="number" name="goal" defaultValue={0} onChange={(event) => onChangeHomePlayerGoals(event, matchingPlayer)} />골
-                            </div>
-                            <div>
-                                <input className="border-2" type="number" name="assist" defaultValue={0} onChange={(event) => onChangeHomePlayerAssists(event, matchingPlayer)} />도움
-                            </div>
-                            <div>
-                                <Button type="submit" onClick={() => noAttendMatch(matchingPlayer.userId._id, matchInfo.homeTeam._id, "home")}>불참</Button>
-                            </div>
-                        </div>
-                    )
-                }
-            })}
-            <h2>참석인원(어웨이)</h2>
-            {matchInfo.awaySquad.map((player:any) => {
-                const matchingPlayer = squad.find((p:any) => p.userId._id === player);
-                // console.log("ma===", matchingPlayer);
-                // 만약 squad 변수에 player와 동일한 값이 있다면 <h2>로 squad.name을 출력
-                if(matchingPlayer) {
-                    return (
-                        <div className="flex space-x-2">
-                            <h2>{matchingPlayer.backNo}</h2>
-                            <h2>{matchingPlayer.position}</h2>
-                            <h2>{matchingPlayer.userId.name}</h2>
-                            <div>
-                                <input className="border-2" type="number" name="goal" defaultValue={0} onChange={(event) => onChangeAwayPlayerGoals(event, matchingPlayer)} />골
-                            </div>
-                            <div>
-                                <input className="border-2" type="number" name="assist" defaultValue={0} onChange={(event) => onChangeAwayPlayerAssists(event, matchingPlayer)} />도움
-                            </div>
-                        </div>
-                    )
-                }
-            })}
-            <h2>불참</h2>
-            {missingPlayers.map((player: any) => {
-                return (
-                    <>
-                        <div className="flex space-x-2">
-                            <h2>{player.userId.name}</h2>
-                            <div><Button type="button">참석</Button></div>
-                        </div>
-                        <div>
-                            
-                        </div>
-                    </>
-                )
-            })}
+              <Button type="submit">결과등록</Button>
             </div>
-        </>
-    )
+          </form>
+        </div>
+        <div>
+          <h2>참석인원(홈)</h2>
+          {matchInfo.homeSquad.map((player: any) => {
+            const matchingPlayer = squad.find(
+              (p: any) => p.userId._id === player
+            );
+            // console.log("ma===", matchingPlayer);
+            // 만약 squad 변수에 player와 동일한 값이 있다면 <h2>로 squad.name을 출력
+            if (matchingPlayer) {
+              return (
+                <div key={matchingPlayer.userId._id} className="flex space-x-2">
+                  <h2>{matchingPlayer.backNo}</h2>
+                  <h2>{matchingPlayer.position}</h2>
+                  <h2>{matchingPlayer.userId.name}</h2>
+                  <div>
+                    <input
+                      className="border-2"
+                      type="number"
+                      name="goal"
+                      defaultValue={0}
+                      onChange={(event) =>
+                        onChangeHomePlayerGoals(event, matchingPlayer)
+                      }
+                    />
+                    골
+                  </div>
+                  <div>
+                    <input
+                      className="border-2"
+                      type="number"
+                      name="assist"
+                      defaultValue={0}
+                      onChange={(event) =>
+                        onChangeHomePlayerAssists(event, matchingPlayer)
+                      }
+                    />
+                    도움
+                  </div>
+                  <div>
+                    <Button
+                      type="submit"
+                      onClick={() =>
+                        noAttendMatch(
+                          matchingPlayer.userId._id,
+                          matchInfo.homeTeam._id,
+                          "home"
+                        )
+                      }
+                    >
+                      불참
+                    </Button>
+                  </div>
+                </div>
+              );
+            }
+          })}
+          <h2>참석인원(어웨이)</h2>;
+          {matchInfo.awaySquad.map((player: any) => {
+            const matchingPlayer = squad.find(
+              (p: any) => p.userId._id === player
+            );
+            // console.log("ma===", matchingPlayer);
+            // 만약 squad 변수에 player와 동일한 값이 있다면 <h2>로 squad.name을 출력
+            if (matchingPlayer) {
+              return (
+                <div key={matchingPlayer.userId._id} className="flex space-x-2">
+                  <h2>{matchingPlayer.backNo}</h2>
+                  <h2>{matchingPlayer.position}</h2>
+                  <h2>{matchingPlayer.userId.name}</h2>
+                  <div>
+                    <input
+                      className="border-2"
+                      type="number"
+                      name="goal"
+                      defaultValue={0}
+                      onChange={(event) =>
+                        onChangeAwayPlayerGoals(event, matchingPlayer)
+                      }
+                    />
+                    골
+                  </div>
+                  <div>
+                    <input
+                      className="border-2"
+                      type="number"
+                      name="assist"
+                      defaultValue={0}
+                      onChange={(event) =>
+                        onChangeAwayPlayerAssists(event, matchingPlayer)
+                      }
+                    />
+                    도움
+                  </div>
+                </div>
+              );
+            }
+          })}
+          <h2>불참</h2>;
+          {missingPlayers.map((player: any) => {
+            return (
+              <>
+                <div className="flex space-x-2">
+                  <h2>{player.userId.name}</h2>
+                  <div>
+                    <Button type="button">참석</Button>
+                  </div>
+                </div>
+                <div></div>
+              </>
+            );
+          })}
+        </div>
+      </>
+    );
 }
 
 export default RegisterResult;
